@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Count } from "@/components/count";
+import { Tippy } from "@/components/tippy";
 
 import { clsxm } from "@/utils/clsxm";
 
@@ -54,26 +55,28 @@ const NavItem = <C extends React.ElementType = "button">({
         ></motion.span>
       ) : null}
 
-      <Component
-        className={clsxm(
-          "flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-md hover:text-white",
-          "sm:h-9 sm:w-9",
-          isActive && "text-green-500",
-          className,
-        )}
-        aria-label={title}
-        {...rest}
-      >
-        <div className="relative">
-          {renderIcon(iconProps)}
-          {count > 0 && (
-            <Count
-              count={count}
-              className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2"
-            />
+      <Tippy content={title} placement="right">
+        <Component
+          className={clsxm(
+            "flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-md hover:text-white",
+            "sm:h-9 sm:w-9",
+            isActive && "text-green-500",
+            className,
           )}
-        </div>
-      </Component>
+          aria-label={title}
+          {...rest}
+        >
+          <div className="relative">
+            {renderIcon(iconProps)}
+            {count > 0 && (
+              <Count
+                count={count}
+                className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2"
+              />
+            )}
+          </div>
+        </Component>
+      </Tippy>
     </li>
   );
 };

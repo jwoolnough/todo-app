@@ -14,6 +14,8 @@ import { api } from "@/utils/api";
 import "@/styles/globals.css";
 
 const jones = localFont({
+  fallback: ["sans-serif"],
+  display: "swap",
   src: [
     {
       path: "../styles/fonts/jones-light.woff2",
@@ -54,7 +56,7 @@ const TodoApp = ({
   const getLayout = Component.getLayout ?? ((page) => <Layout>{page}</Layout>);
 
   return (
-    <div className={`${jones.variable} font-primary`}>
+    <div className={`${jones.variable} font-primary`} id="app">
       <SessionProvider session={session}>
         <ToastProvider>{getLayout(<Component {...pageProps} />)}</ToastProvider>
       </SessionProvider>
