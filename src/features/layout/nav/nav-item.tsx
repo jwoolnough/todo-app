@@ -12,7 +12,7 @@ type AsProp<C extends React.ElementType> = {
 
 type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P);
 
-type PolymorphicComponentProp<
+type PolymorphicComponentProps<
   C extends React.ElementType,
   Props = unknown,
 > = React.PropsWithChildren<Props & AsProp<C>> &
@@ -35,7 +35,7 @@ const NavItem = <C extends React.ElementType = "button">({
   isActive,
   count = 0,
   ...rest
-}: PolymorphicComponentProp<C, NavItemProps>) => {
+}: PolymorphicComponentProps<C, NavItemProps>) => {
   const Component = as ?? "button";
 
   const iconProps = {
