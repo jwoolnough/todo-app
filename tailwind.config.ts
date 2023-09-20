@@ -10,7 +10,7 @@ export default {
         },
         slate: {
           400: "#abb1ca",
-          700: "#31313c",
+          700: "#41414c",
           800: "#27272d",
           900: "#161618",
           950: "#050505",
@@ -33,7 +33,7 @@ export default {
         primary: ["var(--font-jones)", "sans-serif"],
       },
       borderColor: {
-        DEFAULT: "#1d1d21",
+        DEFAULT: "#1f1f24",
       },
       ringColor: {
         DEFAULT: "#c9e9d1",
