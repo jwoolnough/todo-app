@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -45,15 +46,19 @@ const NavItem = <C extends React.ElementType = "button">({
     <li
       className={clsxm("relative flex w-full justify-center", wrapperClassName)}
     >
+      {isActive ? (
+        <motion.span
+          layoutId="indicator"
+          role="presentation"
+          className="absolute bg-green-500 max-sm:bottom-0 max-sm:h-1 max-sm:w-[3.75rem] max-sm:rounded-t-full sm:left-0 sm:h-full sm:w-1 sm:rounded-e-[0.25rem]"
+        ></motion.span>
+      ) : null}
+
       <Component
         className={clsxm(
           "flex h-[3.75rem] w-[3.75rem] items-center justify-center hover:text-white",
-          "before:absolute before:bg-current before:transition-transform",
           "sm:h-9 sm:w-9",
-          "max-sm:before:bottom-0 max-sm:before:h-1 max-sm:before:w-[3.75rem] max-sm:before:translate-y-full max-sm:before:rounded-t-full",
-          "sm:before:left-0 sm:before:h-full sm:before:w-1 sm:before:-translate-x-full sm:before:rounded-e-[0.25rem]",
-          isActive &&
-            "text-green-500 max-sm:before:translate-y-0 sm:before:translate-x-0",
+          isActive && "text-green-500",
           className,
         )}
         aria-label={title}
