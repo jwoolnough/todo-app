@@ -1,6 +1,8 @@
 import Head from "next/head";
 import { FiCalendar, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
+import { getServerSidePropsWithAuth } from "@/utils/auth";
+
 export default function Dashboard() {
   return (
     <>
@@ -75,3 +77,5 @@ export default function Dashboard() {
     </>
   );
 }
+
+export const getServerSideProps = getServerSidePropsWithAuth;
