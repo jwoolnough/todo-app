@@ -5,6 +5,9 @@ export default {
   theme: {
     extend: {
       colors: {
+        spacing: {
+          1.5: "0.375rem",
+        },
         slate: {
           400: "#abb1ca",
           700: "#31313c",

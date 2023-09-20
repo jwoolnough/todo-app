@@ -16,6 +16,7 @@ const config = {
   ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
+  tailwindFunctions: ["clsx", "clsxm"]
 };
 
 export default config;

@@ -4,6 +4,15 @@
 
 @layer base {
   html {
-    @apply font-primary bg-slate-950 text-slate-400;
+    @apply bg-slate-950 font-primary text-slate-400;
+  }
+
+  a,
+  button,
+  input,
+  label,
+  select,
+  textarea {
+    @apply transition duration-200;
   }
 }
