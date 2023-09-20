@@ -1,5 +1,6 @@
 import { signOut } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   FiBarChart,
   FiCalendar,
@@ -29,13 +30,9 @@ const Nav = ({ className }: { className?: string }) => (
       className,
     )}
   >
-    <Image
-      src="/img/logo.svg"
-      alt="Todo+"
-      width={27}
-      height={27}
-      className="mb-9 max-sm:hidden"
-    />
+    <Link href="/" className="mb-[2.375rem] max-sm:hidden">
+      <Image src="/img/logo.svg" alt="Todo+" width={27} height={27} />
+    </Link>
 
     <NavList>
       <NavItemLink

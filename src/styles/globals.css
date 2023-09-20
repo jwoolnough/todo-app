@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    @apply bg-slate-950 font-primary text-slate-400;
+    @apply bg-slate-950 font-primary text-[1em] text-slate-400;
   }
 
   a,
@@ -14,5 +14,14 @@
   select,
   textarea {
     @apply transition duration-200;
+  }
+
+  ::selection {
+    @apply bg-green-500 text-white;
+  }
+
+  a,
+  button {
+    @apply outline-none focus-visible:outline-none focus-visible:ring-2;
   }
 }

@@ -56,7 +56,7 @@ const NavItem = <C extends React.ElementType = "button">({
 
       <Component
         className={clsxm(
-          "flex h-[3.75rem] w-[3.75rem] items-center justify-center hover:text-white",
+          "flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-md hover:text-white",
           "sm:h-9 sm:w-9",
           isActive && "text-green-500",
           className,
