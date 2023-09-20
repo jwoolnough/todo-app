@@ -1,0 +1,42 @@
+.toast-container {
+  @apply p-0 text-white md:bottom-12 md:right-12;
+}
+
+.toast {
+  @apply relative mt-2 flex min-h-[3.5rem] rounded-md border bg-slate-800 px-4 py-2 text-sm shadow;
+}
+
+.toast .Toastify__toast-icon {
+  @apply mr-4;
+}
+
+@media screen and (max-width: 30rem) {
+  .toast-container {
+    bottom: 3.75rem;
+    clip-path: inset(0);
+  }
+
+  .toast {
+    @apply mx-4 my-2;
+  }
+}
+
+.toast .Toastify__close-button {
+  @apply ml-4 self-center text-slate-400 opacity-100 hover:text-white;
+}
+
+.toast-body {
+  @apply p-0;
+}
+
+.toast-success .Toastify__toast-icon {
+  @apply text-green-500;
+}
+
+.toast-error .Toastify__toast-icon {
+  @apply text-rose-500;
+}
+
+.toast-warning .Toastify__toast-icon {
+  @apply text-yellow-400;
+}

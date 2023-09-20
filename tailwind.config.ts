@@ -33,7 +33,8 @@ export default {
         primary: ["var(--font-jones)", "sans-serif"],
       },
       borderColor: {
-        DEFAULT: "#1f1f24",
+        // DEFAULT: "#1f1f24",
+        DEFAULT: "rgba(255 255 255 / 5%)",
       },
       ringColor: {
         DEFAULT: "#c9e9d1",

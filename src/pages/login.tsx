@@ -1,6 +1,7 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { FaGoogle } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 import { AuthLayout } from "@/features/auth";
 
@@ -19,6 +20,7 @@ const LoginPage: NextPageWithLayout = () => {
       });
     } catch (e) {
       console.log(e);
+      toast.error("Unable to login, please try again");
     }
   };
 

@@ -25,3 +25,69 @@
     @apply outline-none focus-visible:outline-none focus-visible:ring-2;
   }
 }
+
+@layer components {
+  @keyframes toast-enter {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  @keyframes toast-exit {
+    0% {
+      transform: none;
+      opacity: 1;
+    }
+
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes toast-enter-desktop {
+    0% {
+      transform: translateX(2rem);
+      opacity: 0;
+    }
+    100% {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  @keyframes toast-exit-desktop {
+    0% {
+      transform: none;
+      opacity: 1;
+    }
+
+    100% {
+      transform: translateX(2rem);
+      opacity: 0;
+    }
+  }
+
+  .toast-enter {
+    animation: toast-enter 0.3s ease-in-out both;
+  }
+
+  .toast-exit {
+    animation: toast-exit 0.3s ease-in-out both;
+  }
+
+  @media screen and (min-width: 481px) {
+    .toast-enter {
+      animation: toast-enter-desktop 0.3s ease-in-out both;
+    }
+
+    .toast-exit {
+      animation: toast-exit-desktop 0.3s ease-in-out both;
+    }
+  }
+}

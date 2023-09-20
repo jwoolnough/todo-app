@@ -4,6 +4,9 @@ import { SessionProvider } from "next-auth/react";
 import { type AppProps } from "next/app";
 import localFont from "next/font/local";
 
+import { ToastProvider } from "@/components/toast";
+import "@/components/toast/style.css";
+
 import { Layout } from "@/features/layout";
 
 import { api } from "@/utils/api";
@@ -51,11 +54,11 @@ const TodoApp = ({
   const getLayout = Component.getLayout ?? ((page) => <Layout>{page}</Layout>);
 
   return (
-    <SessionProvider session={session}>
-      <div className={`${jones.variable} font-primary`}>
-        {getLayout(<Component {...pageProps} />)}
-      </div>
-    </SessionProvider>
+    <div className={`${jones.variable} font-primary`}>
+      <SessionProvider session={session}>
+        <ToastProvider>{getLayout(<Component {...pageProps} />)}</ToastProvider>
+      </SessionProvider>
+    </div>
   );
 };
 
