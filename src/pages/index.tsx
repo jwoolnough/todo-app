@@ -11,20 +11,20 @@ export default function Dashboard() {
         <meta name="description" content="" />
       </Head>
 
-      {/* <aside>
-          <div className="flex h-[5.5rem] items-center p-4">
-            <h3 className="text-lg font-bold text-white">Tasks</h3>
-          </div>
+      <aside>
+        <div className="flex h-[5.5rem] items-center p-4">
+          <h3 className="text-lg font-bold text-white">Tasks</h3>
+        </div>
 
-          {["This week", "This month", "At some point"].map((category) => (
-            <div
-              className="mb-2 rounded-xl border bg-slate-900 px-4 py-3"
-              key={category}
-            >
-              {category}
-            </div>
-          ))}
-        </aside> */}
+        {["This week", "This month", "At some point"].map((category) => (
+          <div
+            className="mb-2 rounded-xl border bg-slate-900 px-4 py-3"
+            key={category}
+          >
+            {category}
+          </div>
+        ))}
+      </aside>
 
       <header className="flex items-center justify-between p-6">
         <div className="flex items-baseline gap-4">

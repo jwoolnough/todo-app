@@ -41,13 +41,13 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Todo {
+model Task {
   id               String     @id @default(cuid())
   userId           String
   user             User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   title            String
   notes            String?
-  status           TodoStatus @default(TODO_TODAY)
+  status           TaskStatus @default(TODO_TODAY)
   unscheduledOrder Int?
   scheduledDate    DateTime?
   scheduledOrder   Int?
@@ -56,7 +56,7 @@ model Todo {
   updatedAt        DateTime   @updatedAt
 }
 
-enum TodoStatus {
+enum TaskStatus {
   TODO_TODAY
   TODO_THIS_WEEK
   TODO_THIS_MONTH
@@ -73,7 +73,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  todos         Todo[]
+  tasks         Task[]
 }
 
 model VerificationToken {

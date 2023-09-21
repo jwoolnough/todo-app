@@ -2,19 +2,19 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 
-import { TODO_TYPE } from "@/constants/todo";
+import { TASK_TYPE } from "@/constants/task";
 
-export const todoRouter = createTRPCRouter({
-  getMyTodosByStatus: protectedProcedure
+export const taskRouter = createTRPCRouter({
+  getMyTasksByStatus: protectedProcedure
     .input(
       z.object({
-        status: z.enum(TODO_TYPE),
+        status: z.enum(TASK_TYPE),
         skip: z.number().optional(),
         take: z.number().optional(),
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db.todo.findMany({
+      return ctx.db.task.findMany({
         where: {
           userId: ctx.session.user.id,
           status: input.status,
@@ -27,10 +27,10 @@ export const todoRouter = createTRPCRouter({
       });
     }),
 
-  createTodo: protectedProcedure
+  createTask: protectedProcedure
     .input(z.object({ title: z.string().max(255) }))
     .mutation(({ ctx, input }) => {
-      return ctx.db.todo.create({
+      return ctx.db.task.create({
         data: {
           userId: ctx.session.user.id,
           ...input,
@@ -38,10 +38,10 @@ export const todoRouter = createTRPCRouter({
       });
     }),
 
-  updateTodo: protectedProcedure
+  updateTask: protectedProcedure
     // .input()
     .mutation(({ ctx }) => {
-      return ctx.db.todo.update({
+      return ctx.db.task.update({
         data: {},
         where: {
           id: "123",

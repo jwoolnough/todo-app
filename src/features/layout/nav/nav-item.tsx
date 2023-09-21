@@ -55,7 +55,7 @@ const NavItem = <C extends React.ElementType = "button">({
         ></motion.span>
       ) : null}
 
-      <Tippy content={title} placement="right">
+      <Tippy content={title} placement="right" className="max-sm:hidden">
         <Component
           className={clsxm(
             "flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-md hover:text-white",

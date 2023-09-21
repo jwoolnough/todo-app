@@ -1,4 +1,4 @@
-const TODO_TYPE = [
+const TASK_TYPE = [
   "TODO_TODAY",
   "TODO_THIS_WEEK",
   "TODO_THIS_MONTH",
@@ -7,6 +7,6 @@ const TODO_TYPE = [
   "COMPLETED",
 ] as const;
 
-type TodoType = (typeof TODO_TYPE)[number];
+type TaskType = (typeof TASK_TYPE)[number];
 
-export { TODO_TYPE, type TodoType };
+export { TASK_TYPE, type TaskType };
