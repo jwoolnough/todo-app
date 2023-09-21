@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -7,17 +7,7 @@ import { Tippy } from "@/components/tippy";
 
 import { clsxm } from "@/utils/clsxm";
 
-type AsProp<C extends React.ElementType> = {
-  as?: C;
-};
-
-type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P);
-
-type PolymorphicComponentProps<
-  C extends React.ElementType,
-  Props = unknown,
-> = React.PropsWithChildren<Props & AsProp<C>> &
-  Omit<React.ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
+import type { PolymorphicComponentProps } from "@/types/polymorphic-component";
 
 type NavItemProps = {
   title: string;
@@ -68,12 +58,18 @@ const NavItem = <C extends React.ElementType = "button">({
         >
           <div className="relative">
             {renderIcon(iconProps)}
-            {count > 0 && (
-              <Count
-                count={count}
-                className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2"
-              />
-            )}
+            <AnimatePresence>
+              {count > 0 && (
+                <Count
+                  as={motion.span}
+                  count={count}
+                  className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                />
+              )}
+            </AnimatePresence>
           </div>
         </Component>
       </Tippy>
