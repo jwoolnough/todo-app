@@ -30,7 +30,7 @@ export default {
         },
       },
       fontFamily: {
-        primary: ["var(--font-jones)"],
+        primary: ["Jones", "sans-serif"],
       },
       borderColor: {
         // DEFAULT: "#1f1f24",

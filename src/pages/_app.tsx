@@ -2,7 +2,6 @@ import { type NextPage } from "next";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppProps } from "next/app";
-import localFont from "next/font/local";
 
 import { ToastProvider } from "@/components/toast";
 import "@/components/toast/style.css";
@@ -12,34 +11,6 @@ import { Layout } from "@/features/layout";
 import { api } from "@/utils/api";
 
 import "@/styles/globals.css";
-
-const jones = localFont({
-  fallback: ["sans-serif"],
-  display: "swap",
-  src: [
-    {
-      path: "../styles/fonts/jones-light.woff2",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../styles/fonts/jones-book.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../styles/fonts/jones-medium.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../styles/fonts/jones-bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-  ],
-  variable: "--font-jones",
-});
 
 type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -56,11 +27,9 @@ const TodoApp = ({
   const getLayout = Component.getLayout ?? ((page) => <Layout>{page}</Layout>);
 
   return (
-    <div className={`${jones.variable} font-primary`} id="app">
-      <SessionProvider session={session}>
-        <ToastProvider>{getLayout(<Component {...pageProps} />)}</ToastProvider>
-      </SessionProvider>
-    </div>
+    <SessionProvider session={session}>
+      <ToastProvider>{getLayout(<Component {...pageProps} />)}</ToastProvider>
+    </SessionProvider>
   );
 };
 

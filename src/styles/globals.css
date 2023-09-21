@@ -3,6 +3,34 @@
 @tailwind utilities;
 
 @layer base {
+  @font-face {
+    font-family: Jones;
+    font-weight: 300;
+    src: url("./fonts/jones-light.woff2") format("woff2");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: Jones;
+    font-weight: 400;
+    src: url("./fonts/jones-book.woff2") format("woff2");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: Jones;
+    font-weight: 500;
+    src: url("./fonts/jones-medium.woff2") format("woff2");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: Jones;
+    font-weight: 700;
+    src: url("./fonts/jones-bold.woff2") format("woff2");
+    font-display: swap;
+  }
+
   html {
     @apply bg-slate-950 font-primary text-[1em] text-slate-400;
   }
