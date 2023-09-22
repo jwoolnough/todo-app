@@ -6,8 +6,7 @@ import { Count } from "@/components/count";
 import { Tippy } from "@/components/tippy";
 
 import { clsxm } from "@/utils/clsxm";
-
-import type { PolymorphicComponentProps } from "@/types/polymorphic-component";
+import type { ComponentWithAs } from "@/utils/component-with-as";
 
 type NavItemProps = {
   title: string;
@@ -17,7 +16,7 @@ type NavItemProps = {
   count?: number;
 };
 
-const NavItem = <C extends React.ElementType = "button">({
+const NavItem: ComponentWithAs<"button", NavItemProps> = ({
   as,
   title,
   wrapperClassName,
@@ -26,7 +25,7 @@ const NavItem = <C extends React.ElementType = "button">({
   isActive,
   count = 0,
   ...rest
-}: PolymorphicComponentProps<C, NavItemProps>) => {
+}) => {
   const Component = as ?? "button";
 
   const iconProps = {

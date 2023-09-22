@@ -8,13 +8,13 @@ import { clsxm } from "@/utils/clsxm";
 const Tippy = forwardRef<HTMLElement, TippyProps>(
   ({ className, ...rest }, ref) => (
     <BaseTippy
+      ref={ref}
       className={clsxm(
         "border bg-slate-700 text-xs [&>.tippy-arrow]:text-slate-700",
         className,
       )}
       animation="shift-away"
       {...rest}
-      ref={ref}
     />
   ),
 );

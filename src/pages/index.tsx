@@ -1,6 +1,8 @@
 import Head from "next/head";
 import { FiCalendar, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
+import { Button } from "@/components/button";
+
 import { getServerSidePropsWithAuth } from "@/utils/auth";
 
 export default function Dashboard() {
@@ -63,12 +65,7 @@ export default function Dashboard() {
             </button>
           </li>
           <li className="max-sm:hidden">
-            <button
-              type="button"
-              className="inline-flex items-center gap-2 rounded-md bg-green-500 px-4 py-2 font-medium text-white hover:bg-green-100 hover:text-slate-950"
-            >
-              Go to today
-            </button>
+            <Button>Go to today</Button>
           </li>
         </ul>
       </header>

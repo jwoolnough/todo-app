@@ -1,22 +1,13 @@
-import { forwardRef } from "react";
-
 import { clsxm } from "@/utils/clsxm";
-
-import type {
-  PolymorphicComponentPropsWithRef,
-  PolymorphicRef,
-} from "@/types/polymorphic-component";
+import { forwardRefWithAs } from "@/utils/component-with-as";
 
 type CountProps = {
   count: number;
   className?: string;
 };
 
-const Count = forwardRef(
-  <C extends React.ElementType = "span">(
-    { as, className, count }: PolymorphicComponentPropsWithRef<C, CountProps>,
-    ref: PolymorphicRef<C>,
-  ) => {
+const Count = forwardRefWithAs<"span", CountProps>(
+  ({ as, className, count, ...rest }, ref) => {
     const Component = as ?? "span";
 
     return (
@@ -26,6 +17,7 @@ const Count = forwardRef(
           "inline-block min-w-[1rem] rounded-full bg-green-500 px-1 text-center text-xs font-bold text-white",
           className,
         )}
+        {...rest}
       >
         {count > 99 ? "99+" : count}
       </Component>
