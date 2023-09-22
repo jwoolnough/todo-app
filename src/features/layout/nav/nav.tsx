@@ -26,7 +26,7 @@ const NavList = ({
 const Nav = ({ className }: { className?: string }) => (
   <nav
     className={clsxm(
-      "flex-col items-center max-sm:row-start-2 sm:flex sm:w-[3.75rem] sm:border-r sm:bg-slate-900 sm:py-6",
+      "flex-col items-center max-sm:row-start-2 sm:row-span-full sm:flex sm:w-[3.75rem] sm:border-r sm:bg-slate-900 sm:py-6",
       className,
     )}
   >
