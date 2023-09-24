@@ -4,6 +4,7 @@ import { clsxm } from "@/utils/clsxm";
 import { forwardRefWithAs } from "@/utils/component-with-as";
 
 import { Tippy } from "./tippy";
+import { Wrap } from "./wrap";
 
 type ButtonVariants = "primary" | "secondary" | "link";
 type ButtonSizes = "sm" | "md" | "lg";
@@ -21,7 +22,7 @@ const VARIANT_CLASSES: Record<ButtonVariants, string> = {
 };
 
 const SIZE_CLASSES: Record<ButtonSizes, string> = {
-  sm: "px-3 py-1 text-sm leading-6",
+  sm: "px-3 py-2 text-sm/4",
   md: "px-4 py-2",
   lg: "px-6 py-4",
 };
@@ -40,6 +41,7 @@ const Button = forwardRefWithAs<"button", ButtonProps>(
           "inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 font-medium",
           VARIANT_CLASSES[variant],
           SIZE_CLASSES[size],
+          variant === "link" && "p-0",
           className,
         )}
         {...rest}
@@ -55,6 +57,7 @@ Button.displayName = "Button";
 type IconButtonProps = ButtonProps & {
   label: string;
   tippyProps?: Omit<TippyProps, "ref">;
+  withTippy?: boolean;
 };
 
 const ICON_SIZE_CLASSES: Record<ButtonSizes, string> = {
@@ -65,11 +68,26 @@ const ICON_SIZE_CLASSES: Record<ButtonSizes, string> = {
 
 const IconButton = forwardRefWithAs<"button", IconButtonProps>(
   (
-    { tippyProps, as = "button", size = "md", className, label, ...rest },
+    {
+      tippyProps,
+      as = "button",
+      size = "md",
+      className,
+      withTippy = true,
+      label,
+      ...rest
+    },
     ref,
   ) => {
     return (
-      <Tippy content={label} {...tippyProps}>
+      <Wrap
+        if={withTippy}
+        wrapper={(children) => (
+          <Tippy content={label} {...tippyProps}>
+            {children as React.ReactElement}
+          </Tippy>
+        )}
+      >
         <Button
           ref={ref}
           as={as}
@@ -77,7 +95,7 @@ const IconButton = forwardRefWithAs<"button", IconButtonProps>(
           aria-label={label}
           {...rest}
         />
-      </Tippy>
+      </Wrap>
     );
   },
 );

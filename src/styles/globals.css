@@ -35,6 +35,10 @@
     @apply bg-slate-950 font-primary text-[1em] text-slate-400;
   }
 
+  h4 {
+    @apply font-bold;
+  }
+
   a,
   button,
   input,
