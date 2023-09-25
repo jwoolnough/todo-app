@@ -1,14 +1,13 @@
+import type { TaskStatus } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import { type FormEventHandler, useId, useRef, useState } from "react";
-import { FiPlus } from "react-icons/fi";
+import { useId, useRef, useState } from "react";
+import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "react-toastify";
 
 import { Check } from "@/components/check";
 
 import { api } from "@/utils/api";
 import { clsxm } from "@/utils/clsxm";
-
-import type { TaskStatus } from "@/constants/task";
 
 type AddTaskProps = {
   status: TaskStatus;
@@ -19,7 +18,7 @@ const AddTask = ({ status }: AddTaskProps) => {
   const utils = api.useContext();
   const session = useSession();
   const id = useId();
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const createTask = api.task.createTask.useMutation({
     async onMutate(newTodo) {
@@ -47,17 +46,14 @@ const AddTask = ({ status }: AddTaskProps) => {
     },
   });
 
-  // TODO: Investigate this - possible false positive?
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    setTask("");
+
     try {
       await createTask.mutateAsync({
         title: task,
         status,
       });
-
-      setTask("");
       inputRef.current?.focus();
     } catch (e) {
       toast.error("Unable to create task");
@@ -65,7 +61,13 @@ const AddTask = ({ status }: AddTaskProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="relative flex gap-2">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        void handleSubmit();
+      }}
+      className="relative flex gap-2"
+    >
       <div className="relative mt-0.5 shrink-0 self-start text-center font-bold leading-none text-slate-700 after:absolute after:inset-0 after:content-['+']">
         <Check className="" disabled />
       </div>
@@ -73,13 +75,19 @@ const AddTask = ({ status }: AddTaskProps) => {
       <label htmlFor={`add-task-${id}`} className="sr-only before:inset-0">
         Add task
       </label>
-      <input
+      <TextareaAutosize
         id={`add-task-${id}`}
         placeholder="Add task"
         value={task}
         onChange={(e) => setTask(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.code === "Enter") {
+            e.preventDefault();
+            void handleSubmit();
+          }
+        }}
         className={clsxm(
-          "bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-700 focus:text-white",
+          "resize-none bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-700 focus:text-white",
         )}
         ref={inputRef}
       />
