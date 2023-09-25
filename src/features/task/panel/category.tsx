@@ -1,11 +1,13 @@
+import type { TaskStatus } from "@prisma/client";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
 import { Accordion } from "@/components/accordion";
+import { Check } from "@/components/check";
 import { Count } from "@/components/count";
+import { Wrap } from "@/components/wrap";
 
 import { api } from "@/utils/api";
-
-import type { TaskStatus } from "@/constants/task";
 
 import { AddTask } from "./add-task";
 
@@ -20,13 +22,11 @@ const TaskCategory = ({
   category,
   isOpenByDefault = false,
 }: TaskCategoryProps) => {
-  const { data, isFetching } = api.task.getMyTasksByStatus.useQuery({
-    status: category,
-  });
+  const { data, isInitialLoading } =
+    api.task.getMyTasksByStatus.useQuery({
+      status: category,
+    });
   const [isOpen, setIsOpen] = useState(isOpenByDefault);
-
-  // TODO:
-  // if (isFetching) return "Loading...";
 
   const taskCount = data?.length ?? 0;
 
@@ -41,7 +41,30 @@ const TaskCategory = ({
       onToggle={() => setIsOpen(!isOpen)}
       boxProps={{ className: "px-4 py-3 mb-2" }}
     >
-      {data?.map((task) => <div key={task.id}>{task.title}</div>)}
+      <Wrap
+        if={taskCount > 0}
+        wrapper={(children) => (
+          <ul className="flex flex-col">
+            <AnimatePresence initial={false}>{children}</AnimatePresence>
+          </ul>
+        )}
+      >
+        {isInitialLoading && "Loading..."}
+        {data?.map((task) => (
+          <motion.li
+            key={task.id}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="text-sm text-white after:block after:h-1"
+          >
+            <div className="flex gap-2">
+              <Check className="mt-0.5 shrink-0" />
+              {task.title}
+            </div>
+          </motion.li>
+        ))}
+      </Wrap>
 
       <AddTask status={category} />
     </Accordion>

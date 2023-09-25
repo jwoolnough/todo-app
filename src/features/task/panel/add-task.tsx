@@ -1,6 +1,9 @@
 import { useSession } from "next-auth/react";
-import { type FormEventHandler, useId, useState } from "react";
+import { type FormEventHandler, useId, useRef, useState } from "react";
+import { FiPlus } from "react-icons/fi";
 import { toast } from "react-toastify";
+
+import { Check } from "@/components/check";
 
 import { api } from "@/utils/api";
 import { clsxm } from "@/utils/clsxm";
@@ -16,6 +19,7 @@ const AddTask = ({ status }: AddTaskProps) => {
   const utils = api.useContext();
   const session = useSession();
   const id = useId();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const createTask = api.task.createTask.useMutation({
     async onMutate(newTodo) {
@@ -54,14 +58,19 @@ const AddTask = ({ status }: AddTaskProps) => {
       });
 
       setTask("");
+      inputRef.current?.focus();
     } catch (e) {
       toast.error("Unable to create task");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor={`add-task-${id}`} className="sr-only">
+    <form onSubmit={handleSubmit} className="relative flex gap-2">
+      <div className="relative mt-0.5 shrink-0 self-start text-center font-bold leading-none text-slate-700 after:absolute after:inset-0 after:content-['+']">
+        <Check className="" disabled />
+      </div>
+
+      <label htmlFor={`add-task-${id}`} className="sr-only before:inset-0">
         Add task
       </label>
       <input
@@ -69,7 +78,10 @@ const AddTask = ({ status }: AddTaskProps) => {
         placeholder="Add task"
         value={task}
         onChange={(e) => setTask(e.target.value)}
-        className={clsxm("bg-transparent outline-none")}
+        className={clsxm(
+          "bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-700 focus:text-white",
+        )}
+        ref={inputRef}
       />
 
       <input type="submit" disabled={task === ""} className="sr-only" />

@@ -6,6 +6,7 @@ export default {
     extend: {
       colors: {
         spacing: {
+          0.5: "0.125rem",
           1.5: "0.375rem",
         },
         slate: {
