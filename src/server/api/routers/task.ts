@@ -1,3 +1,4 @@
+import { TaskStatus } from "@prisma/client";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
@@ -26,6 +27,17 @@ export const taskRouter = createTRPCRouter({
         },
       });
     }),
+
+  getTotalUnscheduledTasksCount: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.task.count({
+      where: {
+        userId: ctx.session.user.id,
+        status: {
+          not: TaskStatus.SCHEDULED,
+        },
+      },
+    });
+  }),
 
   createTask: protectedProcedure
     .input(

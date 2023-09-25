@@ -1,6 +1,5 @@
 import { forwardRef, useState } from "react";
 import { BsCheck } from "react-icons/bs";
-import { FiCheck } from "react-icons/fi";
 
 import { clsxm } from "@/utils/clsxm";
 
@@ -12,23 +11,15 @@ const Check = forwardRef<HTMLInputElement, CheckProps>(
     const [isChecked, setIsChecked] = useState(defaultChecked);
 
     return (
-      <label
+      <span
         className={clsxm(
           "relative inline-block h-4 w-4 rounded-sm border-2 border-slate-700 transition",
           isChecked
             ? "border-transparent bg-green-500 focus-within:ring-2"
-            : "focus-within:border-green-200",
+            : "focus-within:border-green-200 hover:border-slate-400",
           className,
         )}
       >
-        <input
-          ref={ref}
-          type="checkbox"
-          className="absolute inset-0 opacity-0"
-          checked={isChecked}
-          onChange={() => setIsChecked(!isChecked)}
-          {...rest}
-        />
         <BsCheck
           className={clsxm(
             "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-0 text-white opacity-0 transition",
@@ -36,7 +27,15 @@ const Check = forwardRef<HTMLInputElement, CheckProps>(
           )}
           size={22}
         />
-      </label>
+        <input
+          ref={ref}
+          type="checkbox"
+          className="absolute -inset-0.5 cursor-pointer opacity-0 "
+          checked={isChecked}
+          onChange={() => setIsChecked(!isChecked)}
+          {...rest}
+        />
+      </span>
     );
   },
 );

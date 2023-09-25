@@ -1,4 +1,4 @@
-import type { TaskStatus } from "@prisma/client";
+import { type TaskStatus } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useId, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
@@ -8,6 +8,7 @@ import { Check } from "@/components/check";
 
 import { api } from "@/utils/api";
 import { clsxm } from "@/utils/clsxm";
+import { createId } from "@paralleldrive/cuid2";
 
 type AddTaskProps = {
   status: TaskStatus;
@@ -24,15 +25,26 @@ const AddTask = ({ status }: AddTaskProps) => {
     async onMutate(newTodo) {
       await utils.task.getMyTasksByStatus.cancel({ status });
       const prevData = utils.task.getMyTasksByStatus.getData({ status });
-      console.log(prevData);
 
-      // TODO: FIX!
       utils.task.getMyTasksByStatus.setData({ status }, (old = []) => {
-        console.log(old);
+        if (!session.data) {
+          throw new Error("Session not found");
+        }
 
         return [
           ...old,
-          { id: "test", userId: session.data?.user.id, ...newTodo },
+          {
+            id: createId(),
+            userId: session.data.user.id,
+            unscheduledOrder: null,
+            scheduledDate: null,
+            scheduledOrder: null,
+            completedAt: null,
+            notes: null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ...newTodo,
+          },
         ];
       });
 
@@ -47,6 +59,7 @@ const AddTask = ({ status }: AddTaskProps) => {
   });
 
   const handleSubmit = async () => {
+    const prevValue = task;
     setTask("");
 
     try {
@@ -56,7 +69,8 @@ const AddTask = ({ status }: AddTaskProps) => {
       });
       inputRef.current?.focus();
     } catch (e) {
-      toast.error("Unable to create task");
+      setTask(prevValue);
+      toast.error("Unable to create task, please try again or contact support");
     }
   };
 
@@ -87,7 +101,7 @@ const AddTask = ({ status }: AddTaskProps) => {
           }
         }}
         className={clsxm(
-          "resize-none bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-700 focus:text-white",
+          "resize-none bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-700  focus:text-slate-400",
         )}
         ref={inputRef}
       />
