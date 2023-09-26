@@ -1,3 +1,4 @@
+import { createId } from "@paralleldrive/cuid2";
 import { type TaskStatus } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useId, useRef, useState } from "react";
@@ -8,7 +9,6 @@ import { Check } from "@/components/check";
 
 import { api } from "@/utils/api";
 import { clsxm } from "@/utils/clsxm";
-import { createId } from "@paralleldrive/cuid2";
 
 type AddTaskProps = {
   status: TaskStatus;
@@ -80,31 +80,34 @@ const AddTask = ({ status }: AddTaskProps) => {
         e.preventDefault();
         void handleSubmit();
       }}
-      className="relative flex gap-2"
     >
-      <div className="relative mt-0.5 shrink-0 self-start text-center font-bold leading-none text-slate-700 after:absolute after:inset-0 after:content-['+']">
-        <Check className="" disabled />
-      </div>
+      <label
+        htmlFor={`add-task-${id}`}
+        className="-mx-2 flex cursor-text gap-2 rounded-sm px-2 py-1 transition focus-within:bg-slate-800 hover:bg-slate-800"
+      >
+        <span className="sr-only">Add task</span>
 
-      <label htmlFor={`add-task-${id}`} className="sr-only before:inset-0">
-        Add task
+        <div className="relative mt-0.5 shrink-0 self-start text-center font-bold leading-none text-slate-700 after:absolute after:inset-0 after:content-['+']">
+          <Check className="" disabled />
+        </div>
+
+        <TextareaAutosize
+          id={`add-task-${id}`}
+          placeholder="Add task"
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.code === "Enter") {
+              e.preventDefault();
+              void handleSubmit();
+            }
+          }}
+          className={clsxm(
+            "resize-none bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-700  focus:text-white",
+          )}
+          ref={inputRef}
+        />
       </label>
-      <TextareaAutosize
-        id={`add-task-${id}`}
-        placeholder="Add task"
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.code === "Enter") {
-            e.preventDefault();
-            void handleSubmit();
-          }
-        }}
-        className={clsxm(
-          "resize-none bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-700  focus:text-slate-400",
-        )}
-        ref={inputRef}
-      />
 
       <input type="submit" disabled={task === ""} className="sr-only" />
     </form>
