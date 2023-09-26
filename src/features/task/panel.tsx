@@ -14,9 +14,13 @@ const TaskPanel = () => {
         </IconButton>
       </div>
 
-      <div>
-        <TaskCategory category="TODO_TODAY" title="Today" isOpenByDefault />
-        <TaskCategory category="TODO_THIS_WEEK" title="This week" />
+      <div className="flex flex-grow flex-col">
+        <TaskCategory
+          category="TODO_THIS_WEEK"
+          title="This week"
+          isOpenByDefault
+        />
+        <TaskCategory category="TODO_THIS_MONTH" title="This month" />
         <TaskCategory category="TODO_AT_SOME_POINT" title="At some point" />
       </div>
     </aside>

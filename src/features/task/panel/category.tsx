@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Accordion } from "@/components/accordion";
 import { Check } from "@/components/check";
 import { Count } from "@/components/count";
+import { Spinner } from "@/components/spinner";
 import { Wrap } from "@/components/wrap";
 
 import { api } from "@/utils/api";
@@ -22,10 +23,9 @@ const TaskCategory = ({
   category,
   isOpenByDefault = false,
 }: TaskCategoryProps) => {
-  const { data, isInitialLoading } =
-    api.task.getMyTasksByStatus.useQuery({
-      status: category,
-    });
+  const { data, isInitialLoading } = api.task.getMyTasksByStatus.useQuery({
+    status: category,
+  });
   const [isOpen, setIsOpen] = useState(isOpenByDefault);
 
   const taskCount = data?.length ?? 0;
@@ -39,26 +39,26 @@ const TaskCategory = ({
       }
       isOpen={isOpen}
       onToggle={() => setIsOpen(!isOpen)}
-      boxProps={{ className: "px-4 py-3 mb-2" }}
+      boxProps={{ className: "px-4 pt-3 pb-2 mb-2" }}
     >
       <Wrap
         if={taskCount > 0}
         wrapper={(children) => (
-          <ul className="flex flex-col">
+          <ul className="-mt-1 flex flex-col">
             <AnimatePresence initial={false}>{children}</AnimatePresence>
           </ul>
         )}
       >
-        {isInitialLoading && "Loading..."}
+        {isInitialLoading && <Spinner className="mx-auto mb-4" />}
+
         {data?.map((task) => (
           <motion.li
             key={task.id}
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="text-sm text-white after:block after:h-1"
           >
-            <div className="flex gap-2">
+            <div className="-mx-2 flex gap-2 rounded-sm px-2 py-1 text-sm text-white transition hover:bg-slate-800">
               <Check className="mt-0.5 shrink-0" />
               {task.title}
             </div>
@@ -66,7 +66,7 @@ const TaskCategory = ({
         ))}
       </Wrap>
 
-      <AddTask status={category} />
+      {!isInitialLoading && <AddTask status={category} />}
     </Accordion>
   );
 };

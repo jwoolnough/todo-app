@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -57,18 +57,10 @@ const NavItem: ComponentWithAs<"button", NavItemProps> = ({
         >
           <div className="relative">
             {renderIcon(iconProps)}
-            <AnimatePresence>
-              {count > 0 && (
-                <Count
-                  as={motion.span}
-                  count={count}
-                  className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                />
-              )}
-            </AnimatePresence>
+            <Count
+              count={count}
+              className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2"
+            />
           </div>
         </Component>
       </Tippy>
