@@ -51,6 +51,7 @@ model Task {
   unscheduledOrder Int?
   scheduledDate    DateTime?
   scheduledOrder   Int?
+  completed        Boolean?   @default(false)
   completedAt      DateTime?
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt
@@ -62,7 +63,6 @@ enum TaskStatus {
   TODO_THIS_MONTH
   TODO_AT_SOME_POINT
   SCHEDULED
-  COMPLETED
 }
 
 model User {

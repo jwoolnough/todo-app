@@ -49,7 +49,7 @@ const TaskCategory = ({
           </ul>
         )}
       >
-        {isInitialLoading && <Spinner className="mx-auto mb-4" />}
+        {isInitialLoading && <Spinner className="mx-auto" />}
 
         {data?.map((task) => (
           <motion.li

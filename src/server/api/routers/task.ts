@@ -53,14 +53,65 @@ export const taskRouter = createTRPCRouter({
       });
     }),
 
-  updateTask: protectedProcedure
-    // .input()
-    .mutation(({ ctx }) => {
-      return ctx.db.task.update({
-        data: {},
-        where: {
-          id: "123",
-        },
+  upsertTask: protectedProcedure
+    .input(
+      z.object({
+        title: z.string().max(255),
+        id: z.string().optional(),
+        notes: z.string().max(500).optional(),
+        status: z.nativeEnum(TaskStatus),
+        unscheduledOrder: z.number().optional(),
+        scheduledDate: z.date().optional(),
+        scheduledOrder: z.number().optional(),
+        completed: z.boolean().optional(),
+        completedAt: z.date().optional(),
+      }),
+    )
+    .mutation(({ input, ctx }) => {
+      return ctx.db.$transaction(async (tx) => {
+        const existingTask = await tx.task.findFirst({
+          where: {
+            id: input.id,
+          },
+        });
+
+        if (existingTask && existingTask.userId !== ctx.session.user.id) {
+          // User does not own task
+          throw new Error("unauthorized");
+        }
+
+        return ctx.db.task.upsert({
+          update: {
+            ...input,
+          },
+          create: {
+            userId: ctx.session.user.id,
+            ...input,
+          },
+          where: {
+            id: input.id,
+          },
+        });
+      });
+    }),
+
+  deleteTask: protectedProcedure
+    .input(z.string())
+    .mutation(({ input: id, ctx }) => {
+      return ctx.db.$transaction(async (tx) => {
+        // Assert user owns task
+        await tx.task.findFirstOrThrow({
+          where: {
+            id,
+            userId: ctx.session.user.id,
+          },
+        });
+
+        return tx.task.delete({
+          where: {
+            id,
+          },
+        });
       });
     }),
 });
