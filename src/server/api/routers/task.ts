@@ -3,13 +3,11 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 
-import { TASK_STATUS } from "@/constants/task";
-
 export const taskRouter = createTRPCRouter({
   getMyTasksByStatus: protectedProcedure
     .input(
       z.object({
-        status: z.enum(TASK_STATUS),
+        status: z.nativeEnum(TaskStatus),
         skip: z.number().optional(),
         take: z.number().optional(),
       }),
@@ -41,7 +39,10 @@ export const taskRouter = createTRPCRouter({
 
   createTask: protectedProcedure
     .input(
-      z.object({ title: z.string().max(255), status: z.enum(TASK_STATUS) }),
+      z.object({
+        title: z.string().max(255),
+        status: z.nativeEnum(TaskStatus),
+      }),
     )
     .mutation(({ ctx, input }) => {
       return ctx.db.task.create({
