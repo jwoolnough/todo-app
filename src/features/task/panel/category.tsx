@@ -3,13 +3,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
 import { Accordion } from "@/components/accordion";
-import { Check } from "@/components/check";
 import { Count } from "@/components/count";
 import { Spinner } from "@/components/spinner";
 import { Wrap } from "@/components/wrap";
 
 import { api } from "@/utils/api";
 
+import { Task } from "../task";
 import { AddTask } from "./add-task";
 
 type TaskCategoryProps = {
@@ -39,7 +39,7 @@ const TaskCategory = ({
       }
       isOpen={isOpen}
       onToggle={() => setIsOpen(!isOpen)}
-      boxProps={{ className: "px-4 pt-3 pb-2 mb-2" }}
+      boxProps={{ className: "px-4 py-3 mb-2" }}
     >
       <Wrap
         if={taskCount > 0}
@@ -58,10 +58,10 @@ const TaskCategory = ({
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
           >
-            <div className="-mx-2 flex gap-2 rounded-sm px-2 py-1 text-sm text-white transition hover:bg-slate-800">
-              <Check className="mt-0.5 shrink-0" />
-              {task.title}
-            </div>
+            <Task
+              task={task}
+              className="-mx-2 rounded-sm px-2 py-1 text-sm text-white transition focus-within:bg-slate-800 hover:bg-slate-800"
+            />
           </motion.li>
         ))}
       </Wrap>
