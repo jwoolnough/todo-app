@@ -8,15 +8,18 @@ import { Spinner } from "@/components/spinner";
 import { Wrap } from "@/components/wrap";
 
 import { api } from "@/utils/api";
+import { clsxm } from "@/utils/clsxm";
 
-import { Task } from "../task";
-import { AddTask } from "./add-task";
+import { AddTask, Task } from "../task";
 
 type TaskCategoryProps = {
   title: string;
   category: TaskStatus;
   isOpenByDefault?: boolean;
 };
+
+const CATEGORY_TASK_CLASSNAMES =
+  "-mx-2 rounded-sm px-2 py-1 text-sm text-white transition focus-within:bg-slate-800 hover:bg-slate-800";
 
 const TaskCategory = ({
   title,
@@ -58,15 +61,20 @@ const TaskCategory = ({
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
           >
-            <Task
-              task={task}
-              className="-mx-2 rounded-sm px-2 py-1 text-sm text-white transition focus-within:bg-slate-800 hover:bg-slate-800"
-            />
+            <Task task={task} className={CATEGORY_TASK_CLASSNAMES} />
           </motion.li>
         ))}
       </Wrap>
 
-      {!isInitialLoading && <AddTask status={category} />}
+      {!isInitialLoading && (
+        <AddTask
+          status={category}
+          className={clsxm(
+            CATEGORY_TASK_CLASSNAMES,
+            "grid-cols-[min-content,minmax(0,1fr)]",
+          )}
+        />
+      )}
     </Accordion>
   );
 };

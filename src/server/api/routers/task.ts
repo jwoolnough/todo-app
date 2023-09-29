@@ -20,9 +20,14 @@ export const taskRouter = createTRPCRouter({
         },
         skip: input.skip,
         take: input.take,
-        orderBy: {
-          unscheduledOrder: "asc",
-        },
+        orderBy: [
+          {
+            unscheduledOrder: "asc",
+          },
+          {
+            createdAt: "asc",
+          },
+        ],
       });
     }),
 

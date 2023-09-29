@@ -6,7 +6,7 @@ import { clsxm } from "@/utils/clsxm";
 type CheckProps = React.ComponentProps<"input">;
 
 const Check = forwardRef<HTMLInputElement, CheckProps>(
-  ({ checked, className, ...rest }, ref) => {
+  ({ checked, disabled, className, ...rest }, ref) => {
     const defaultChecked = checked ? checked : false;
     const [isChecked, setIsChecked] = useState(defaultChecked);
 
@@ -17,6 +17,8 @@ const Check = forwardRef<HTMLInputElement, CheckProps>(
           isChecked
             ? "border-transparent bg-green-500 focus-within:ring-2"
             : "focus-within:border-green-200 hover:border-slate-400",
+          disabled &&
+            "focus-within:border-slate-700 focus-within:ring-0 hover:border-slate-700",
           className,
         )}
       >
@@ -30,8 +32,12 @@ const Check = forwardRef<HTMLInputElement, CheckProps>(
         <input
           ref={ref}
           type="checkbox"
-          className="absolute -inset-0.5 cursor-pointer opacity-0 "
+          className={clsxm(
+            "absolute -inset-0.5 cursor-pointer opacity-0",
+            disabled && "pointer-events-none",
+          )}
           checked={isChecked}
+          disabled={disabled}
           onChange={() => setIsChecked(!isChecked)}
           {...rest}
         />

@@ -30,7 +30,12 @@ const MenuItem = ({ renderIcon, onClick, children }: MenuItemProps) => (
   </li>
 );
 
-const ActionsMenu = () => {
+type ActionsMenuProps = {
+  onDelete: () => void;
+  onAddNote: () => void;
+};
+
+const ActionsMenu = ({ onAddNote, onDelete }: ActionsMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -54,10 +59,16 @@ const ActionsMenu = () => {
         className="z-10 text-left text-sm"
         content={
           <ul>
-            <MenuItem renderIcon={(props) => <FiFileText {...props} />}>
+            <MenuItem
+              onClick={onAddNote}
+              renderIcon={(props) => <FiFileText {...props} />}
+            >
               Add note
             </MenuItem>
-            <MenuItem renderIcon={(props) => <FiTrash {...props} />}>
+            <MenuItem
+              onClick={onDelete}
+              renderIcon={(props) => <FiTrash {...props} />}
+            >
               Delete
             </MenuItem>
           </ul>

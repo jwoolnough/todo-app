@@ -1,18 +1,31 @@
-import type { Task as TaskType } from "@prisma/client";
-import { useId, useRef, useState } from "react";
+import { createId } from "@paralleldrive/cuid2";
+import type { TaskStatus, Task as TaskType } from "@prisma/client";
+import { type RefObject, useId, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
+import { toast } from "react-toastify";
 
 import { Check } from "@/components/check";
 
 import { clsxm } from "@/utils/clsxm";
 
 import { ActionsMenu } from "./actions-menu";
+import { useUpsertTask } from "./use-upsert-task";
+
+type TaskSubmitValues = { completed?: boolean; title?: string };
+
+type TaskSubmitFunction = (
+  values: TaskSubmitValues,
+  textareaRef: RefObject<HTMLTextAreaElement>,
+  setTitle: React.Dispatch<React.SetStateAction<string>>,
+) => Promise<void>;
 
 type BaseTaskProps = {
   label?: string;
   isPlaceholder?: boolean;
   className?: string;
   title?: string;
+  onSubmit: TaskSubmitFunction;
+  renderRight?: () => React.ReactNode;
 };
 
 const BaseTask = ({
@@ -20,6 +33,8 @@ const BaseTask = ({
   className,
   title: initialTitle = "",
   isPlaceholder = false,
+  onSubmit,
+  renderRight,
 }: BaseTaskProps) => {
   const inputId = useId();
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -32,7 +47,12 @@ const BaseTask = ({
         className,
       )}
     >
-      <Check className="relative z-10 mt-0.5" disabled={isPlaceholder} />
+      <Check
+        className="relative z-10 mt-0.5"
+        // onChange={onCompletionChange}
+        // value={completed}
+        disabled={isPlaceholder}
+      />
 
       {/* Absolutely cover the textareas label so you can click anywhere in the task to edit, excepting the context menu or checkbox which are layered on top */}
       <label
@@ -48,22 +68,104 @@ const BaseTask = ({
         placeholder={label}
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.code === "Enter") {
+            e.preventDefault();
+            void onSubmit({ title }, inputRef, setTitle);
+          }
+
+          if (e.code === "Escape") {
+            inputRef.current?.blur();
+          }
+        }}
+        onBlur={() => {
+          setTitle(initialTitle);
+        }}
         className="z-10 resize-none bg-transparent text-sm text-white outline-none placeholder:text-slate-700"
       />
 
-      <ActionsMenu />
+      {renderRight?.()}
     </form>
   );
 };
 
-type TaskProps = BaseTaskProps & {
+type TaskProps = Omit<BaseTaskProps, "onSubmit"> & {
   task: TaskType;
 };
 
 const Task = ({ task, ...rest }: TaskProps) => {
-  const { title } = task;
+  const { id, title, status } = task;
+  const upsertTask = useUpsertTask({ existingTaskId: id, status });
+  const deleteTask = () => console.log("delete"); // useDeleteTask({ id });
 
-  return <BaseTask title={title} {...rest} />;
+  const updateTask: TaskSubmitFunction = async (values, textareaRef) => {
+    if (!title) return;
+
+    try {
+      // Focus the next textarea in the list
+      const grandparent = textareaRef.current?.parentNode?.parentNode;
+      const nextTask = grandparent?.nextSibling;
+      nextTask && (nextTask as HTMLElement).querySelector("textarea")?.focus();
+
+      await upsertTask.mutateAsync({
+        id,
+        status,
+        title: values.title ?? title,
+        ...values,
+      });
+    } catch (e) {
+      toast.error("Unable to update task, please try again or contact support");
+    }
+  };
+
+  return (
+    <BaseTask
+      title={title}
+      onSubmit={updateTask}
+      renderRight={() => (
+        <ActionsMenu
+          onAddNote={() => console.log("add note")}
+          onDelete={deleteTask}
+        />
+      )}
+      {...rest}
+    />
+  );
 };
 
-export { Task };
+type AddTaskProps = Omit<BaseTaskProps, "onSubmit"> & {
+  status: TaskStatus;
+};
+
+const AddTask = ({ status, ...rest }: AddTaskProps) => {
+  const upsertTask = useUpsertTask({ status });
+
+  const createTask: TaskSubmitFunction = async (
+    { title },
+    textareaRef,
+    setTitle,
+  ) => {
+    if (!title) return;
+
+    const prevValue = title;
+    setTitle("");
+
+    try {
+      await upsertTask.mutateAsync({
+        id: createId(),
+        title,
+        status,
+      });
+      textareaRef.current?.focus();
+    } catch (e) {
+      setTitle(prevValue);
+      toast.error("Unable to create task, please try again or contact support");
+    }
+  };
+
+  return (
+    <BaseTask label="Add task" onSubmit={createTask} isPlaceholder {...rest} />
+  );
+};
+
+export { Task, AddTask };
