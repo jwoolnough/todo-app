@@ -43,7 +43,8 @@ const BaseTask = ({
   return (
     <form
       className={clsxm(
-        "group relative grid grid-cols-[min-content,minmax(0,1fr),min-content] gap-2",
+        "group relative grid grid-cols-[min-content,minmax(0,1fr)] gap-2",
+        renderRight && "grid-cols-[min-content,minmax(0,1fr),min-content]",
         className,
       )}
     >

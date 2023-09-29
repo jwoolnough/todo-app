@@ -8,7 +8,6 @@ import { Spinner } from "@/components/spinner";
 import { Wrap } from "@/components/wrap";
 
 import { api } from "@/utils/api";
-import { clsxm } from "@/utils/clsxm";
 
 import { AddTask, Task } from "../task";
 
@@ -67,13 +66,7 @@ const TaskCategory = ({
       </Wrap>
 
       {!isInitialLoading && (
-        <AddTask
-          status={category}
-          className={clsxm(
-            CATEGORY_TASK_CLASSNAMES,
-            "grid-cols-[min-content,minmax(0,1fr)]",
-          )}
-        />
+        <AddTask status={category} className={CATEGORY_TASK_CLASSNAMES} />
       )}
     </Accordion>
   );
