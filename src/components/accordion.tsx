@@ -56,8 +56,16 @@ const Accordion = ({
               isAnimating && "overflow-hidden",
             )}
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            animate={{
+              opacity: 1,
+              height: "auto",
+              transition: { opacity: { delay: 0.2 } },
+            }}
+            exit={{
+              opacity: 0,
+              height: 0,
+              transition: { height: { delay: 0.2 } },
+            }}
             onAnimationStart={() => setIsAnimating(true)}
             onAnimationComplete={() => setIsAnimating(false)}
             id={`accordion-panel-${id}`}

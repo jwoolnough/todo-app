@@ -9,6 +9,7 @@ import { Check } from "@/components/check";
 import { clsxm } from "@/utils/clsxm";
 
 import { ActionsMenu } from "./actions-menu";
+import { useDeleteTask } from "./use-delete-task";
 import { useUpsertTask } from "./use-upsert-task";
 
 type TaskSubmitValues = { completed?: boolean; title?: string };
@@ -97,10 +98,10 @@ type TaskProps = Omit<BaseTaskProps, "onSubmit"> & {
 const Task = ({ task, ...rest }: TaskProps) => {
   const { id, title, status } = task;
   const upsertTask = useUpsertTask({ existingTaskId: id, status });
-  const deleteTask = () => console.log("delete"); // useDeleteTask({ id });
+  const deleteTask = useDeleteTask({ status });
 
-  const updateTask: TaskSubmitFunction = async (values, textareaRef) => {
-    if (!title) return;
+  const handleUpsertTask: TaskSubmitFunction = async (values, textareaRef) => {
+    if (!values.title) return;
 
     try {
       // Focus the next textarea in the list
@@ -119,14 +120,22 @@ const Task = ({ task, ...rest }: TaskProps) => {
     }
   };
 
+  const handleDeleteTask = async () => {
+    try {
+      await deleteTask.mutateAsync(id);
+    } catch (e) {
+      toast.error("Unable to delete task, please try again or contact support");
+    }
+  };
+
   return (
     <BaseTask
       title={title}
-      onSubmit={updateTask}
+      onSubmit={handleUpsertTask}
       renderRight={() => (
         <ActionsMenu
           onAddNote={() => console.log("add note")}
-          onDelete={deleteTask}
+          onDelete={() => void handleDeleteTask()}
         />
       )}
       {...rest}
@@ -141,7 +150,7 @@ type AddTaskProps = Omit<BaseTaskProps, "onSubmit"> & {
 const AddTask = ({ status, ...rest }: AddTaskProps) => {
   const upsertTask = useUpsertTask({ status });
 
-  const createTask: TaskSubmitFunction = async (
+  const handleCreateTask: TaskSubmitFunction = async (
     { title },
     textareaRef,
     setTitle,
@@ -165,7 +174,12 @@ const AddTask = ({ status, ...rest }: AddTaskProps) => {
   };
 
   return (
-    <BaseTask label="Add task" onSubmit={createTask} isPlaceholder {...rest} />
+    <BaseTask
+      label="Add task"
+      onSubmit={handleCreateTask}
+      isPlaceholder
+      {...rest}
+    />
   );
 };
 

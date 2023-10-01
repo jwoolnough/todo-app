@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Accordion } from "@/components/accordion";
 import { Count } from "@/components/count";
 import { Spinner } from "@/components/spinner";
-import { Wrap } from "@/components/wrap";
 
 import { api } from "@/utils/api";
 
@@ -43,31 +42,34 @@ const TaskCategory = ({
       onToggle={() => setIsOpen(!isOpen)}
       boxProps={{ className: "px-4 py-3 mb-2" }}
     >
-      <Wrap
-        if={taskCount > 0}
-        wrapper={(children) => (
-          <ul className="-mt-1 flex flex-col">
-            <AnimatePresence initial={false}>{children}</AnimatePresence>
-          </ul>
+      {isInitialLoading && <Spinner className="mx-auto" />}
+      <ul className="-mt-1 flex flex-col">
+        <AnimatePresence initial={false}>
+          {data?.map((task) => (
+            <motion.li
+              key={task.id}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{
+                opacity: 1,
+                height: "auto",
+                transition: { opacity: { delay: 0.2 } },
+              }}
+              exit={{
+                opacity: 0,
+                height: 0,
+                transition: { height: { delay: 0.2 } },
+              }}
+            >
+              <Task task={task} className={CATEGORY_TASK_CLASSNAMES} />
+            </motion.li>
+          ))}
+        </AnimatePresence>
+        {!isInitialLoading && (
+          <li>
+            <AddTask status={category} className={CATEGORY_TASK_CLASSNAMES} />
+          </li>
         )}
-      >
-        {isInitialLoading && <Spinner className="mx-auto" />}
-
-        {data?.map((task) => (
-          <motion.li
-            key={task.id}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-          >
-            <Task task={task} className={CATEGORY_TASK_CLASSNAMES} />
-          </motion.li>
-        ))}
-      </Wrap>
-
-      {!isInitialLoading && (
-        <AddTask status={category} className={CATEGORY_TASK_CLASSNAMES} />
-      )}
+      </ul>
     </Accordion>
   );
 };

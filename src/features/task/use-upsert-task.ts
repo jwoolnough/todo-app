@@ -13,46 +13,75 @@ const useUpsertTask = ({ existingTaskId, status }: UseUpsertTaskInput) => {
   const utils = api.useContext();
   const upsertTask = api.task.upsertTask.useMutation({
     async onMutate(upsertTaskInput) {
-      if (existingTaskId) return;
-
       await utils.task.getMyTasksByStatus.cancel({ status });
-      const prevData = utils.task.getMyTasksByStatus.getData({ status });
+      await utils.task.getTotalUnscheduledTasksCount.cancel();
 
-      utils.task.getMyTasksByStatus.setData({ status }, (old = []) => {
-        // This is the path for creating - need to handle updating
-        if (!session.data) {
-          throw new Error("Session not found");
-        }
-
-        if (!upsertTaskInput.id) {
-          throw new Error("Missing ID from input");
-        }
-
-        return [
-          ...old,
-          {
-            id: upsertTaskInput.id,
-            userId: session.data.user.id,
-            unscheduledOrder: null,
-            scheduledDate: null,
-            scheduledOrder: null,
-            completedAt: null,
-            completed: false,
-            notes: null,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            ...upsertTaskInput,
-          },
-        ];
+      const prevTaskListData = utils.task.getMyTasksByStatus.getData({
+        status,
       });
+      const prevUnscheduledCount =
+        utils.task.getTotalUnscheduledTasksCount.getData();
 
-      return { prevData };
+      if (!existingTaskId) {
+        utils.task.getMyTasksByStatus.setData({ status }, (old = []) => {
+          // Is creating new task
+          if (!session.data) {
+            throw new Error("Session not found");
+          }
+
+          if (!upsertTaskInput.id) {
+            throw new Error("Missing new task ID from input");
+          }
+
+          return [
+            ...old,
+            {
+              id: upsertTaskInput.id,
+              userId: session.data.user.id,
+              unscheduledOrder: null,
+              scheduledDate: null,
+              scheduledOrder: null,
+              completedAt: null,
+              completed: false,
+              notes: null,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              ...upsertTaskInput,
+            },
+          ];
+        });
+        utils.task.getTotalUnscheduledTasksCount.setData(
+          undefined,
+          (old = 0) => old + 1,
+        );
+      } else {
+        // Is updating existing task
+        utils.task.getMyTasksByStatus.setData({ status }, (old = []) => {
+          return [
+            ...old.map((task) => {
+              return task.id === existingTaskId
+                ? {
+                    ...task,
+                    ...upsertTaskInput,
+                  }
+                : { ...task };
+            }),
+          ];
+        });
+      }
+
+      return { prevTaskListData, prevUnscheduledCount };
     },
     onError(_err, _newPost, ctx) {
-      utils.task.getMyTasksByStatus.setData({ status }, ctx?.prevData);
+      utils.task.getMyTasksByStatus.setData({ status }, ctx?.prevTaskListData);
+      utils.task.getTotalUnscheduledTasksCount.setData(
+        undefined,
+        ctx?.prevUnscheduledCount,
+      );
     },
     onSettled() {
-      return utils.task.getMyTasksByStatus.invalidate({ status });
+      void utils.task.getMyTasksByStatus.invalidate({ status });
+      void utils.task.getTotalUnscheduledTasksCount.invalidate();
     },
   });
 
