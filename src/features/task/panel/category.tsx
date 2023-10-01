@@ -1,3 +1,5 @@
+import { DndContext } from "@dnd-kit/core";
+import { SortableContext } from "@dnd-kit/sortable";
 import type { TaskStatus } from "@prisma/client";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
@@ -8,6 +10,7 @@ import { Spinner } from "@/components/spinner";
 
 import { api } from "@/utils/api";
 
+import { DraggableItem } from "../draggable-item";
 import { AddTask, Task } from "../task";
 
 type TaskCategoryProps = {
@@ -44,26 +47,15 @@ const TaskCategory = ({
     >
       {isInitialLoading && <Spinner className="mx-auto" />}
       <ul className="-mt-1 flex flex-col">
-        <AnimatePresence initial={false}>
-          {data?.map((task) => (
-            <motion.li
-              key={task.id}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{
-                opacity: 1,
-                height: "auto",
-                transition: { opacity: { delay: 0.2 } },
-              }}
-              exit={{
-                opacity: 0,
-                height: 0,
-                transition: { height: { delay: 0.2 } },
-              }}
-            >
-              <Task task={task} className={CATEGORY_TASK_CLASSNAMES} />
-            </motion.li>
-          ))}
-        </AnimatePresence>
+        <SortableContext items={data ?? []}>
+          <AnimatePresence initial={false}>
+            {data?.map((task) => (
+              <DraggableItem key={task.id} id={task.id}>
+                <Task task={task} className={CATEGORY_TASK_CLASSNAMES} />
+              </DraggableItem>
+            ))}
+          </AnimatePresence>
+        </SortableContext>
         {!isInitialLoading && (
           <li>
             <AddTask status={category} className={CATEGORY_TASK_CLASSNAMES} />
