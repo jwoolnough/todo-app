@@ -80,8 +80,12 @@ const BaseTask = ({
             inputRef.current?.blur();
           }
         }}
-        onBlur={() => {
-          setTitle(initialTitle);
+        onBlur={(e) => {
+          // If the user 'cancels' the input by blurring without pressing enter
+          // (and focusing the next textarea), reset the input
+          if (!e.relatedTarget || e.relatedTarget?.tagName !== "TEXTAREA") {
+            setTitle(initialTitle);
+          }
         }}
         className="z-10 resize-none bg-transparent text-sm text-white outline-none placeholder:text-slate-700"
       />
