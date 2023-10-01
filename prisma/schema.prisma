@@ -51,7 +51,7 @@ model Task {
   unscheduledOrder Int?
   scheduledDate    DateTime?
   scheduledOrder   Int?
-  completed        Boolean?   @default(false)
+  completed        Boolean    @default(false)
   completedAt      DateTime?
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt

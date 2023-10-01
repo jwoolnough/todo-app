@@ -26,6 +26,8 @@ type BaseTaskProps = {
   className?: string;
   title?: string;
   onSubmit: TaskSubmitFunction;
+  onCompletionChange?: (completed: boolean) => Promise<void>;
+  completed?: boolean;
   renderRight?: () => React.ReactNode;
 };
 
@@ -35,6 +37,8 @@ const BaseTask = ({
   title: initialTitle = "",
   isPlaceholder = false,
   onSubmit,
+  onCompletionChange,
+  completed = false,
   renderRight,
 }: BaseTaskProps) => {
   const inputId = useId();
@@ -51,8 +55,8 @@ const BaseTask = ({
     >
       <Check
         className="relative z-10 mt-0.5"
-        // onChange={onCompletionChange}
-        // value={completed}
+        onChange={() => void onCompletionChange?.(!completed)}
+        checked={completed}
         disabled={isPlaceholder}
       />
 
@@ -100,7 +104,7 @@ type TaskProps = Omit<BaseTaskProps, "onSubmit"> & {
 };
 
 const Task = ({ task, ...rest }: TaskProps) => {
-  const { id, title, status } = task;
+  const { id, title, status, completed } = task;
   const upsertTask = useUpsertTask({ existingTaskId: id, status });
   const deleteTask = useDeleteTask({ status });
 
@@ -124,6 +128,22 @@ const Task = ({ task, ...rest }: TaskProps) => {
     }
   };
 
+  const handleCompletionChange = async (completed: boolean) => {
+    try {
+      await upsertTask.mutateAsync({
+        id,
+        title,
+        status,
+        completed,
+        completedAt: completed ? new Date() : null,
+      });
+    } catch (e) {
+      toast.error(
+        "Couldn't change status of task, please try again or contact support",
+      );
+    }
+  };
+
   const handleDeleteTask = async () => {
     try {
       await deleteTask.mutateAsync(id);
@@ -142,6 +162,8 @@ const Task = ({ task, ...rest }: TaskProps) => {
           onDelete={() => void handleDeleteTask()}
         />
       )}
+      onCompletionChange={handleCompletionChange}
+      completed={completed}
       {...rest}
     />
   );

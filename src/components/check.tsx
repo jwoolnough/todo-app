@@ -6,7 +6,7 @@ import { clsxm } from "@/utils/clsxm";
 type CheckProps = React.ComponentProps<"input">;
 
 const Check = forwardRef<HTMLInputElement, CheckProps>(
-  ({ checked, disabled, className, ...rest }, ref) => {
+  ({ checked, disabled, className, onChange, ...rest }, ref) => {
     const defaultChecked = checked ? checked : false;
     const [isChecked, setIsChecked] = useState(defaultChecked);
 
@@ -38,7 +38,10 @@ const Check = forwardRef<HTMLInputElement, CheckProps>(
           )}
           checked={isChecked}
           disabled={disabled}
-          onChange={() => setIsChecked(!isChecked)}
+          onChange={(e) => {
+            setIsChecked(!isChecked);
+            onChange?.(e);
+          }}
           {...rest}
         />
       </span>

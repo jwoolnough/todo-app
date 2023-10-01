@@ -69,7 +69,7 @@ export const taskRouter = createTRPCRouter({
         scheduledDate: z.date().optional(),
         scheduledOrder: z.number().optional(),
         completed: z.boolean().optional(),
-        completedAt: z.date().optional(),
+        completedAt: z.date().optional().nullable(),
       }),
     )
     .mutation(({ input, ctx }) => {

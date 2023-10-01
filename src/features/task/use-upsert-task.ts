@@ -57,16 +57,14 @@ const useUpsertTask = ({ existingTaskId, status }: UseUpsertTaskInput) => {
       } else {
         // Is updating existing task
         utils.task.getMyTasksByStatus.setData({ status }, (old = []) => {
-          return [
-            ...old.map((task) => {
-              return task.id === existingTaskId
-                ? {
-                    ...task,
-                    ...upsertTaskInput,
-                  }
-                : { ...task };
-            }),
-          ];
+          return old.map((task) =>
+            task.id === existingTaskId
+              ? {
+                  ...task,
+                  ...upsertTaskInput,
+                }
+              : { ...task },
+          );
         });
       }
 
