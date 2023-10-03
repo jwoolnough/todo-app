@@ -1,7 +1,10 @@
 import { signIn } from "next-auth/react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { FaGoogle } from "react-icons/fa";
 import { toast } from "react-toastify";
+
+import { Button } from "@/components/button";
 
 import { AuthLayout } from "@/features/auth";
 
@@ -26,14 +29,23 @@ const LoginPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <button
+      <Head>
+        <title>Login | Todo App</title>
+        <meta name="description" content="" />
+      </Head>
+
+      <h1 className="mb-6 mt-auto text-center text-2xl font-bold text-white md:text-3xl">
+        Todo App is a productivity and task management tool
+      </h1>
+      <Button
         type="button"
+        size="lg"
+        className="mb-auto max-w-xl"
         onClick={() => void handleLogin()}
-        className="inline-flex items-center gap-2 rounded-md bg-green-500 px-4 py-2 font-medium text-white hover:bg-green-200 hover:text-slate-950"
       >
         <FaGoogle />
         Login with Google
-      </button>
+      </Button>
     </>
   );
 };
