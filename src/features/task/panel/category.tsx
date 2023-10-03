@@ -1,7 +1,6 @@
-import { DndContext } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 import type { TaskStatus } from "@prisma/client";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
 import { Accordion } from "@/components/accordion";

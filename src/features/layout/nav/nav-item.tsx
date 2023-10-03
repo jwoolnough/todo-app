@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { Count } from "@/components/count";
 import { Tippy } from "@/components/tippy";
 
+import { usePanelStore } from "@/features/task/panel/use-panel-store";
+
 import { clsxm } from "@/utils/clsxm";
 import type { ComponentWithAs } from "@/utils/component-with-as";
 
@@ -69,7 +71,8 @@ const NavItem: ComponentWithAs<"button", NavItemProps> = ({
 };
 
 const NavItemLink = ({ href, ...rest }: NavItemProps & { href: string }) => {
-  const isActive = href === usePathname();
+  const panelIsOpen = usePanelStore((state) => state.panelIsOpen);
+  const isActive = href === usePathname() && !panelIsOpen;
 
   return <NavItem as={Link} href={href} isActive={isActive} {...rest} />;
 };

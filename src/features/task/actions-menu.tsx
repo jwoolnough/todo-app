@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { FiFileText, FiMoreVertical, FiTrash } from "react-icons/fi";
-
-import { useClickOutside } from "@/hooks/use-click-outside";
+import { useOnClickOutside } from "usehooks-ts";
 
 import { IconButton } from "@/components/button";
 import { Tippy } from "@/components/tippy";
@@ -39,7 +38,7 @@ const ActionsMenu = ({ onAddNote, onDelete }: ActionsMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
-  useClickOutside(menuRef, () => {
+  useOnClickOutside(menuRef, () => {
     setIsOpen(false);
   });
 

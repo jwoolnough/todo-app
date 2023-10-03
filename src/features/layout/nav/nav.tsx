@@ -10,6 +10,8 @@ import {
   FiSettings,
 } from "react-icons/fi";
 
+import { usePanelStore } from "@/features/task/panel/use-panel-store";
+
 import { api } from "@/utils/api";
 import { clsxm } from "@/utils/clsxm";
 
@@ -26,11 +28,13 @@ const NavList = ({
 
 const Nav = ({ className }: { className?: string }) => {
   const { data: taskCount } = api.task.getTotalUnscheduledTasksCount.useQuery();
+  const { panelIsOpen, setPanelIsOpen } = usePanelStore((state) => state);
 
   return (
     <nav
       className={clsxm(
-        "flex-col items-center max-sm:row-start-2 sm:row-span-full sm:flex sm:w-[3.75rem] sm:border-r sm:bg-slate-900 sm:py-6",
+        "max-sm:relative max-sm:z-20 max-sm:row-start-2 max-sm:bg-slate-950",
+        "flex-col items-center sm:row-span-full sm:flex sm:w-[3.75rem] sm:border-r sm:bg-slate-900 sm:py-6",
         className,
       )}
     >
@@ -44,11 +48,14 @@ const Nav = ({ className }: { className?: string }) => {
           href="/"
           renderIcon={(props) => <FiCalendar {...props} />}
         />
-        <NavItemLink
+        <NavItem
           title="Tasks"
-          href="/tasks"
+          onClick={() => setPanelIsOpen(!panelIsOpen)}
+          isActive={panelIsOpen}
           renderIcon={(props) => <FiCheckSquare {...props} />}
           count={taskCount}
+          id="panel-toggle"
+          wrapperClassName="sm:hidden"
         />
         <NavItemLink
           title="Progress"
