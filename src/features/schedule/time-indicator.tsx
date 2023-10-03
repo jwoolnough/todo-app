@@ -49,18 +49,20 @@ const TimeIndicator = () => {
   return (
     <div
       className={clsxm(
-        "pointer-events-none absolute inset-0 row-start-2 row-end-[14]",
+        "pointer-events-none absolute inset-0 z-10 row-start-2 row-end-[14]",
       )}
     >
       <div
-        className="absolute left-0 right-0 border-t border-current text-xs text-green-500 before:absolute before:top-[-5px] before:h-[9px] before:border-l before:border-current"
+        className="text-2xs absolute left-0 right-0 border-t border-current text-green-500 before:absolute before:top-[-5px] before:h-[9px] before:border-l before:border-current"
         style={
           topPercentage > 0 && topPercentage < 100
             ? { top: `${topPercentage}%` }
             : { display: "block" }
         }
       >
-        {time}
+        <span className="absolute right-full top-1/2 mr-2 -translate-y-1/2 bg-gradient-to-b from-transparent via-slate-900 to-transparent py-4">
+          {time}
+        </span>
       </div>
     </div>
   );

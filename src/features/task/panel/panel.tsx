@@ -30,8 +30,8 @@ const TaskPanel = () => {
     <aside
       ref={panelRef}
       className={clsxm(
-        // Really regretting tailwind now...
-        "bottom-[60px] left-full top-0 z-10 border-slate-900 max-sm:fixed max-sm:w-[calc(100vw-3.75rem)] max-sm:max-w-[22.5rem] max-sm:border-l max-sm:bg-slate-950 max-sm:px-4 max-sm:transition-[transform_500ms,visibility_0s_500ms] max-sm:duration-500",
+        // TODO: Really regretting tailwind now... Refactor using CSS module
+        "bottom-[60px] left-full top-0 z-10 border-slate-900 max-sm:fixed max-sm:w-[calc(100vw-3.75rem)] max-sm:max-w-[22.5rem] max-sm:border-l max-sm:bg-slate-950 max-sm:px-4 max-sm:transition-[transform,visibility] max-sm:duration-[500ms,0s]",
         "sm:row-span-full sm:grid sm:grid-rows-[subgrid]",
         panelIsOpen
           ? "max-sm:-translate-x-full max-sm:shadow-[0_0_24px_rgba(0,0,0,.75)]"

@@ -8,10 +8,11 @@ import { TimeIndicator } from "./time-indicator";
 const Schedule = () => {
   const now = new Date();
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const timesOfDay = ["AM", "PM", "Eve"];
   const startOfWeekDate = startOfWeek(now, { weekStartsOn: 1 });
 
   return (
-    <div className="relative ml-4 grid flex-grow grid-cols-7 grid-rows-[min-content,repeat(12,minmax(0,1fr))]">
+    <div className="relative ml-6 grid flex-grow grid-cols-7 grid-rows-[min-content,repeat(12,minmax(0,1fr))]">
       <TimeIndicator />
 
       {days.map((day, i) => {
@@ -35,11 +36,16 @@ const Schedule = () => {
               </div>
             </div>
 
-            {Array.from({ length: 3 }, (_, i) => (
+            {timesOfDay.map((timeOfDay) => (
               <div
-                key={i}
-                className="row-span-4 grid grid-rows-[subgrid] border-t border-slate-700"
+                key={timeOfDay}
+                className="relative row-span-4 grid grid-rows-[subgrid] border-t border-slate-700"
               >
+                {i === 0 && (
+                  <span className="text-2xs absolute right-full mr-2 -translate-y-1/2 uppercase">
+                    {timeOfDay}
+                  </span>
+                )}
                 <div className=""></div>
                 <div className="border-t"></div>
                 <div className="border-t"></div>

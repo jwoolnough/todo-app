@@ -7,6 +7,9 @@ export default {
       borderWidth: {
         3: "3px",
       },
+      fontSize: {
+        "2xs": "0.625rem",
+      },
       colors: {
         spacing: {
           0.5: "0.125rem",
