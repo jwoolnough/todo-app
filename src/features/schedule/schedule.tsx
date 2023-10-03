@@ -42,7 +42,7 @@ const Schedule = () => {
                 className="relative row-span-4 grid grid-rows-[subgrid] border-t border-slate-700"
               >
                 {i === 0 && (
-                  <span className="text-2xs absolute right-full mr-2 -translate-y-1/2 uppercase">
+                  <span className="text-2xs absolute right-full -mt-[1px] mr-2 -translate-y-1/2 uppercase">
                     {timeOfDay}
                   </span>
                 )}
