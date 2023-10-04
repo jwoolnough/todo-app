@@ -43,7 +43,7 @@ const ActionsMenu = ({ onAddNote, onDelete }: ActionsMenuProps) => {
   });
 
   return (
-    <div ref={menuRef} className="relative z-10">
+    <div className="relative z-10">
       <Tippy
         visible={isOpen}
         placement="bottom"
@@ -57,7 +57,7 @@ const ActionsMenu = ({ onAddNote, onDelete }: ActionsMenuProps) => {
         }}
         className="z-10 text-left text-sm"
         content={
-          <ul>
+          <ul ref={menuRef}>
             <MenuItem
               onClick={onAddNote}
               renderIcon={(props) => <FiFileText {...props} />}

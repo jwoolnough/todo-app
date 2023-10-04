@@ -31,8 +31,8 @@ const TaskPanel = () => {
       ref={panelRef}
       className={clsxm(
         // TODO: Really regretting tailwind now... Refactor using CSS module
-        "bottom-[60px] left-full top-0 z-10 border-slate-900 max-sm:fixed max-sm:w-[calc(100vw-3.75rem)] max-sm:max-w-[22.5rem] max-sm:border-l max-sm:bg-slate-950 max-sm:px-4 max-sm:transition-[transform,visibility] max-sm:duration-[500ms,0s]",
-        "sm:row-span-full sm:grid sm:grid-rows-[subgrid]",
+        "z-30 border-slate-900 max-sm:fixed max-sm:bottom-[60px] max-sm:left-full max-sm:top-0 max-sm:w-[calc(100vw-3.75rem)] max-sm:max-w-[22.5rem] max-sm:border-l max-sm:bg-slate-950 max-sm:px-4 max-sm:transition-[transform,visibility] max-sm:duration-[500ms,0s]",
+        "sm:relative sm:row-span-full sm:grid sm:grid-rows-[subgrid]",
         panelIsOpen
           ? "max-sm:-translate-x-full max-sm:shadow-[0_0_24px_rgba(0,0,0,.75)]"
           : "max-sm:invisible max-sm:delay-[0s,500ms]",
