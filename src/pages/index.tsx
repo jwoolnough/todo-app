@@ -1,16 +1,23 @@
 import { format, startOfWeek } from "date-fns";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { FiCalendar, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
-import { Box } from "@/components/box";
 import { Button, IconButton } from "@/components/button";
 
-import { Schedule } from "@/features/schedule/schedule";
+import { Schedule } from "@/features/schedule";
 
 import { getServerSidePropsWithAuth } from "@/utils/auth";
 
 export default function Dashboard() {
-  const startOfWeekDate = startOfWeek(new Date(), { weekStartsOn: 1 });
+  const router = useRouter();
+
+  const date =
+    typeof router.query?.d === "string" ? new Date(router.query.d) : new Date();
+  const startOfWeekDate = startOfWeek(date, { weekStartsOn: 1 });
+
+  console.log(router.query);
+
   return (
     <>
       <Head>
@@ -50,12 +57,7 @@ export default function Dashboard() {
         </ul>
       </header>
 
-      <Box
-        as="main"
-        className="mr-2 flex flex-grow flex-col max-sm:ml-2 sm:mb-2"
-      >
-        <Schedule />
-      </Box>
+      <Schedule />
     </>
   );
 }
