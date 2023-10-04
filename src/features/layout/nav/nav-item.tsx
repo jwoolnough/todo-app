@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { useBreakpoint } from "@/hooks/use-breakpoint";
+
 import { Count } from "@/components/count";
 import { Tippy } from "@/components/tippy";
 
@@ -72,7 +74,11 @@ const NavItem: ComponentWithAs<"button", NavItemProps> = ({
 
 const NavItemLink = ({ href, ...rest }: NavItemProps & { href: string }) => {
   const panelIsOpen = usePanelStore((state) => state.panelIsOpen);
-  const isActive = href === usePathname() && !panelIsOpen;
+  const isSmall = useBreakpoint("sm");
+  const pathname = usePathname();
+  const isActive = isSmall
+    ? href === pathname
+    : href === pathname && !panelIsOpen;
 
   return <NavItem as={Link} href={href} isActive={isActive} {...rest} />;
 };

@@ -1,8 +1,11 @@
 import { type Config } from "tailwindcss";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    // We need to do this to keep the useBreakpoint helper happy
+    screens: defaultTheme.screens,
     extend: {
       borderWidth: {
         3: "3px",
