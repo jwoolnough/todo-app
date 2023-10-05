@@ -16,8 +16,6 @@ export default function Dashboard() {
     typeof router.query?.d === "string" ? new Date(router.query.d) : new Date();
   const startOfWeekDate = startOfWeek(date, { weekStartsOn: 1 });
 
-  console.log(router.query);
-
   return (
     <>
       <Head>
