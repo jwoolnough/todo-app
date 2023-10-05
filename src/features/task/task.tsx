@@ -91,7 +91,7 @@ const BaseTask = ({
             setTitle(initialTitle);
           }
         }}
-        className="z-10 resize-none bg-transparent text-sm text-white outline-none placeholder:text-slate-700"
+        className="relative resize-none bg-transparent text-sm text-white outline-none placeholder:text-slate-700"
       />
 
       {renderRight?.()}

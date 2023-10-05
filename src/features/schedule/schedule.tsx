@@ -20,6 +20,7 @@ const Schedule = () => {
     <Box as="main" className="mr-2 snap-x overflow-auto max-sm:ml-2 sm:mb-2">
       <div className="relative grid h-full w-max min-w-full grid-cols-[repeat(7,calc(100vw-4rem))] grid-rows-[min-content,repeat(12,minmax(3rem,1fr))] sm:ml-6 sm:grid-cols-[repeat(7,minmax(12.5rem,1fr))]">
         <TimeIndicator />
+        {/* Put AM/PM/Eve here with grid span and position sticky */}
 
         {days.map((day, i) => {
           const dayDate = addDays(startOfWeekDate, i);
@@ -39,7 +40,7 @@ const Schedule = () => {
                     "relative text-green-500 after:absolute after:bottom-0 after:left-1/2 after:h-1 after:w-12 after:-translate-x-1/2 after:rounded-t-full after:bg-green-500",
                 )}
               >
-                <h3 className={clsxm("")}>{day}</h3>
+                <h3>{day}</h3>
                 <div className={clsxm("text-3xl font-bold")}>
                   {format(dayDate, "d")}
                 </div>
@@ -61,7 +62,7 @@ const Schedule = () => {
                   </div>
                   <div
                     className={clsxm(
-                      "relative z-30 border-t p-1",
+                      "border-t p-1",
                       day === "Mon" && "pl-0",
                       day === "Sun" && "pr-0",
                     )}
@@ -81,12 +82,12 @@ const Schedule = () => {
                         createdAt: "2023-10-04T07:52:03.151Z",
                         updatedAt: "2023-10-04T07:52:03.151Z",
                       }}
-                      className="relative z-20 h-full rounded-sm border bg-slate-800 px-3 py-2"
+                      className="h-full rounded-sm border bg-slate-800 px-3 py-2"
                     />
                   </div>
                   <div
                     className={clsxm(
-                      "relative z-30 border-t p-1",
+                      "border-t p-1",
                       day === "Mon" && "pl-0",
                       day === "Sun" && "pr-0",
                     )}
