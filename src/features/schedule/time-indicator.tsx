@@ -60,7 +60,11 @@ const TimeIndicator = () => {
             : { display: "none" }
         }
       >
-        <span className="absolute right-full top-1/2 mr-2 -translate-y-1/2 bg-gradient-to-b from-transparent via-slate-900 to-transparent py-4">
+        <span
+          className="absolute right-full top-1/2 mr-2 -translate-y-1/2 bg-gradient-to-b from-transparent via-slate-900 to-transparent py-4"
+          // Time can differ from server rendered version
+          suppressHydrationWarning
+        >
           {time}
         </span>
       </div>
