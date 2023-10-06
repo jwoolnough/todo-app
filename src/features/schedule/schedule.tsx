@@ -48,7 +48,7 @@ const Schedule = () => {
 
           return (
             <div
-              className="relative z-10 row-span-full grid snap-center grid-rows-[subgrid]"
+              className="row-span-full grid snap-center grid-rows-[subgrid]"
               key={day}
             >
               <div
