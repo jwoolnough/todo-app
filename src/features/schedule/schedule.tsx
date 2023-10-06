@@ -5,8 +5,11 @@ import { Box } from "@/components/box";
 
 import { clsxm } from "@/utils/clsxm";
 
-import { AddTask, Task } from "../task";
+import { AddTask } from "../task";
+import { Cell } from "./cell";
 import { TimeIndicator } from "./time-indicator";
+
+const CELLS_PER_TIME_OF_DAY = 4;
 
 const Schedule = () => {
   // const { data } = api.task.getTasksByWeek();
@@ -17,10 +20,26 @@ const Schedule = () => {
   const startOfWeekDate = startOfWeek(now, { weekStartsOn: 1 });
 
   return (
-    <Box as="main" className="mr-2 snap-x overflow-auto max-sm:ml-2 sm:mb-2">
-      <div className="relative grid h-full w-max min-w-full grid-cols-[repeat(7,calc(100vw-4rem))] grid-rows-[min-content,repeat(12,minmax(3rem,1fr))] sm:ml-6 sm:grid-cols-[repeat(7,minmax(12.5rem,1fr))]">
-        <TimeIndicator />
-        {/* Put AM/PM/Eve here with grid span and position sticky */}
+    <Box
+      as="main"
+      className="mr-2 snap-x overflow-auto pb-0 pr-0 max-sm:ml-2 sm:mb-2 sm:pl-10"
+    >
+      <div className="relative grid h-full w-min min-w-full grid-cols-[min-content,repeat(7,calc(100vw-4rem))] grid-rows-[min-content,repeat(12,minmax(3rem,1fr))] sm:grid-cols-[min-content,repeat(7,minmax(12rem,1fr))]">
+        <div className="sticky left-0 z-10 row-span-full grid grid-rows-[subgrid] before:pointer-events-none before:absolute before:right-0 before:h-full before:w-6 before:bg-gradient-to-r before:from-slate-900 sm:before:w-10">
+          <div role="presentation"></div>
+          {timesOfDay.map((timeOfDay) => (
+            <div
+              key={timeOfDay}
+              className="text-3xs sm:text-2xs relative row-span-4 text-right uppercase before:absolute before:right-0 before:top-0 before:w-10 before:border-t before:border-slate-900"
+            >
+              <span className="absolute right-0 top-[1px] -translate-y-1/2 sm:pr-2">
+                {timeOfDay}
+              </span>
+            </div>
+          ))}
+
+          <TimeIndicator />
+        </div>
 
         {days.map((day, i) => {
           const dayDate = addDays(startOfWeekDate, i);
@@ -29,7 +48,7 @@ const Schedule = () => {
 
           return (
             <div
-              className="row-span-full grid snap-center grid-rows-[subgrid]"
+              className="relative z-10 row-span-full grid snap-center grid-rows-[subgrid]"
               key={day}
             >
               <div
@@ -51,68 +70,21 @@ const Schedule = () => {
                   key={timeOfDay}
                   className="relative row-span-4 grid grid-rows-[subgrid] border-t border-slate-700"
                 >
-                  {i === 0 && (
-                    <span className="text-2xs absolute right-full -mt-[1px] mr-2 -translate-y-1/2 uppercase">
-                      {timeOfDay}
-                    </span>
-                  )}
-
-                  <div>
-                    <AddTask status="SCHEDULED" />
-                  </div>
-                  <div
-                    className={clsxm(
-                      "border-t p-1",
-                      day === "Mon" && "pl-0",
-                      day === "Sun" && "pr-0",
-                    )}
-                  >
-                    <Task
-                      task={{
-                        id: "f2vkrtt1v442eczhsgtu4xux",
-                        userId: "cln36pock0000u2ar69r67l1l",
-                        title: "Feed cat",
-                        notes: null,
-                        status: "TODO_THIS_WEEK",
-                        unscheduledOrder: null,
-                        scheduledDate: null,
-                        scheduledOrder: null,
-                        completed: false,
-                        completedAt: null,
-                        createdAt: "2023-10-04T07:52:03.151Z",
-                        updatedAt: "2023-10-04T07:52:03.151Z",
-                      }}
-                      className="h-full rounded-sm border bg-slate-800 px-3 py-2"
-                    />
-                  </div>
-                  <div
-                    className={clsxm(
-                      "border-t p-1",
-                      day === "Mon" && "pl-0",
-                      day === "Sun" && "pr-0",
-                    )}
-                  >
-                    <Task
-                      task={{
-                        id: "f2vkrtt1v442eczhsgtu4xux",
-                        userId: "cln36pock0000u2ar69r67l1l",
-                        title: "Feed cat",
-                        notes: null,
-                        status: "TODO_THIS_WEEK",
-                        unscheduledOrder: null,
-                        scheduledDate: null,
-                        scheduledOrder: null,
-                        completed: false,
-                        completedAt: null,
-                        createdAt: "2023-10-04T07:52:03.151Z",
-                        updatedAt: "2023-10-04T07:52:03.151Z",
-                      }}
-                      className="h-full rounded-sm border bg-slate-800 px-3 py-2"
-                    />
-                  </div>
-                  <div className="border-b border-t">
-                    {/* <AddTask status="SCHEDULED" /> */}
-                  </div>
+                  {Array.from({ length: CELLS_PER_TIME_OF_DAY }, (_, i) => (
+                    <Cell
+                      key={i}
+                      className={clsxm(
+                        i === 0 && "border-none",
+                        day === "Mon" && "pl-0",
+                        day === "Sun" && "pr-0",
+                      )}
+                    >
+                      <AddTask
+                        status="SCHEDULED"
+                        className="h-full rounded-md border bg-slate-800 px-3 py-2 opacity-0 transition-opacity duration-300 focus-within:opacity-100 hover:opacity-75 focus-within:hover:opacity-100"
+                      />
+                    </Cell>
+                  ))}
                 </div>
               ))}
             </div>

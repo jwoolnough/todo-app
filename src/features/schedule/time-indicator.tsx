@@ -19,41 +19,41 @@ const getTopPercentage = () => {
 };
 
 const TimeIndicator = () => {
-  const [time, setTime] = useState(format(new Date(), "HH:mm"));
+  const [time, setTime] = useState(format(new Date(), "H:mm"));
   const [topPercentage, setTopPercentage] = useState(getTopPercentage());
 
   useEffect(() => {
-    let interval: NodeJS.Timer;
+    let timeout: NodeJS.Timer;
 
     // Update the position and time each minute
     const tick = () => {
-      clearTimeout(interval);
+      clearTimeout(timeout);
 
       // get ms remaining until next minute
       const now = new Date();
       const ms = 60000 - (getSeconds(now) * 1000 + getMilliseconds(now));
 
       setTopPercentage(getTopPercentage());
-      setTime(format(now, "HH:mm"));
+      setTime(format(now, "H:mm"));
 
-      interval = setTimeout(tick, ms);
+      timeout = setTimeout(tick, ms);
     };
 
     tick();
 
     return () => {
-      clearTimeout(interval);
+      clearTimeout(timeout);
     };
   }, []);
 
   return (
     <div
       className={clsxm(
-        "pointer-events-none absolute inset-0 row-start-2 row-end-[14]",
+        "pointer-events-none absolute inset-0 col-span-full row-start-2 row-end-[14]",
       )}
     >
       <div
-        className="text-2xs absolute left-0 right-0 border-t border-current text-green-500 before:absolute before:top-[-5px] before:h-[9px] before:border-l before:border-current"
+        className="text-3xs sm:text-2xs absolute left-0 right-0 border-t border-current text-green-500 before:absolute before:top-[-5px] before:h-[9px] before:border-l before:border-current"
         style={
           topPercentage > 0 && topPercentage < 100
             ? { top: `${topPercentage}%` }

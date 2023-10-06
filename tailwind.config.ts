@@ -11,6 +11,7 @@ export default {
         3: "3px",
       },
       fontSize: {
+        "3xs": "0.5rem",
         "2xs": "0.625rem",
       },
       colors: {
