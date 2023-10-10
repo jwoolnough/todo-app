@@ -109,7 +109,7 @@ const Schedule = () => {
               {timesOfDay.map((timeOfDay) => (
                 <div
                   key={timeOfDay}
-                  className="grid-rows-subgrid relative z-10 row-span-4 grid border-t border-slate-700"
+                  className="grid-rows-subgrid relative row-span-4 grid border-t border-slate-700"
                 >
                   {Array.from({ length: CELLS_PER_TIME_OF_DAY }, (_, i) => (
                     <Cell
