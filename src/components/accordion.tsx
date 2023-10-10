@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useId, useState } from "react";
+import { useId } from "react";
 import { FiChevronRight } from "react-icons/fi";
 
 import { clsxm } from "@/utils/clsxm";
@@ -22,7 +22,6 @@ const Accordion = ({
   onToggle,
 }: AccordionProps) => {
   const id = useId();
-  const [isAnimating, setIsAnimating] = useState(false);
 
   return (
     <Box {...boxProps}>
@@ -51,10 +50,7 @@ const Accordion = ({
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            className={clsxm(
-              "before:block before:h-4",
-              isAnimating && "overflow-hidden",
-            )}
+            className={clsxm("before:block before:h-4")}
             initial={{ opacity: 0, height: 0 }}
             animate={{
               opacity: 1,
@@ -66,8 +62,6 @@ const Accordion = ({
               height: 0,
               transition: { height: { delay: 0.2 } },
             }}
-            onAnimationStart={() => setIsAnimating(true)}
-            onAnimationComplete={() => setIsAnimating(false)}
             id={`accordion-panel-${id}`}
             role="region"
             aria-labelledby={`accordion-header-${id}`}
