@@ -1,4 +1,4 @@
-import { addDays, format, isToday, startOfWeek } from "date-fns";
+import { addDays, format, isPast, isToday, startOfWeek } from "date-fns";
 import React, { useEffect, useRef } from "react";
 
 import { Box } from "@/components/box";
@@ -7,7 +7,8 @@ import { clsxm } from "@/utils/clsxm";
 
 import { AddTask } from "../task";
 import { Cell } from "./cell";
-import { TimeIndicator } from "./time-indicator";
+import styles from "./style.module.css";
+import { TimeBar, TimeIndicator } from "./time-indicator";
 
 const CELLS_PER_TIME_OF_DAY = 4;
 
@@ -54,10 +55,12 @@ const Schedule = () => {
     <Box
       as="main"
       ref={scrollerRef}
-      className="mr-2 grid snap-x overflow-auto pl-10 [container-type:inline-size] max-sm:ml-2 sm:mb-2"
+      className={clsxm(
+        "mr-2 grid snap-x overflow-auto pl-10 [container-type:inline-size] max-sm:ml-2 sm:mb-2",
+      )}
     >
-      <div className="relative grid h-full w-min min-w-full grid-cols-[min-content,repeat(7,calc(100cqw+1.5rem))] grid-rows-[min-content,repeat(12,minmax(3rem,1fr))] sm:grid-cols-[min-content,repeat(7,minmax(12rem,1fr))]">
-        <div className="sticky left-0 z-10 row-span-full grid grid-rows-[subgrid] before:pointer-events-none before:absolute before:right-0 before:h-full before:w-10 before:bg-gradient-to-r before:from-slate-900">
+      <div className={styles.grid}>
+        <div className={styles.stickySidebar}>
           {/* Occupy the first row with blank div - simpler than offsetting the row-start below via array index */}
           <div role="presentation"></div>
 
@@ -75,9 +78,10 @@ const Schedule = () => {
           <TimeIndicator />
         </div>
 
+        <TimeBar />
+
         {days.map((day, i) => {
           const dayDate = addDays(startOfWeekDate, i);
-          const isCurrent = isToday(dayDate);
 
           return (
             <div
@@ -87,8 +91,9 @@ const Schedule = () => {
             >
               <div
                 className={clsxm(
-                  "pb-6 max-sm:font-bold max-sm:text-white sm:text-center",
-                  isCurrent &&
+                  "pb-6 text-white max-sm:font-bold sm:text-center",
+                  isPast(dayDate) && "sm:text-slate-400",
+                  isToday(dayDate) &&
                     "relative after:absolute after:bottom-0 after:left-1/2 after:h-1 after:w-12 after:-translate-x-1/2 after:rounded-t-full after:bg-green-500 max-sm:after:hidden sm:text-green-500",
                 )}
               >
@@ -126,6 +131,7 @@ const Schedule = () => {
             </div>
           );
         })}
+        <div className={styles.stickyEnd} role="presentation"></div>
       </div>
     </Box>
   );

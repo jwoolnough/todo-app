@@ -21,8 +21,6 @@ const ScheduleNav = ({ startOfWeekDate }: ScheduleNavProps) => {
     <div className="mt-6 grid grid-cols-7 sm:hidden">
       {days.map((day, i) => {
         const dayDate = addDays(startOfWeekDate, i);
-        const isCurrent = isToday(dayDate);
-        const isPastDay = isPast(dayDate);
 
         return (
           <a
@@ -34,8 +32,8 @@ const ScheduleNav = ({ startOfWeekDate }: ScheduleNavProps) => {
             <div
               className={clsxm(
                 "mx-auto mt-2 w-6 rounded-full font-bold leading-6 transition",
-                isPastDay && "text-slate-400",
-                isCurrent && "text-green-500",
+                isPast(dayDate) && "text-slate-400",
+                isToday(dayDate) && "text-green-500",
                 day === "Tuesday" && "bg-green-500 text-white",
               )}
             >

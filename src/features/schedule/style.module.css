@@ -1,0 +1,59 @@
+.grid {
+  position: relative;
+  display: grid;
+  height: 100%;
+  width: min-content;
+  min-width: 100%;
+  grid-template-columns: min-content repeat(7, calc(100cqw + 1.5rem));
+  grid-template-rows: min-content repeat(12, minmax(3rem, 1fr));
+}
+
+@media screen(sm) {
+  .grid {
+    grid-template-columns: min-content repeat(7, minmax(12rem, 1fr));
+  }
+}
+
+.stickySidebar {
+  position: sticky;
+  left: 0;
+  z-index: theme(zIndex.10);
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: 1 / -1;
+}
+
+.stickySidebar::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 2.5rem;
+  background-image: linear-gradient(
+    to right,
+    theme(colors.slate.900),
+    transparent 1.5rem
+  );
+}
+
+.stickyEnd {
+  position: sticky;
+  grid-row: 1 / -1;
+  right: 0;
+  width: 0;
+}
+
+.stickyEnd::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  z-index: theme(zIndex.10);
+  height: 100%;
+  width: 1.5rem;
+  background-image: linear-gradient(
+    to left,
+    theme(colors.slate.900),
+    transparent
+  );
+}

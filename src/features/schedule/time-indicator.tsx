@@ -18,7 +18,7 @@ const getTopPercentage = () => {
   return ((hoursOfDay * 60 + minutesOfHour - 8 * 60) / (12 * 60)) * 100;
 };
 
-const TimeIndicator = () => {
+const useTimePosition = () => {
   const [time, setTime] = useState(format(new Date(), "H:mm"));
   const [topPercentage, setTopPercentage] = useState(getTopPercentage());
 
@@ -46,30 +46,54 @@ const TimeIndicator = () => {
     };
   }, []);
 
+  return { time, topPercentage };
+};
+
+const TimeWrapper = ({ children }: React.PropsWithChildren) => (
+  <div className="pointer-events-none absolute inset-0 col-span-full row-start-2 row-end-[14]">
+    {children}
+  </div>
+);
+
+const TimeIndicator = () => {
+  const { time, topPercentage } = useTimePosition();
+
   return (
-    <div
-      className={clsxm(
-        "pointer-events-none absolute inset-0 col-span-full row-start-2 row-end-[14]",
-      )}
-    >
-      <div
-        className="absolute left-0 w-[100cqw] border-t border-current text-3xs text-green-500 before:absolute before:top-[-5px] before:h-[9px] before:border-l before:border-current sm:text-2xs"
+    <TimeWrapper>
+      <span
+        className={clsxm(
+          "absolute right-0 -translate-y-1/2 bg-gradient-to-b from-transparent via-slate-900 to-transparent py-4 pr-2 text-2xs text-green-500",
+          "after:absolute after:left-full after:top-1/2 after:h-[9px] after:-translate-y-1/2 after:border-l after:border-current",
+        )}
         style={
           topPercentage > 0 && topPercentage < 100
             ? { top: `${topPercentage}%` }
             : { display: "none" }
         }
+        suppressHydrationWarning
       >
-        <span
-          className="absolute right-full top-1/2 mr-2 -translate-y-1/2 bg-gradient-to-b from-transparent via-slate-900 to-transparent py-4"
-          // Time can differ from server rendered version
-          suppressHydrationWarning
-        >
-          {time}
-        </span>
-      </div>
-    </div>
+        {time}
+      </span>
+    </TimeWrapper>
   );
 };
 
-export { TimeIndicator };
+const TimeBar = () => {
+  const { topPercentage } = useTimePosition();
+
+  return (
+    <TimeWrapper>
+      <div
+        className="absolute left-0 right-0 border-t border-green-500"
+        style={
+          topPercentage > 0 && topPercentage < 100
+            ? { top: `${topPercentage}%` }
+            : { display: "none" }
+        }
+        role="presentation"
+      ></div>
+    </TimeWrapper>
+  );
+};
+
+export { TimeIndicator, TimeWrapper, TimeBar };
