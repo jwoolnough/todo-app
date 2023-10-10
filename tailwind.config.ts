@@ -50,6 +50,9 @@ export default {
       borderRadius: {
         sm: "4px",
       },
+      gridTemplateRows: {
+        subgrid: "subgrid",
+      },
       ringColor: {
         DEFAULT: "#c9e9d1",
       },

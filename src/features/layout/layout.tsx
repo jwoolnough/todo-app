@@ -17,7 +17,7 @@ const Layout = ({ children }: WithChildren) => {
         <AnimatePresence mode="wait">
           <motion.div
             key={pathname}
-            className="grid grid-rows-[min-content,minmax(0,1fr)] sm:row-span-full sm:grid-rows-[subgrid]"
+            className="sm:grid-rows-subgrid grid grid-rows-[min-content,minmax(0,1fr)] sm:row-span-full"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

@@ -86,7 +86,7 @@ const Schedule = () => {
           return (
             <div
               id={`${day.toLowerCase()}`}
-              className="row-span-full grid snap-end grid-rows-[subgrid] sm:snap-center"
+              className="grid-rows-subgrid row-span-full grid snap-end sm:snap-center"
               key={day}
             >
               <div
@@ -109,7 +109,7 @@ const Schedule = () => {
               {timesOfDay.map((timeOfDay) => (
                 <div
                   key={timeOfDay}
-                  className="relative row-span-4 grid grid-rows-[subgrid] border-t border-slate-700"
+                  className="grid-rows-subgrid relative z-10 row-span-4 grid border-t border-slate-700"
                 >
                   {Array.from({ length: CELLS_PER_TIME_OF_DAY }, (_, i) => (
                     <Cell
@@ -122,7 +122,10 @@ const Schedule = () => {
                     >
                       <AddTask
                         status="SCHEDULED"
-                        className="h-full rounded-md border bg-slate-800 px-3 py-2 opacity-0 transition-opacity duration-300 focus-within:opacity-100 hover:opacity-50 focus-within:hover:opacity-100"
+                        className={clsxm(
+                          styles.task,
+                          "h-full rounded-md border bg-slate-800 px-3 py-2 opacity-0 transition duration-300 focus-within:opacity-100 hover:opacity-100",
+                        )}
                       />
                     </Cell>
                   ))}
