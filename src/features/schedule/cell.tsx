@@ -5,7 +5,11 @@ type CellProps = WithChildren & {
 };
 
 const Cell = ({ children, className }: CellProps) => {
-  return <div className={clsxm("border-t p-1", className)}>{children}</div>;
+  return (
+    <div className={clsxm("border-t py-1 max-sm:pr-6 sm:px-1", className)}>
+      {children}
+    </div>
+  );
 };
 
 export { Cell };

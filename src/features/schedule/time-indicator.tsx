@@ -53,7 +53,7 @@ const TimeIndicator = () => {
       )}
     >
       <div
-        className="text-3xs sm:text-2xs absolute left-0 right-0 border-t border-current text-green-500 before:absolute before:top-[-5px] before:h-[9px] before:border-l before:border-current"
+        className="absolute left-0 w-[100cqw] border-t border-current text-3xs text-green-500 before:absolute before:top-[-5px] before:h-[9px] before:border-l before:border-current sm:text-2xs"
         style={
           topPercentage > 0 && topPercentage < 100
             ? { top: `${topPercentage}%` }
