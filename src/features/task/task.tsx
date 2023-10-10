@@ -1,5 +1,5 @@
 import { createId } from "@paralleldrive/cuid2";
-import type { TaskStatus, Task as TaskType } from "@prisma/client";
+import type { Task as TaskType } from "@prisma/client";
 import { type RefObject, useId, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "react-toastify";
@@ -169,44 +169,5 @@ const Task = ({ task, ...rest }: TaskProps) => {
   );
 };
 
-type AddTaskProps = Omit<BaseTaskProps, "onSubmit"> & {
-  status: TaskStatus;
-};
-
-const AddTask = ({ status, ...rest }: AddTaskProps) => {
-  const upsertTask = useUpsertTask({ status });
-
-  const handleCreateTask: TaskSubmitFunction = async (
-    { title },
-    textareaRef,
-    setTitle,
-  ) => {
-    if (!title) return;
-
-    const prevValue = title;
-    setTitle("");
-
-    try {
-      await upsertTask.mutateAsync({
-        id: createId(),
-        title,
-        status,
-      });
-      textareaRef.current?.focus();
-    } catch (e) {
-      setTitle(prevValue);
-      toast.error("Unable to create task, please try again or contact support");
-    }
-  };
-
-  return (
-    <BaseTask
-      label="Add task"
-      onSubmit={handleCreateTask}
-      isPlaceholder
-      {...rest}
-    />
-  );
-};
-
-export { Task, AddTask };
+export { BaseTask, Task };
+export type { BaseTaskProps, TaskSubmitFunction };

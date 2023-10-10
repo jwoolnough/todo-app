@@ -5,7 +5,7 @@ import { Box } from "@/components/box";
 
 import { clsxm } from "@/utils/clsxm";
 
-import { AddTask } from "../task";
+import { AddTask } from "../task/add-task";
 import { Cell } from "./cell";
 import styles from "./style.module.css";
 import { TimeBar, TimeIndicator } from "./time-indicator";
@@ -106,29 +106,36 @@ const Schedule = () => {
                 </div>
               </div>
 
-              {timesOfDay.map((timeOfDay) => (
+              {timesOfDay.map((timeOfDay, sectionIndex) => (
                 <div
                   key={timeOfDay}
                   className="grid-rows-subgrid relative row-span-4 grid border-t border-slate-700"
                 >
-                  {Array.from({ length: CELLS_PER_TIME_OF_DAY }, (_, i) => (
-                    <Cell
-                      key={i}
-                      className={clsxm(
-                        i === 0 && "border-none",
-                        day === "Monday" && "sm:pl-0",
-                        day === "Sunday" && "sm:pr-0",
-                      )}
-                    >
-                      <AddTask
-                        status="SCHEDULED"
+                  {Array.from(
+                    { length: CELLS_PER_TIME_OF_DAY },
+                    (_, positionIndex) => (
+                      <Cell
+                        key={i}
                         className={clsxm(
-                          styles.task,
-                          "h-full rounded-md border bg-slate-800 px-3 py-2 opacity-0 transition duration-300 focus-within:opacity-100 hover:opacity-100",
+                          positionIndex === 0 && "border-none",
+                          day === "Monday" && "sm:pl-0",
+                          day === "Sunday" && "sm:pr-0",
                         )}
-                      />
-                    </Cell>
-                  ))}
+                      >
+                        <AddTask
+                          status="SCHEDULED"
+                          className={clsxm(
+                            styles.task,
+                            "h-full rounded-md border bg-slate-800 px-3 py-2 opacity-0 transition duration-300 focus-within:opacity-100 hover:opacity-100",
+                          )}
+                          scheduledDate={dayDate}
+                          scheduledOrder={
+                            sectionIndex * CELLS_PER_TIME_OF_DAY + positionIndex
+                          }
+                        />
+                      </Cell>
+                    ),
+                  )}
                 </div>
               ))}
             </div>

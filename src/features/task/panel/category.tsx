@@ -9,8 +9,9 @@ import { Spinner } from "@/components/spinner";
 
 import { api } from "@/utils/api";
 
+import { AddTask } from "../add-task";
 import { DraggableItem } from "../draggable-item";
-import { AddTask, Task } from "../task";
+import { Task } from "../task";
 
 type TaskCategoryProps = {
   title: string;
