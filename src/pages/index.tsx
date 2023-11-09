@@ -59,7 +59,7 @@ export default function Dashboard() {
         <ScheduleNav startOfWeekDate={startOfWeekDate} />
       </header>
 
-      <Schedule />
+      <Schedule startOfWeekDate={startOfWeekDate} />
     </>
   );
 }

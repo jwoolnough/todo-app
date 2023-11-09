@@ -6,7 +6,12 @@ type CellProps = WithChildren & {
 
 const Cell = ({ children, className }: CellProps) => {
   return (
-    <div className={clsxm("border-t py-1 max-sm:pr-6 sm:px-1", className)}>
+    <div
+      className={clsxm(
+        "border-t py-1 sm:px-1 max-sm:[&:not(:last-child)]:pr-6",
+        className,
+      )}
+    >
       {children}
     </div>
   );

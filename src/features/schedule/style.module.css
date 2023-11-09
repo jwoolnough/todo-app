@@ -58,14 +58,10 @@
   );
 }
 
-.task:hover:not(:focus-within) {
+.addTask {
   background-color: color-mix(
     in srgb,
     theme(colors.slate.900),
     theme(colors.slate.800)
   );
-}
-
-.task:hover:not(:focus-within) > * {
-  opacity: 0.5;
 }

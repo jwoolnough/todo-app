@@ -62,7 +62,7 @@ const TimeIndicator = () => {
     <TimeWrapper>
       <span
         className={clsxm(
-          "absolute right-0 -translate-y-1/2 bg-gradient-to-b from-transparent via-slate-900 to-transparent py-4 pr-2 text-2xs text-green-500",
+          "absolute right-0 -translate-y-1/2 pr-2 text-2xs text-green-500",
           "after:absolute after:left-full after:top-1/2 after:h-[9px] after:-translate-y-1/2 after:border-l after:border-current",
         )}
         style={

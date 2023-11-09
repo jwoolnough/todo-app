@@ -1,4 +1,5 @@
 import { TaskStatus } from "@prisma/client";
+import { addDays } from "date-fns";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
@@ -41,6 +42,21 @@ export const taskRouter = createTRPCRouter({
       },
     });
   }),
+
+  getTasksByWeek: protectedProcedure
+    .input(z.object({ startOfWeekDate: z.date() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.task.findMany({
+        where: {
+          userId: ctx.session.user.id,
+          status: TaskStatus.SCHEDULED,
+          scheduledDate: {
+            lte: addDays(input.startOfWeekDate, 7),
+            gte: input.startOfWeekDate,
+          },
+        },
+      });
+    }),
 
   createTask: protectedProcedure
     .input(

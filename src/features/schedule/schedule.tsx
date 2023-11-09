@@ -1,10 +1,12 @@
-import { addDays, format, isPast, isToday, startOfWeek } from "date-fns";
+import { addDays, format, isPast, isSameDay, isToday } from "date-fns";
 import React, { useEffect, useRef } from "react";
 
 import { Box } from "@/components/box";
 
+import { api } from "@/utils/api";
 import { clsxm } from "@/utils/clsxm";
 
+import { Task } from "../task";
 import { AddTask } from "../task/add-task";
 import { Cell } from "./cell";
 import styles from "./style.module.css";
@@ -12,8 +14,15 @@ import { TimeBar, TimeIndicator } from "./time-indicator";
 
 const CELLS_PER_TIME_OF_DAY = 4;
 
-const Schedule = () => {
-  // const { data } = api.task.getTasksByWeek();
+const SCHEDULE_TASK_CLASSNAMES =
+  "h-full rounded-md border bg-slate-800 px-3 py-2";
+
+type ScheduleProps = {
+  startOfWeekDate: Date;
+};
+
+const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
+  const { data } = api.task.getTasksByWeek.useQuery({ startOfWeekDate });
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   const now = new Date();
@@ -27,7 +36,6 @@ const Schedule = () => {
     "Sunday",
   ] as const;
   const timesOfDay = ["AM", "PM", "Eve"];
-  const startOfWeekDate = startOfWeek(now, { weekStartsOn: 1 });
 
   // scroll today into view
   useEffect(() => {
@@ -86,7 +94,7 @@ const Schedule = () => {
           return (
             <div
               id={`${day.toLowerCase()}`}
-              className="grid-rows-subgrid row-span-full grid snap-end sm:snap-center"
+              className="row-span-full grid snap-end grid-rows-subgrid sm:snap-center"
               key={day}
             >
               <div
@@ -108,33 +116,59 @@ const Schedule = () => {
 
               {timesOfDay.map((timeOfDay, sectionIndex) => (
                 <div
-                  key={timeOfDay}
-                  className="grid-rows-subgrid relative row-span-4 grid border-t border-slate-700"
+                  key={`${day}-${timeOfDay}`}
+                  className="relative row-span-4 grid grid-rows-subgrid border-t border-slate-700 py-1"
                 >
                   {Array.from(
                     { length: CELLS_PER_TIME_OF_DAY },
-                    (_, positionIndex) => (
-                      <Cell
-                        key={i}
-                        className={clsxm(
-                          positionIndex === 0 && "border-none",
-                          day === "Monday" && "sm:pl-0",
-                          day === "Sunday" && "sm:pr-0",
-                        )}
-                      >
-                        <AddTask
-                          status="SCHEDULED"
+                    (_, positionIndex) => {
+                      const scheduledOrder =
+                        sectionIndex * CELLS_PER_TIME_OF_DAY + positionIndex;
+
+                      const cellTask = data?.find((task) => {
+                        if (!task.scheduledDate) return false;
+
+                        return (
+                          isSameDay(task.scheduledDate, dayDate) &&
+                          task.scheduledOrder === scheduledOrder
+                        );
+                      });
+
+                      return (
+                        <Cell
+                          key={`${day}-${timeOfDay}-${positionIndex}`}
                           className={clsxm(
-                            styles.task,
-                            "h-full rounded-md border bg-slate-800 px-3 py-2 opacity-0 transition duration-300 focus-within:opacity-100 hover:opacity-100",
+                            positionIndex === 0 && "border-none",
+                            day === "Monday" && "sm:pl-0",
+                            day === "Sunday" && "sm:pr-0",
                           )}
-                          scheduledDate={dayDate}
-                          scheduledOrder={
-                            sectionIndex * CELLS_PER_TIME_OF_DAY + positionIndex
-                          }
-                        />
-                      </Cell>
-                    ),
+                        >
+                          {cellTask ? (
+                            <Task
+                              task={cellTask}
+                              className={clsxm(
+                                SCHEDULE_TASK_CLASSNAMES,
+                                cellTask.completed && " bg-green-800",
+                              )}
+                            />
+                          ) : (
+                            <AddTask
+                              status="SCHEDULED"
+                              className={clsxm(
+                                styles.addTask,
+                                SCHEDULE_TASK_CLASSNAMES,
+                                "opacity-0 duration-300 focus-within:opacity-100 hover:opacity-100",
+                              )}
+                              scheduledDate={dayDate}
+                              scheduledOrder={
+                                sectionIndex * CELLS_PER_TIME_OF_DAY +
+                                positionIndex
+                              }
+                            />
+                          )}
+                        </Cell>
+                      );
+                    },
                   )}
                 </div>
               ))}
