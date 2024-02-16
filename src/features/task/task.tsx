@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Check } from "@/components/check";
 
 import { clsxm } from "@/utils/clsxm";
+import { startOfWeek } from "@/utils/date";
 
 import { ActionsMenu } from "./actions-menu";
 import { useDeleteTask } from "./use-delete-task";
@@ -59,7 +60,8 @@ const BaseTask = ({
         disabled={isPlaceholder}
       />
 
-      {/* Absolutely cover the textareas label so you can click anywhere in the task to edit, excepting the context menu or checkbox which are layered on top */}
+      {/* Absolutely cover the textareas label so you can click anywhere in the task
+      to edit, excepting the context menu or checkbox which are layered on top */}
       <label
         htmlFor={`task-title-${inputId}`}
         className="absolute inset-0 cursor-text"
@@ -103,9 +105,12 @@ type TaskProps = Omit<BaseTaskProps, "onSubmit"> & {
 };
 
 const Task = ({ task, ...rest }: TaskProps) => {
-  const { id, title, status, completed } = task;
+  const { id, title, status, scheduledDate, completed } = task;
   const upsertTask = useUpsertTask({ existingTaskId: id, status });
-  const deleteTask = useDeleteTask({ status });
+  const deleteTask = useDeleteTask({
+    status,
+    startOfWeekDate: scheduledDate ? startOfWeek(scheduledDate) : undefined,
+  });
 
   const handleUpsertTask: TaskSubmitFunction = async (values, textareaRef) => {
     if (!values.title) return;
