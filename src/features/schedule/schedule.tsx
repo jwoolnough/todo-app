@@ -25,7 +25,6 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
   const { data } = api.task.getTasksByWeek.useQuery({ startOfWeekDate });
   const scrollerRef = useRef<HTMLDivElement>(null);
 
-  const now = new Date();
   const days = [
     "Monday",
     "Tuesday",
@@ -41,6 +40,7 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
   useEffect(() => {
     if (window.location.hash !== "") return;
 
+    const now = new Date();
     const dayColumn = document.querySelector(
       `#${format(now, "eeee").toLowerCase()}`,
     );
