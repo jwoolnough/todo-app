@@ -81,7 +81,7 @@ const ActionsMenu = ({ onAddNote, onDelete }: ActionsMenuProps) => {
           onClick={() => setIsOpen(!isOpen)}
           type="button"
           className={clsxm(
-            "block text-slate-700 opacity-0 transition hover:text-slate-400 group-focus-within:opacity-100 group-hover:opacity-100",
+            "block text-white/20 opacity-0 transition hover:text-white/70 group-focus-within:opacity-100 group-hover:opacity-100",
             isOpen && "opacity-100",
           )}
         >

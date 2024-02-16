@@ -65,3 +65,11 @@
     theme(colors.slate.800)
   );
 }
+
+.completedTask {
+  background-color: color-mix(
+    in srgb,
+    theme(colors.slate.800),
+    theme(colors.green.900)
+  );
+}

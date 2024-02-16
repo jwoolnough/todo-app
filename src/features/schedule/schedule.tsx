@@ -148,7 +148,7 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
                               task={cellTask}
                               className={clsxm(
                                 SCHEDULE_TASK_CLASSNAMES,
-                                cellTask.completed && " bg-green-800",
+                                cellTask.completed && styles.completedTask,
                               )}
                             />
                           ) : (
