@@ -1,8 +1,8 @@
 import type { TaskStatus } from "@prisma/client";
-import { startOfWeek } from "date-fns";
 import { useSession } from "next-auth/react";
 
 import { api } from "@/utils/api";
+import { startOfWeek } from "@/utils/date";
 
 type UseUpsertTaskInput = {
   existingTaskId?: string;
@@ -23,6 +23,7 @@ const TASK_DEFAULTS = {
 const useUpsertTask = ({ existingTaskId, status }: UseUpsertTaskInput) => {
   const session = useSession();
   const utils = api.useContext();
+
   const upsertTask = api.task.upsertTask.useMutation({
     async onMutate(upsertTaskInput) {
       // Cancel outgoing fetches (so they don't overwrite our optimistic update)
@@ -30,7 +31,7 @@ const useUpsertTask = ({ existingTaskId, status }: UseUpsertTaskInput) => {
       await utils.task.getTotalUnscheduledTasksCount.cancel();
 
       const startOfWeekDate = upsertTaskInput.scheduledDate
-        ? startOfWeek(upsertTaskInput.scheduledDate, { weekStartsOn: 1 })
+        ? startOfWeek(upsertTaskInput.scheduledDate)
         : null;
 
       if (startOfWeekDate) {
@@ -138,9 +139,7 @@ const useUpsertTask = ({ existingTaskId, status }: UseUpsertTaskInput) => {
       if (newTask.scheduledDate) {
         utils.task.getTasksByWeek.setData(
           {
-            startOfWeekDate: startOfWeek(newTask.scheduledDate, {
-              weekStartsOn: 1,
-            }),
+            startOfWeekDate: startOfWeek(newTask.scheduledDate),
           },
           ctx?.prevTasksByWeekData,
         );

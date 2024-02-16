@@ -1,4 +1,4 @@
-import { format, startOfWeek } from "date-fns";
+import { format } from "date-fns";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FiCalendar, FiChevronLeft, FiChevronRight } from "react-icons/fi";
@@ -9,13 +9,14 @@ import { Schedule } from "@/features/schedule";
 import { ScheduleNav } from "@/features/schedule/nav";
 
 import { getServerSidePropsWithAuth } from "@/utils/auth";
+import { startOfWeek } from "@/utils/date";
 
 export default function Dashboard() {
   const router = useRouter();
 
   const date =
     typeof router.query?.d === "string" ? new Date(router.query.d) : new Date();
-  const startOfWeekDate = startOfWeek(date, { weekStartsOn: 1 });
+  const startOfWeekDate = startOfWeek(date);
 
   return (
     <>
