@@ -34,6 +34,7 @@ const ScheduleNav = ({ startOfWeekDate }: ScheduleNavProps) => {
                 "mx-auto mt-2 w-6 rounded-full font-bold leading-6 transition",
                 isPast(dayDate) && "text-slate-400",
                 isToday(dayDate) && "text-green-500",
+                // TODO: Handle active state
                 day === "Tuesday" && "bg-green-500 text-white",
               )}
             >
