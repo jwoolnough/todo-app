@@ -2,21 +2,21 @@ import { addDays, format, isPast, isToday } from "date-fns";
 
 import { clsxm } from "@/utils/clsxm";
 
-type ScheduleNavProps = {
+type DaysProps = {
   startOfWeekDate: Date;
 };
 
-const ScheduleNav = ({ startOfWeekDate }: ScheduleNavProps) => {
-  const days = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ] as const;
+const days = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+] as const;
 
+const Days = ({ startOfWeekDate }: DaysProps) => {
   return (
     <div className="mt-6 grid grid-cols-7 sm:hidden">
       {days.map((day, i) => {
@@ -47,4 +47,4 @@ const ScheduleNav = ({ startOfWeekDate }: ScheduleNavProps) => {
   );
 };
 
-export { ScheduleNav };
+export { Days };

@@ -70,6 +70,7 @@ const TimeIndicator = () => {
             ? { top: `${topPercentage}%` }
             : { display: "none" }
         }
+        // TODO: Client only component?
         suppressHydrationWarning
       >
         {time}
