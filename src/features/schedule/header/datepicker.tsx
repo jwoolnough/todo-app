@@ -37,9 +37,11 @@ const DatePicker = () => {
           <Calendar
             mode="single"
             classNames={{
+              head_cell: clsxm("mb-1 w-10"),
               row: clsxm(
-                "mt-1 flex w-full rounded-full transition-colors hover:bg-slate-950/20",
+                "flex w-full rounded-full transition-colors hover:bg-slate-950/20",
               ),
+              cell: clsxm("p-[2px] text-xs font-bold"),
             }}
             selected={selectedDate}
             onSelect={(value) => void handleSelect(value)}

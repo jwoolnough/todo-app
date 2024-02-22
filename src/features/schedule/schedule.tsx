@@ -36,7 +36,7 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
   ] as const;
   const timesOfDay = ["AM", "PM", "Eve"];
 
-  // scroll today into view
+  // Scroll today into view
   useEffect(() => {
     if (window.location.hash !== "") return;
 
