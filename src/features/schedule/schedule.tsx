@@ -1,10 +1,14 @@
 import { addDays, format, isPast, isSameDay, isToday } from "date-fns";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef } from "react";
 
 import { Box } from "@/components/box";
 
 import { api } from "@/utils/api";
 import { clsxm } from "@/utils/clsxm";
+import { shuffleArray } from "@/utils/shuffle-array";
+
+import { DAYS, TIMES_OF_DAY } from "@/constants/time";
 
 import { Task } from "../task";
 import { AddTask } from "../task/add-task";
@@ -22,19 +26,10 @@ type ScheduleProps = {
 };
 
 const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
-  const { data } = api.task.getTasksByWeek.useQuery({ startOfWeekDate });
+  const { data, isLoading } = api.task.getTasksByWeek.useQuery({
+    startOfWeekDate,
+  });
   const scrollerRef = useRef<HTMLDivElement>(null);
-
-  const days = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ] as const;
-  const timesOfDay = ["AM", "PM", "Eve"];
 
   // Scroll today into view
   useEffect(() => {
@@ -59,6 +54,8 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
     }, 0);
   }, []);
 
+  const shuffledTasks = data && shuffleArray(data);
+
   return (
     <Box
       as="main"
@@ -72,7 +69,7 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
           {/* Occupy the first row with blank div - simpler than offsetting the row-start below via array index */}
           <div role="presentation"></div>
 
-          {timesOfDay.map((timeOfDay) => (
+          {TIMES_OF_DAY.map((timeOfDay) => (
             <div
               key={timeOfDay}
               className="relative row-span-4 text-right text-3xs uppercase before:absolute before:right-0 before:top-0 before:w-10 before:border-t before:border-slate-900 sm:text-2xs"
@@ -88,7 +85,7 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
 
         <TimeBar />
 
-        {days.map((day, i) => {
+        {DAYS.map((day, i) => {
           const dayDate = addDays(startOfWeekDate, i);
 
           return (
@@ -114,7 +111,7 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
                 </div>
               </div>
 
-              {timesOfDay.map((timeOfDay, sectionIndex) => (
+              {TIMES_OF_DAY.map((timeOfDay, sectionIndex) => (
                 <div
                   key={`${day}-${timeOfDay}`}
                   className="relative row-span-4 grid grid-rows-subgrid border-t border-slate-700 py-1"
@@ -134,6 +131,11 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
                         );
                       });
 
+                      const shuffledIndex =
+                        shuffledTasks?.findIndex(
+                          ({ id }) => id === cellTask?.id,
+                        ) ?? 0;
+
                       return (
                         <Cell
                           key={`${day}-${timeOfDay}-${positionIndex}`}
@@ -143,29 +145,46 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
                             day === "Sunday" && "sm:pr-0",
                           )}
                         >
-                          {cellTask ? (
-                            <Task
-                              task={cellTask}
-                              className={clsxm(
-                                SCHEDULE_TASK_CLASSNAMES,
-                                cellTask.completed && styles.completedTask,
-                              )}
-                            />
-                          ) : (
-                            <AddTask
-                              status="SCHEDULED"
-                              className={clsxm(
-                                styles.addTask,
-                                SCHEDULE_TASK_CLASSNAMES,
-                                "opacity-0 duration-300 focus-within:opacity-100 hover:opacity-100",
-                              )}
-                              scheduledDate={dayDate}
-                              scheduledOrder={
-                                sectionIndex * CELLS_PER_TIME_OF_DAY +
-                                positionIndex
-                              }
-                            />
-                          )}
+                          <AnimatePresence mode="wait">
+                            {cellTask ? (
+                              <motion.div
+                                className="relative h-full"
+                                key={cellTask.id}
+                                initial={{ opacity: 0 }}
+                                animate={{
+                                  opacity: 1,
+                                  transition: {
+                                    // Stagger the cards in by the shuffled data array's index
+                                    delay: 0.05 * shuffledIndex,
+                                    duration: 0.4,
+                                  },
+                                }}
+                                exit={{ opacity: 0 }}
+                              >
+                                <Task
+                                  task={cellTask}
+                                  className={clsxm(
+                                    SCHEDULE_TASK_CLASSNAMES,
+                                    cellTask.completed && styles.completedTask,
+                                  )}
+                                />
+                              </motion.div>
+                            ) : (
+                              <AddTask
+                                status="SCHEDULED"
+                                className={clsxm(
+                                  styles.addTask,
+                                  SCHEDULE_TASK_CLASSNAMES,
+                                  "opacity-0 duration-300 focus-within:opacity-100 hover:opacity-100",
+                                )}
+                                scheduledDate={dayDate}
+                                scheduledOrder={
+                                  sectionIndex * CELLS_PER_TIME_OF_DAY +
+                                  positionIndex
+                                }
+                              />
+                            )}
+                          </AnimatePresence>
                         </Cell>
                       );
                     },

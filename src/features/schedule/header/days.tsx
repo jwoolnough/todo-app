@@ -2,24 +2,16 @@ import { addDays, format, isPast, isToday } from "date-fns";
 
 import { clsxm } from "@/utils/clsxm";
 
+import { DAYS } from "@/constants/time";
+
 type DaysProps = {
   startOfWeekDate: Date;
 };
 
-const days = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-] as const;
-
 const Days = ({ startOfWeekDate }: DaysProps) => {
   return (
     <div className="mt-6 grid grid-cols-7 sm:hidden">
-      {days.map((day, i) => {
+      {DAYS.map((day, i) => {
         const dayDate = addDays(startOfWeekDate, i);
 
         return (
