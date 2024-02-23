@@ -8,6 +8,8 @@ const DAYS = [
   "Sunday",
 ] as const;
 
+type Day = (typeof DAYS)[number];
+
 const TIMES_OF_DAY = ["AM", "PM", "EVE"] as const;
 
-export { DAYS, TIMES_OF_DAY };
+export { DAYS, TIMES_OF_DAY, type Day };

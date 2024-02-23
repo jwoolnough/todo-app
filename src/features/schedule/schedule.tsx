@@ -1,4 +1,4 @@
-import { addDays, format, isPast, isSameDay, isToday } from "date-fns";
+import { addDays, format, isSameDay } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef } from "react";
 
@@ -13,8 +13,9 @@ import { DAYS, TIMES_OF_DAY } from "@/constants/time";
 import { Task } from "../task";
 import { AddTask } from "../task/add-task";
 import { Cell } from "./cell";
+import { DayHeader } from "./day-header";
+import { StickySidebar } from "./sticky-sidebar";
 import styles from "./style.module.css";
-import { TimeBar, TimeIndicator } from "./time-indicator";
 
 const CELLS_PER_TIME_OF_DAY = 4;
 
@@ -65,25 +66,7 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
       )}
     >
       <div className={styles.grid}>
-        <div className={styles.stickySidebar}>
-          {/* Occupy the first row with blank div - simpler than offsetting the row-start below via array index */}
-          <div role="presentation"></div>
-
-          {TIMES_OF_DAY.map((timeOfDay) => (
-            <div
-              key={timeOfDay}
-              className="relative row-span-4 text-right text-3xs uppercase before:absolute before:right-0 before:top-0 before:w-10 before:border-t before:border-slate-900 sm:text-2xs"
-            >
-              <span className="absolute right-0 top-[1px] -translate-y-1/2 pr-2">
-                {timeOfDay}
-              </span>
-            </div>
-          ))}
-
-          <TimeIndicator />
-        </div>
-
-        <TimeBar />
+        <StickySidebar />
 
         {DAYS.map((day, i) => {
           const dayDate = addDays(startOfWeekDate, i);
@@ -94,22 +77,7 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
               className="row-span-full grid snap-end grid-rows-subgrid sm:snap-align-none"
               key={day}
             >
-              <div
-                className={clsxm(
-                  "pb-4 text-white max-sm:font-bold sm:text-center",
-                  isPast(dayDate) && "sm:text-slate-400",
-                  isToday(dayDate) &&
-                    "relative after:absolute after:bottom-0 after:left-1/2 after:h-1 after:w-12 after:-translate-x-1/2 after:rounded-t-full after:bg-green-500 max-sm:after:hidden sm:text-green-500",
-                )}
-              >
-                <h3 className="text-md leading-tight text-white">
-                  {day.slice(0, 3)}
-                  <span className="sm:hidden">{day.slice(3)}</span>
-                </h3>
-                <div className="text-2xl font-medium leading-tight max-sm:hidden">
-                  {format(dayDate, "d")}
-                </div>
-              </div>
+              <DayHeader day={day} dayDate={dayDate} />
 
               {TIMES_OF_DAY.map((timeOfDay, sectionIndex) => (
                 <div
