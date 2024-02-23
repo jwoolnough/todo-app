@@ -61,7 +61,7 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
       as="main"
       ref={scrollerRef}
       className={clsxm(
-        "mr-2 grid snap-x overflow-auto pl-10 [container-type:inline-size] max-sm:ml-2 sm:mb-2",
+        "mr-2 grid snap-x overflow-auto pl-10 pt-4 [container-type:inline-size] max-sm:ml-2 sm:mb-2",
       )}
     >
       <div className={styles.grid}>
@@ -91,22 +91,22 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
           return (
             <div
               id={`${day.toLowerCase()}`}
-              className="row-span-full grid snap-end grid-rows-subgrid sm:snap-center"
+              className="row-span-full grid snap-end grid-rows-subgrid sm:snap-align-none"
               key={day}
             >
               <div
                 className={clsxm(
-                  "pb-6 text-white max-sm:font-bold sm:text-center",
+                  "pb-4 text-white max-sm:font-bold sm:text-center",
                   isPast(dayDate) && "sm:text-slate-400",
                   isToday(dayDate) &&
                     "relative after:absolute after:bottom-0 after:left-1/2 after:h-1 after:w-12 after:-translate-x-1/2 after:rounded-t-full after:bg-green-500 max-sm:after:hidden sm:text-green-500",
                 )}
               >
-                <h3>
+                <h3 className="text-md leading-tight text-white">
                   {day.slice(0, 3)}
                   <span className="sm:hidden">{day.slice(3)}</span>
                 </h3>
-                <div className="text-3xl font-bold max-sm:hidden">
+                <div className="text-2xl font-medium leading-tight max-sm:hidden">
                   {format(dayDate, "d")}
                 </div>
               </div>
