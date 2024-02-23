@@ -11,6 +11,13 @@ const Nav = () => {
 
   return (
     <ul className="flex items-center">
+      {!isThisWeek(selectedDate) && (
+        <li className="ml-2 max-sm:hidden">
+          <Button onClick={() => void setSelectedDate(new Date())} size="sm">
+            Go to today
+          </Button>
+        </li>
+      )}
       <li className="leading-none">
         <IconButton
           onClick={() => {
@@ -38,13 +45,6 @@ const Nav = () => {
           <FiChevronRight size={22} />
         </IconButton>
       </li>
-      {!isThisWeek(selectedDate) && (
-        <li className="ml-2 max-sm:hidden">
-          <Button onClick={() => void setSelectedDate(new Date())} size="sm">
-            Go to today
-          </Button>
-        </li>
-      )}
     </ul>
   );
 };
