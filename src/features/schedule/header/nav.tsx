@@ -1,4 +1,5 @@
 import { addWeeks, isThisWeek, subWeeks } from "date-fns";
+import { AnimatePresence, motion } from "framer-motion";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 import { Button, IconButton } from "@/components/button";
@@ -11,13 +12,20 @@ const Nav = () => {
 
   return (
     <ul className="flex items-center">
-      {!isThisWeek(selectedDate) && (
-        <li className="ml-2 max-sm:hidden">
-          <Button onClick={() => void setSelectedDate(new Date())} size="sm">
-            Go to today
-          </Button>
-        </li>
-      )}
+      <AnimatePresence>
+        {!isThisWeek(selectedDate) && (
+          <motion.li
+            className="ml-2 max-sm:hidden"
+            animate={{ opacity: 1 }}
+            initial={{ opacity: 0 }}
+            exit={{ opacity: 0 }}
+          >
+            <Button onClick={() => void setSelectedDate(new Date())} size="sm">
+              Go to today
+            </Button>
+          </motion.li>
+        )}
+      </AnimatePresence>
       <li className="leading-none">
         <IconButton
           onClick={() => {
