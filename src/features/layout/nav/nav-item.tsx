@@ -63,7 +63,7 @@ const NavItem: ComponentWithAs<"button", NavItemProps> = ({
             {renderIcon(iconProps)}
             <Count
               count={count}
-              className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2"
+              className="absolute left-0 top-0 min-w-[1.25rem] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-slate-950 sm:border-slate-900"
             />
           </div>
         </Component>
