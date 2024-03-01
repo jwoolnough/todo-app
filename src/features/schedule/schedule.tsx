@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef } from "react";
 
 import { Box } from "@/components/box";
+import { Spinner } from "@/components/spinner";
 
 import { api } from "@/utils/api";
 import { clsxm } from "@/utils/clsxm";
@@ -26,6 +27,8 @@ type ScheduleProps = {
   startOfWeekDate: Date;
 };
 
+// TODO: This component is massive and needs splitting out - to be actioned
+// when drag and drop scheduling is implemented
 const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
   const { data, isLoading } = api.task.getTasksByWeek.useQuery({
     startOfWeekDate,
@@ -58,113 +61,128 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
   const shuffledTasks = data && shuffleArray(data);
 
   return (
-    <Box
-      as="main"
-      ref={scrollerRef}
-      className={clsxm(
-        "mr-2 grid snap-x overflow-auto pl-10 pt-4 [container-type:inline-size] max-sm:ml-2 sm:mb-2",
-      )}
-    >
-      <div className={styles.grid}>
-        <StickySidebar />
+    <main className="relative mr-2 grid">
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center"
+          >
+            <Spinner />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <Box
+        ref={scrollerRef}
+        className={clsxm(
+          "snap-x overflow-auto pl-10 pt-4 [container-type:inline-size] max-sm:ml-2 sm:mb-2",
+        )}
+      >
+        <div className={styles.grid}>
+          <StickySidebar />
 
-        {DAYS.map((day, i) => {
-          const dayDate = addDays(startOfWeekDate, i);
+          {DAYS.map((day, i) => {
+            const dayDate = addDays(startOfWeekDate, i);
 
-          return (
-            <div
-              id={`${day.toLowerCase()}`}
-              className="row-span-full grid snap-end grid-rows-subgrid sm:snap-align-none"
-              key={day}
-            >
-              <DayHeader day={day} dayDate={dayDate} />
+            return (
+              <div
+                id={`${day.toLowerCase()}`}
+                className="row-span-full grid snap-end grid-rows-subgrid sm:snap-align-none"
+                key={day}
+              >
+                <DayHeader day={day} dayDate={dayDate} />
 
-              {TIMES_OF_DAY.map((timeOfDay, sectionIndex) => (
-                <div
-                  key={`${day}-${timeOfDay}`}
-                  className="relative row-span-4 grid grid-rows-subgrid border-t border-slate-700 py-1"
-                >
-                  {Array.from(
-                    { length: CELLS_PER_TIME_OF_DAY },
-                    (_, positionIndex) => {
-                      const scheduledOrder =
-                        sectionIndex * CELLS_PER_TIME_OF_DAY + positionIndex;
+                {TIMES_OF_DAY.map((timeOfDay, sectionIndex) => (
+                  <div
+                    key={`${day}-${timeOfDay}`}
+                    className="relative row-span-4 grid grid-rows-subgrid border-t border-slate-700 py-1"
+                  >
+                    {Array.from(
+                      { length: CELLS_PER_TIME_OF_DAY },
+                      (_, positionIndex) => {
+                        const scheduledOrder =
+                          sectionIndex * CELLS_PER_TIME_OF_DAY + positionIndex;
 
-                      const cellTask = data?.find((task) => {
-                        if (!task.scheduledDate) return false;
+                        const cellTask = data?.find((task) => {
+                          if (!task.scheduledDate) return false;
+
+                          return (
+                            isSameDay(task.scheduledDate, dayDate) &&
+                            task.scheduledOrder === scheduledOrder
+                          );
+                        });
+
+                        const shuffledIndex =
+                          shuffledTasks?.findIndex(
+                            ({ id }) => id === cellTask?.id,
+                          ) ?? 0;
 
                         return (
-                          isSameDay(task.scheduledDate, dayDate) &&
-                          task.scheduledOrder === scheduledOrder
-                        );
-                      });
-
-                      const shuffledIndex =
-                        shuffledTasks?.findIndex(
-                          ({ id }) => id === cellTask?.id,
-                        ) ?? 0;
-
-                      return (
-                        <Cell
-                          key={`${day}-${timeOfDay}-${positionIndex}`}
-                          className={clsxm(
-                            positionIndex === 0 && "border-none",
-                            day === "Monday" && "sm:pl-0",
-                            day === "Sunday" && "sm:pr-0",
-                          )}
-                        >
-                          <AnimatePresence mode="wait">
-                            {cellTask ? (
-                              <motion.div
-                                className="relative h-full"
-                                key={cellTask.id}
-                                initial={{ opacity: 0 }}
-                                animate={{
-                                  opacity: 1,
-                                  transition: {
-                                    // Stagger the cards in by the shuffled data array's index
-                                    delay: 0.05 * shuffledIndex,
-                                    duration: 0.4,
-                                  },
-                                }}
-                                exit={{ opacity: 0 }}
-                              >
-                                <Task
-                                  task={cellTask}
-                                  className={clsxm(
-                                    SCHEDULE_TASK_CLASSNAMES,
-                                    cellTask.completed && styles.completedTask,
-                                  )}
-                                />
-                              </motion.div>
-                            ) : (
-                              <AddTask
-                                status="SCHEDULED"
-                                className={clsxm(
-                                  styles.addTask,
-                                  SCHEDULE_TASK_CLASSNAMES,
-                                  "opacity-0 duration-300 focus-within:opacity-100 hover:opacity-100",
-                                )}
-                                scheduledDate={dayDate}
-                                scheduledOrder={
-                                  sectionIndex * CELLS_PER_TIME_OF_DAY +
-                                  positionIndex
-                                }
-                              />
+                          <Cell
+                            key={`${day}-${timeOfDay}-${positionIndex}`}
+                            className={clsxm(
+                              positionIndex === 0 && "border-none",
+                              day === "Monday" && "sm:pl-0",
+                              day === "Sunday" && "sm:pr-0",
                             )}
-                          </AnimatePresence>
-                        </Cell>
-                      );
-                    },
-                  )}
-                </div>
-              ))}
-            </div>
-          );
-        })}
-        <div className={styles.stickyEnd} role="presentation"></div>
-      </div>
-    </Box>
+                          >
+                            <AnimatePresence mode="wait">
+                              {cellTask ? (
+                                <motion.div
+                                  className="relative h-full"
+                                  key={cellTask.id}
+                                  initial={{ opacity: 0 }}
+                                  animate={{
+                                    opacity: 1,
+                                    transition: {
+                                      // Stagger the cards in by the shuffled data array's index
+                                      delay: 0.05 * shuffledIndex,
+                                      duration: 0.4,
+                                    },
+                                  }}
+                                  exit={{ opacity: 0 }}
+                                >
+                                  <Task
+                                    task={cellTask}
+                                    className={clsxm(
+                                      SCHEDULE_TASK_CLASSNAMES,
+                                      cellTask.completed &&
+                                        styles.completedTask,
+                                    )}
+                                  />
+                                </motion.div>
+                              ) : (
+                                <AddTask
+                                  status="SCHEDULED"
+                                  className={clsxm(
+                                    styles.addTask,
+                                    SCHEDULE_TASK_CLASSNAMES,
+                                    "opacity-0 duration-300 focus-within:opacity-100 hover:opacity-100",
+                                  )}
+                                  scheduledDate={dayDate}
+                                  scheduledOrder={
+                                    sectionIndex * CELLS_PER_TIME_OF_DAY +
+                                    positionIndex
+                                  }
+                                />
+                              )}
+                            </AnimatePresence>
+                          </Cell>
+                        );
+                      },
+                    )}
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+          <div className={styles.stickyEnd} role="presentation"></div>
+        </div>
+      </Box>
+    </main>
   );
 };
 
