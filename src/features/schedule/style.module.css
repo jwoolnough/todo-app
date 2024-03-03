@@ -5,7 +5,7 @@
   width: min-content;
   min-width: 100%;
   grid-template-columns: min-content repeat(7, calc(100cqw + 1.5rem));
-  grid-template-rows: min-content repeat(12, minmax(min-content, auto));
+  grid-template-rows: min-content repeat(12, minmax(min-content, 1fr));
 }
 
 @media screen(sm) {

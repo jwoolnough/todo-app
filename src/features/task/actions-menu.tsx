@@ -43,7 +43,7 @@ const ActionsMenu = ({ onAddNote, onDelete }: ActionsMenuProps) => {
   });
 
   return (
-    <div className="relative z-10">
+    <div className="absolute right-[var(--task-padding-inline)] top-[var(--task-padding-block)] z-10">
       <Tippy
         visible={isOpen}
         placement="bottom"

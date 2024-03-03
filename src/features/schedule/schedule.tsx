@@ -21,7 +21,7 @@ import styles from "./style.module.css";
 const CELLS_PER_TIME_OF_DAY = 4;
 
 const SCHEDULE_TASK_CLASSNAMES =
-  "h-full rounded-md border bg-slate-800 px-3 py-2";
+  "h-full rounded-md border bg-slate-800 [--task-padding-inline:0.75rem] [--task-padding-block:0.5rem]";
 
 type ScheduleProps = {
   startOfWeekDate: Date;

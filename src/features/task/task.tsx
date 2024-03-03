@@ -48,8 +48,8 @@ const BaseTask = ({
   return (
     <form
       className={clsxm(
-        "group relative grid grid-cols-[min-content,minmax(0,1fr)] gap-2 transition",
-        renderRight && "grid-cols-[min-content,minmax(0,1fr),min-content]",
+        "[--task-padding-block:0.25rem] [--task-padding-inline:0.5rem]",
+        "group relative grid grid-cols-[min-content,minmax(0,1fr)] gap-2 px-[var(--task-padding-inline)] py-[var(--task-padding-block)] transition",
         className,
       )}
     >
@@ -92,7 +92,11 @@ const BaseTask = ({
             setTitle(initialTitle);
           }
         }}
-        className="relative resize-none bg-transparent text-sm text-white outline-none placeholder:text-slate-700"
+        className={clsxm(
+          "relative resize-none bg-transparent text-sm text-white outline-none [transition-property:mask-position] placeholder:text-slate-700",
+          "[mask-image:linear-gradient(to_left,transparent_0,transparent_1rem,black_3rem)] [mask-position:calc(100%+4rem)] [mask-size:200%]",
+          renderRight && "group-hover:[mask-position:right]",
+        )}
       />
 
       {renderRight?.()}
