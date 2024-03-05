@@ -1,4 +1,4 @@
-import { addDays, format, isSameDay } from "date-fns";
+import { addDays, format, isSameDay, isToday } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef } from "react";
 
@@ -90,7 +90,9 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
             return (
               <div
                 id={`${day.toLowerCase()}`}
-                className="row-span-full grid snap-end grid-rows-subgrid sm:snap-align-none"
+                className={clsxm(
+                  "row-span-full grid snap-end grid-rows-subgrid transition-colors sm:snap-align-none",
+                )}
                 key={day}
               >
                 <DayHeader day={day} dayDate={dayDate} />
@@ -98,7 +100,10 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
                 {TIMES_OF_DAY.map((timeOfDay, sectionIndex) => (
                   <div
                     key={`${day}-${timeOfDay}`}
-                    className="relative row-span-4 grid grid-rows-subgrid border-t border-slate-700 py-1"
+                    className={clsxm(
+                      "relative row-span-4 grid grid-rows-subgrid border-t border-slate-700 py-1",
+                      isToday(dayDate) && "sm:bg-white sm:bg-opacity-[0.01]",
+                    )}
                   >
                     {Array.from(
                       { length: CELLS_PER_TIME_OF_DAY },

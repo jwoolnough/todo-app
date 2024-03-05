@@ -53,21 +53,21 @@ const BaseTask = ({
         className,
       )}
     >
-      <Check
-        className="relative z-10 mt-0.5"
-        onChange={() => void onCompletionChange?.(!completed)}
-        checked={completed}
-        disabled={isPlaceholder}
-      />
-
       {/* Absolutely cover the textareas label so you can click anywhere in the task
-      to edit, excepting the context menu or checkbox which are layered on top */}
+    to edit, excepting the context menu or checkbox which are layered on top */}
       <label
         htmlFor={`task-title-${inputId}`}
         className="absolute inset-0 cursor-text"
       >
         <span className="sr-only">{label}</span>
       </label>
+
+      <Check
+        className="relative mt-0.5"
+        onChange={() => void onCompletionChange?.(!completed)}
+        checked={completed}
+        disabled={isPlaceholder}
+      />
 
       <TextareaAutosize
         ref={inputRef}

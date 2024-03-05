@@ -47,10 +47,10 @@ const TaskCategory = ({
     >
       {isInitialLoading && <Spinner className="mx-auto" />}
       <ul className="-mt-1 flex flex-col">
-        <SortableContext items={data ?? []}>
+        <SortableContext id={category} items={data ?? []}>
           <AnimatePresence initial={false}>
             {data?.map((task) => (
-              <DraggableItem key={task.id} id={task.id}>
+              <DraggableItem key={task.id} task={task}>
                 <Task task={task} className={CATEGORY_TASK_CLASSNAMES} />
               </DraggableItem>
             ))}

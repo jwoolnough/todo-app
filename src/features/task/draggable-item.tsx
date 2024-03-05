@@ -1,35 +1,41 @@
 import { useSortable } from "@dnd-kit/sortable";
+import type { Task } from "@prisma/client";
 import { motion } from "framer-motion";
 
-const DraggableItem = ({ id, children }: { id: string } & WithChildren) => {
+type DraggableItemProps = WithChildren & {
+  task: Task;
+};
+
+const DraggableItem = ({ task, children }: DraggableItemProps) => {
   const { attributes, setNodeRef, listeners, transform, isDragging } =
     useSortable({
-      id,
+      id: task.id,
+      data: task,
       transition: null,
     });
 
-  const initialStyles = {
-    x: 0,
-    y: 0,
-    scale: 1,
-  };
+  // const initialStyles = {
+  //   x: 0,
+  //   y: 0,
+  //   scale: 1,
+  // };
 
   return (
     <motion.li
       ref={setNodeRef}
       initial={{ opacity: 0, height: 0 }}
-      layoutId={id}
+      layoutId={task.id}
       animate={{
-        opacity: 1,
+        opacity: isDragging ? 0 : 1,
         height: "auto",
-        ...(transform
-          ? {
-              x: transform.x,
-              y: transform.y,
-              scale: isDragging ? 1.05 : 1,
-              zIndex: isDragging ? 1 : 0,
-            }
-          : initialStyles),
+        // ...(transform
+        //   ? {
+        //       x: transform.x,
+        //       y: transform.y,
+        //       scale: isDragging ? 1.05 : 1,
+        //       zIndex: isDragging ? 1 : 0,
+        //     }
+        //   : initialStyles),
         // transition: { opacity: { delay: 0.2 } },
       }}
       exit={{
@@ -49,8 +55,8 @@ const DraggableItem = ({ id, children }: { id: string } & WithChildren) => {
           delay: isDragging ? 0 : 0.2,
         },
       }}
-      // {...attributes}
-      // {...listeners}
+      {...attributes}
+      {...listeners}
     >
       {children}
     </motion.li>
