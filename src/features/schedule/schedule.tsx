@@ -1,6 +1,7 @@
+import { SortableContext } from "@dnd-kit/sortable";
 import { addDays, format, isSameDay, isToday } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Box } from "@/components/box";
 import { Spinner } from "@/components/spinner";
@@ -30,10 +31,15 @@ type ScheduleProps = {
 // TODO: This component is massive and needs splitting out - to be actioned
 // when drag and drop scheduling is implemented
 const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
+  const [shouldAnimate, setShouldAnimate] = useState(false);
   const { data, isLoading } = api.task.getTasksByWeek.useQuery({
     startOfWeekDate,
   });
   const scrollerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setShouldAnimate(true);
+  }, [startOfWeekDate, setShouldAnimate]);
 
   // Scroll today into view
   useEffect(() => {
@@ -84,106 +90,123 @@ const Schedule = ({ startOfWeekDate }: ScheduleProps) => {
         <div className={styles.grid}>
           <StickySidebar />
 
-          {DAYS.map((day, i) => {
-            const dayDate = addDays(startOfWeekDate, i);
+          <SortableContext items={data ?? []}>
+            {DAYS.map((day, i) => {
+              const dayDate = addDays(startOfWeekDate, i);
 
-            return (
-              <div
-                id={`${day.toLowerCase()}`}
-                className={clsxm(
-                  "row-span-full grid snap-end grid-rows-subgrid transition-colors sm:snap-align-none",
-                )}
-                key={day}
-              >
-                <DayHeader day={day} dayDate={dayDate} />
+              return (
+                <div
+                  id={`${day.toLowerCase()}`}
+                  className={clsxm(
+                    "row-span-full grid snap-end grid-rows-subgrid transition-colors sm:snap-align-none",
+                  )}
+                  key={day}
+                >
+                  <DayHeader day={day} dayDate={dayDate} />
 
-                {TIMES_OF_DAY.map((timeOfDay, sectionIndex) => (
-                  <div
-                    key={`${day}-${timeOfDay}`}
-                    className={clsxm(
-                      "relative row-span-4 grid grid-rows-subgrid border-t border-slate-700 py-1",
-                      isToday(dayDate) && "sm:bg-white sm:bg-opacity-[0.01]",
-                    )}
-                  >
-                    {Array.from(
-                      { length: CELLS_PER_TIME_OF_DAY },
-                      (_, positionIndex) => {
-                        const scheduledOrder =
-                          sectionIndex * CELLS_PER_TIME_OF_DAY + positionIndex;
+                  {TIMES_OF_DAY.map((timeOfDay, sectionIndex) => (
+                    <div
+                      key={`${day}-${timeOfDay}`}
+                      className={clsxm(
+                        "relative row-span-4 grid grid-rows-subgrid border-t border-slate-700 py-1",
+                        isToday(dayDate) && "sm:bg-white sm:bg-opacity-[0.01]",
+                      )}
+                    >
+                      {Array.from(
+                        { length: CELLS_PER_TIME_OF_DAY },
+                        (_, positionIndex) => {
+                          const scheduledOrder =
+                            sectionIndex * CELLS_PER_TIME_OF_DAY +
+                            positionIndex;
 
-                        const cellTask = data?.find((task) => {
-                          if (!task.scheduledDate) return false;
+                          const cellTask = data?.find((task) => {
+                            if (!task.scheduledDate) return false;
+
+                            return (
+                              isSameDay(task.scheduledDate, dayDate) &&
+                              task.scheduledOrder === scheduledOrder
+                            );
+                          });
+
+                          const shuffledIndex =
+                            shuffledTasks?.findIndex(
+                              ({ id }) => id === cellTask?.id,
+                            ) ?? 0;
+                          const totalTasks = shuffledTasks?.length ?? 0;
+                          const delayTime = 0.4 / totalTasks;
 
                           return (
-                            isSameDay(task.scheduledDate, dayDate) &&
-                            task.scheduledOrder === scheduledOrder
-                          );
-                        });
-
-                        const shuffledIndex =
-                          shuffledTasks?.findIndex(
-                            ({ id }) => id === cellTask?.id,
-                          ) ?? 0;
-
-                        return (
-                          <Cell
-                            key={`${day}-${timeOfDay}-${positionIndex}`}
-                            className={clsxm(
-                              positionIndex === 0 && "border-none",
-                              day === "Monday" && "sm:pl-0",
-                              day === "Sunday" && "sm:pr-0",
-                            )}
-                          >
-                            <AnimatePresence mode="wait">
-                              {cellTask ? (
-                                <motion.div
-                                  className="relative h-full"
-                                  key={cellTask.id}
-                                  initial={{ opacity: 0 }}
-                                  animate={{
-                                    opacity: 1,
-                                    transition: {
-                                      // Stagger the cards in by the shuffled data array's index
-                                      delay: 0.05 * shuffledIndex,
-                                      duration: 0.4,
-                                    },
-                                  }}
-                                  exit={{ opacity: 0 }}
-                                >
-                                  <Task
-                                    task={cellTask}
-                                    className={clsxm(
-                                      SCHEDULE_TASK_CLASSNAMES,
-                                      cellTask.completed &&
-                                        styles.completedTask,
-                                    )}
-                                  />
-                                </motion.div>
-                              ) : (
-                                <AddTask
-                                  status="SCHEDULED"
-                                  className={clsxm(
-                                    styles.addTask,
-                                    SCHEDULE_TASK_CLASSNAMES,
-                                    "opacity-0 duration-300 focus-within:opacity-100 hover:opacity-100",
-                                  )}
-                                  scheduledDate={dayDate}
-                                  scheduledOrder={
-                                    sectionIndex * CELLS_PER_TIME_OF_DAY +
-                                    positionIndex
-                                  }
-                                />
+                            <Cell
+                              key={`${day}-${timeOfDay}-${positionIndex}`}
+                              className={clsxm(
+                                positionIndex === 0 && "border-none",
+                                day === "Monday" && "sm:pl-0",
+                                day === "Sunday" && "sm:pr-0",
                               )}
-                            </AnimatePresence>
-                          </Cell>
-                        );
-                      },
-                    )}
-                  </div>
-                ))}
-              </div>
-            );
-          })}
+                            >
+                              <AnimatePresence mode="wait">
+                                {cellTask ? (
+                                  <motion.div
+                                    className="relative h-full"
+                                    key={cellTask.id}
+                                    initial={
+                                      shouldAnimate ? { opacity: 0 } : undefined
+                                    }
+                                    animate={{
+                                      opacity: 1,
+                                      transition: {
+                                        // Stagger the cards in by the shuffled data array's index
+                                        delay: delayTime * shuffledIndex,
+                                        duration: 0.4,
+                                      },
+                                    }}
+                                    exit={{ opacity: 0 }}
+                                    onAnimationComplete={() => {
+                                      if (
+                                        shuffledTasks &&
+                                        shuffledIndex ===
+                                          shuffledTasks.length - 1
+                                      ) {
+                                        setShouldAnimate(false);
+                                      }
+                                    }}
+                                  >
+                                    <Task
+                                      task={cellTask}
+                                      className={clsxm(
+                                        SCHEDULE_TASK_CLASSNAMES,
+                                        cellTask.completed &&
+                                          styles.completedTask,
+                                      )}
+                                    />
+                                  </motion.div>
+                                ) : (
+                                  <AddTask
+                                    status="SCHEDULED"
+                                    className={clsxm(
+                                      styles.addTask,
+                                      SCHEDULE_TASK_CLASSNAMES,
+                                      "opacity-0 duration-300 focus-within:opacity-100 hover:opacity-100",
+                                    )}
+                                    scheduledDate={dayDate}
+                                    scheduledOrder={
+                                      sectionIndex * CELLS_PER_TIME_OF_DAY +
+                                      positionIndex
+                                    }
+                                  />
+                                  // isDragging && <Droppable />???
+                                )}
+                              </AnimatePresence>
+                            </Cell>
+                          );
+                        },
+                      )}
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
+          </SortableContext>
           <div className={styles.stickyEnd} role="presentation"></div>
         </div>
       </Box>

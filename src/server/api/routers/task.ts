@@ -55,6 +55,12 @@ export const taskRouter = createTRPCRouter({
             gte: input.startOfWeekDate,
           },
         },
+        orderBy: [
+          { scheduledDate: "asc" },
+          {
+            scheduledOrder: "asc",
+          },
+        ],
       });
     }),
 

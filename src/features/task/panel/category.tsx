@@ -14,56 +14,59 @@ import { DraggableItem } from "../draggable-item";
 import { Task } from "../task";
 
 type TaskCategoryProps = {
-  title: string;
-  category: TaskStatus;
-  isOpenByDefault?: boolean;
+	title: string;
+	category: TaskStatus;
+	isOpenByDefault?: boolean;
 };
 
 const CATEGORY_TASK_CLASSNAMES =
-  "-mx-2 rounded-sm px-2 py-1 text-sm text-white transition focus-within:bg-slate-800 hover:bg-slate-800";
+	"-mx-2 rounded-sm text-sm text-white transition focus-within:bg-slate-800 hover:bg-slate-800";
 
 const TaskCategory = ({
-  title,
-  category,
-  isOpenByDefault = false,
+	title,
+	category,
+	isOpenByDefault = false,
 }: TaskCategoryProps) => {
-  const { data, isInitialLoading } = api.task.getMyTasksByStatus.useQuery({
-    status: category,
-  });
-  const [isOpen, setIsOpen] = useState(isOpenByDefault);
+	const { data, isInitialLoading } = api.task.getMyTasksByStatus.useQuery({
+		status: category,
+	});
+	const [isOpen, setIsOpen] = useState(isOpenByDefault);
 
-  const taskCount = data?.length ?? 0;
+	const taskCount = data?.length ?? 0;
 
-  return (
-    <Accordion
-      header={
-        <>
-          {title} {taskCount > 0 && <Count count={taskCount} />}
-        </>
-      }
-      isOpen={isOpen}
-      onToggle={() => setIsOpen(!isOpen)}
-      boxProps={{ className: "px-4 py-3 mb-2" }}
-    >
-      {isInitialLoading && <Spinner className="mx-auto" />}
-      <ul className="-mt-1 flex flex-col">
-        <SortableContext id={category} items={data ?? []}>
-          <AnimatePresence initial={false}>
-            {data?.map((task) => (
-              <DraggableItem key={task.id} task={task}>
-                <Task task={task} className={CATEGORY_TASK_CLASSNAMES} />
-              </DraggableItem>
-            ))}
-          </AnimatePresence>
-        </SortableContext>
-        {!isInitialLoading && (
-          <li>
-            <AddTask status={category} className={CATEGORY_TASK_CLASSNAMES} />
-          </li>
-        )}
-      </ul>
-    </Accordion>
-  );
+	return (
+		<Accordion
+			header={
+				<>
+					{title} {taskCount > 0 && <Count count={taskCount} />}
+				</>
+			}
+			isOpen={isOpen}
+			onToggle={() => setIsOpen(!isOpen)}
+			boxProps={{ className: "px-4 py-3 mb-2" }}
+		>
+			{isInitialLoading && <Spinner className="mx-auto" />}
+			<ul className="-mt-1 flex flex-col">
+				<SortableContext id={category} items={data ?? []}>
+					<AnimatePresence initial={false}>
+						{data?.map((task) => (
+							<Task
+								key={task.id}
+								task={task}
+								className={CATEGORY_TASK_CLASSNAMES}
+								// wrapperAs="li"
+							/>
+						))}
+					</AnimatePresence>
+				</SortableContext>
+				{!isInitialLoading && (
+					<li>
+						<AddTask status={category} className={CATEGORY_TASK_CLASSNAMES} />
+					</li>
+				)}
+			</ul>
+		</Accordion>
+	);
 };
 
 export { TaskCategory };
