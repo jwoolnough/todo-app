@@ -5,6 +5,7 @@ const config = {
     "prettier-plugin-tailwindcss",
   ],
   importOrder: [
+    "^~/constants/(.*)$",
     "^~/styles/(.*)$",
     "^~/utils/(.*)$",
     "^~/hooks/(.*)$",
@@ -18,7 +19,7 @@ const config = {
   ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
-  tailwindFunctions: ["cn"],
+  tailwindFunctions: ["clsx", "cn", "cva", "twmerge"],
 };
 
 export default config;
