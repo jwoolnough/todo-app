@@ -14,8 +14,8 @@ export const metadata: Metadata = {
 export default function Login() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-navy-500/40 to-navy-900/50 p-6">
-      <form action="" className="relative my-auto max-w-[240px]">
-        <div className="absolute left-1/2 top-0 h-[160px] w-[320px] -translate-x-1/2 -translate-y-1/2 bg-green-500 mix-blend-soft-light blur-[100px]"></div>
+      <form action="" className="relative isolate my-auto max-w-[240px]">
+        <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-[160px] w-[320px] -translate-x-1/2 -translate-y-1/2 bg-green-300/20 blur-[100px]"></div>
 
         <Image
           src="/logo.svg"

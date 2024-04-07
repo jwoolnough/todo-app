@@ -2,30 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply text-base;
-}
+@layer base {
+  body {
+    @apply text-base;
+  }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  @apply text-md font-semibold text-white;
-}
+  ::selection {
+    @apply text-black bg-green-300;
+  }
 
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-md font-semibold text-white;
   }
 
   a,
-  button,
-  input,
-  label,
-  select,
-  textarea {
-    @apply transition duration-200;
+  button {
+    @apply outline-none focus-visible:outline-none focus-visible:ring-2;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+
+    a,
+    button,
+    input,
+    label,
+    select,
+    textarea {
+      @apply transition duration-200;
+    }
   }
 }

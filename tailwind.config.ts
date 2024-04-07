@@ -36,17 +36,23 @@ export default {
     },
     boxShadow: {
       neon: `
-        0px 4px 8px -1px color-mix(in srgb, var(--neon-color, #00b37e), transparent 85%),
-        0px 10px 16px -1.5px color-mix(in srgb, var(--neon-color, #00b37e), transparent 85%),
-        0px 24px 36px -2.5px color-mix(in srgb, var(--neon-color, #00b37e), transparent 85%)
+        0px 4px 8px -1px color-mix(in srgb, var(--neon-color, #00b37e), transparent 65%),
+        0px 10px 16px -1.5px color-mix(in srgb, var(--neon-color, #00b37e), transparent 65%),
+        0px 24px 36px -2.5px color-mix(in srgb, var(--neon-color, #00b37e), transparent 65%)
       `,
     },
     dropShadow: {
       neon: [
-        "0px 2px 2px color-mix(in srgb, var(--neon-color, #00b37e), transparent 85%)",
-        "0px 4px 4px color-mix(in srgb, var(--neon-color, #00b37e), transparent 85%)",
-        "0px 8px 8px color-mix(in srgb, var(--neon-color, #00b37e), transparent 85%)",
+        "0px 2px 2px color-mix(in srgb, var(--neon-color, #00b37e), transparent 65%)",
+        "0px 4px 4px color-mix(in srgb, var(--neon-color, #00b37e), transparent 65%)",
+        "0px 8px 8px color-mix(in srgb, var(--neon-color, #00b37e), transparent 65%)",
       ],
+    },
+    ringColor: {
+      DEFAULT: "#c9e9d1",
+    },
+    ringOpacity: {
+      DEFAULT: "1",
     },
   },
   plugins: [],

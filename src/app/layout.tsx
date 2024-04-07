@@ -7,7 +7,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { APP_NAME } from "~/constants";
 
 export const metadata: Metadata = {
-  title: { default: APP_NAME, template: `%s | ${APP_NAME}` },
+  title: { default: APP_NAME, template: `%s - ${APP_NAME}` },
   icons: [{ rel: "apple-touch-icon-precomposed", url: "/favicon-180.png" }],
 };
 
