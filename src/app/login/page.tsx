@@ -3,8 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaGoogle } from "react-icons/fa";
 
-import { Button } from "~/components/button";
-
+import { Button } from "~/components";
 import { APP_NAME } from "~/constants";
 
 export const metadata: Metadata = {

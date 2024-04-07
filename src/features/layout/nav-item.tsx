@@ -1,44 +1,27 @@
-import Link from "next/link";
+import { Slot } from "@radix-ui/react-slot";
 
-import { Count } from "~/components/count";
-
-import { useServerPathname } from "~/hooks";
 import { cn } from "~/utils";
 
 import { NavActiveIndicator } from "./nav-active-indicator";
 
-type IconProps = { size: number };
-
-type NavItemProps = React.PropsWithChildren<
-  {
-    as: "button" | "a";
-    title: string;
-    renderIcon: (iconProps: IconProps) => React.ReactNode;
-    className?: string;
-    wrapperClassName?: string;
-    isActive?: boolean;
-    count?: number;
-  } & {
-    as?: "a";
-    href: string;
-  }
->;
+type NavItemProps = React.PropsWithChildren<{
+  title: string;
+  className?: string;
+  wrapperClassName?: string;
+  isActive?: boolean;
+  asChild?: boolean;
+}>;
 
 const NavItem = ({
   title,
-  as = "button",
   className,
   wrapperClassName,
-  renderIcon,
   isActive,
-  count = 0,
+  asChild,
+  children,
   ...rest
 }: NavItemProps) => {
-  const Component = as === "button" ? "button" : Link;
-
-  const iconProps = {
-    size: 18,
-  };
+  const Component = asChild ? Slot : "button";
 
   return (
     <li className={cn("relative md:px-1", wrapperClassName)}>
@@ -47,33 +30,25 @@ const NavItem = ({
       <Component
         className={cn(
           "flex size-12 items-center justify-center rounded-lg hover:text-white",
-          isActive && "drop-shadow-neon text-green-500",
+          isActive && "drop-shadow-neon text-green-500 hover:text-green-500",
           className,
         )}
         aria-label={title}
         {...rest}
       >
-        <div className="relative">
-          {renderIcon(iconProps)}
-          <Count
-            count={count}
-            className="border-slate-950 sm:border-slate-900 absolute left-0 top-0 min-w-[1.25rem] -translate-x-1/2 -translate-y-1/2 rounded-full border-2"
-          />
-        </div>
+        {children}
       </Component>
     </li>
   );
 };
 
-const NavItemLink = ({
-  href,
-  ...rest
-}: Omit<NavItemProps, "as"> & { href: string }) => {
-  // const pathname = usePathname();
-  const pathname = useServerPathname();
-  const isActive = pathname === href;
-
-  return <NavItem as="a" href={href} isActive={isActive} {...rest} />;
+type IconProps = { size: number };
+type NavItemIconProps = {
+  renderIcon: (iconProps: IconProps) => React.ReactNode;
 };
 
-export { NavItem, NavItemLink };
+const NavItemIcon = ({ renderIcon }: NavItemIconProps) => {
+  return renderIcon({ size: 18 });
+};
+
+export { NavItem, NavItemIcon, type NavItemProps };

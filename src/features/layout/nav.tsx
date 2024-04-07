@@ -4,13 +4,25 @@ import {
   FiBarChart,
   FiCalendar,
   FiCheckSquare,
+  FiLogOut,
   FiSettings,
   FiUser,
 } from "react-icons/fi";
 
 import { APP_NAME } from "~/constants";
+import { cn } from "~/utils";
 
-import { NavItemLink } from "./nav-item";
+import { NavItem, NavItemIcon } from "./nav-item";
+import { NavItemLink } from "./nav-link";
+
+const NavList = ({
+  children,
+  className,
+}: React.PropsWithChildren<{ className?: string }>) => (
+  <ul className={cn("flex max-md:justify-between md:flex-col", className)}>
+    {children}
+  </ul>
+);
 
 const Nav = () => {
   return (
@@ -25,34 +37,39 @@ const Nav = () => {
         />
       </Link>
 
-      <ul className="flex max-md:justify-between md:flex-col">
-        <NavItemLink
-          href="/"
-          title="Schedule"
-          renderIcon={(iconProps) => <FiCalendar {...iconProps} />}
-        />
-        <NavItemLink
-          href="/tasks"
-          title="Tasks"
-          renderIcon={(iconProps) => <FiCheckSquare {...iconProps} />}
-          count={7}
-        />
-        <NavItemLink
-          href="/stats"
-          title="Stats"
-          renderIcon={(iconProps) => <FiBarChart {...iconProps} />}
-        />
-        <NavItemLink
-          href="/settings"
-          title="Settings"
-          renderIcon={(iconProps) => <FiSettings {...iconProps} />}
-        />
-        <NavItemLink
-          href="/account"
-          title="Account"
-          renderIcon={(iconProps) => <FiUser {...iconProps} />}
-        />
-      </ul>
+      <NavList className="md:mb-6">
+        <NavItemLink href="/" title="Schedule">
+          <NavItemIcon
+            renderIcon={(iconProps) => <FiCalendar {...iconProps} />}
+          />
+        </NavItemLink>
+        <NavItemLink href="/tasks" title="Tasks">
+          <NavItemIcon
+            renderIcon={(iconProps) => <FiCheckSquare {...iconProps} />}
+          />
+        </NavItemLink>
+        <NavItemLink href="/stats" title="Stats">
+          <NavItemIcon
+            renderIcon={(iconProps) => <FiBarChart {...iconProps} />}
+          />
+        </NavItemLink>
+        <NavItemLink href="/settings" title="Settings">
+          <NavItemIcon
+            renderIcon={(iconProps) => <FiSettings {...iconProps} />}
+          />
+        </NavItemLink>
+        <NavItemLink href="/account" title="Account">
+          <NavItemIcon renderIcon={(iconProps) => <FiUser {...iconProps} />} />
+        </NavItemLink>
+      </NavList>
+
+      <NavList className="mt-auto max-md:hidden">
+        <NavItem title="Log out">
+          <NavItemIcon
+            renderIcon={(iconProps) => <FiLogOut {...iconProps} />}
+          />
+        </NavItem>
+      </NavList>
     </nav>
   );
 };
