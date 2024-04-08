@@ -1,5 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
 
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/components";
 import { cn } from "~/utils";
 
 import { NavActiveIndicator } from "./nav-active-indicator";
@@ -27,17 +28,25 @@ const NavItem = ({
     <li className={cn("relative md:px-1", wrapperClassName)}>
       {isActive ? <NavActiveIndicator /> : null}
 
-      <Component
-        className={cn(
-          "flex size-12 items-center justify-center rounded-lg hover:text-white",
-          isActive && "drop-shadow-neon text-green-500 hover:text-green-500",
-          className,
-        )}
-        aria-label={title}
-        {...rest}
-      >
-        {children}
-      </Component>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Component
+            className={cn(
+              "flex size-12 items-center justify-center rounded-lg hover:text-white",
+              isActive &&
+                "drop-shadow-neon text-green-500 hover:text-green-500",
+              className,
+            )}
+            aria-label={title}
+            {...rest}
+          >
+            {children}
+          </Component>
+        </TooltipTrigger>
+        <TooltipContent side="right" className="max-md:hidden">
+          {title}
+        </TooltipContent>
+      </Tooltip>
     </li>
   );
 };

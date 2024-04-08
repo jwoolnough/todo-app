@@ -34,6 +34,7 @@ const Nav = () => {
           width={14}
           height={18}
           className="drop-shadow-neon"
+          priority
         />
       </Link>
 
@@ -64,7 +65,7 @@ const Nav = () => {
       </NavList>
 
       <NavList className="mt-auto max-md:hidden">
-        <NavItem title="Log out">
+        <NavItem title="Log out" className="text-navy-500">
           <NavItemIcon
             renderIcon={(iconProps) => <FiLogOut {...iconProps} />}
           />

@@ -1,4 +1,5 @@
 import { type Config } from "tailwindcss";
+import tailwindCSSAnimate from "tailwindcss-animate";
 
 export default {
   content: ["./src/**/*.tsx"],
@@ -12,6 +13,9 @@ export default {
         sm: "0.75rem",
         base: "0.875rem",
         md: "1.125rem",
+      },
+      transitionDuration: {
+        DEFAULT: "200ms",
       },
     },
     fontWeight: {
@@ -27,6 +31,7 @@ export default {
         900: "#163a34",
       },
       navy: {
+        100: "#d2d3d9",
         300: "#a2a8c1",
         500: "#595f7b",
         800: "#222337",
@@ -35,6 +40,8 @@ export default {
       },
     },
     boxShadow: {
+      md: "0 4px 6px -1px rgb(0 0 0 / 0.25), 0 2px 4px -2px rgb(0 0 0 / 0.25)",
+      lg: "0 24px 32px -5px rgb(0 0 0 / 0.25), 0 8px 16px -6px rgb(0 0 0 / 0.25)",
       neon: `
         0px 4px 8px -1px color-mix(in srgb, var(--neon-color, #00b37e), transparent 65%),
         0px 10px 16px -1.5px color-mix(in srgb, var(--neon-color, #00b37e), transparent 65%),
@@ -42,6 +49,8 @@ export default {
       `,
     },
     dropShadow: {
+      md: ["0 4px 6px rgb(0 0 0 / 0.25)", "0 2px 4px rgb(0 0 0 / 0.25)"],
+      lg: ["0 24px 32px rgb(0 0 0 / 0.25)", "0 8px 6px rgb(0 0 0 / 0.25)"],
       neon: [
         "0px 2px 2px color-mix(in srgb, var(--neon-color, #00b37e), transparent 65%)",
         "0px 4px 4px color-mix(in srgb, var(--neon-color, #00b37e), transparent 65%)",
@@ -55,5 +64,5 @@ export default {
       DEFAULT: "1",
     },
   },
-  plugins: [],
+  plugins: [tailwindCSSAnimate],
 } satisfies Config;

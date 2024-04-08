@@ -36,7 +36,7 @@
     label,
     select,
     textarea {
-      @apply transition duration-200;
+      @apply transition;
     }
   }
 }
