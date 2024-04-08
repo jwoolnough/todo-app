@@ -21,6 +21,7 @@ export default {
     fontWeight: {
       normal: "300",
       semibold: "500",
+      bold: "700",
     },
     colors: {
       white: "#fff",

@@ -9,6 +9,7 @@ import {
   FiUser,
 } from "react-icons/fi";
 
+import { Count } from "~/components";
 import { APP_NAME } from "~/constants";
 import { cn } from "~/utils";
 
@@ -45,9 +46,12 @@ const Nav = () => {
           />
         </NavItemLink>
         <NavItemLink href="/tasks" title="Tasks">
-          <NavItemIcon
-            renderIcon={(iconProps) => <FiCheckSquare {...iconProps} />}
-          />
+          <div className="relative">
+            <NavItemIcon
+              renderIcon={(iconProps) => <FiCheckSquare {...iconProps} />}
+            />
+            <Count count={5} className="absolute -left-2 -top-2" />
+          </div>
         </NavItemLink>
         <NavItemLink href="/stats" title="Stats">
           <NavItemIcon
