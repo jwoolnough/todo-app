@@ -65,6 +65,14 @@ export default {
         500: "#595f7b",
       },
     },
+    borderColor: {
+      DEFAULT: "color-mix(in srgb, #a2a8c1, transparent 75%)",
+    },
+    borderRadius: {
+      full: "99rem",
+      lg: "0.5rem",
+      xl: "0.75rem",
+    },
     ringOpacity: {
       DEFAULT: "1",
     },
