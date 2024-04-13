@@ -33,8 +33,7 @@ const NavItem = ({
           <Component
             className={cn(
               "flex size-12 items-center justify-center rounded-lg hover:text-white",
-              isActive &&
-                "drop-shadow-neon text-green-500 hover:text-green-500",
+              isActive && "text-green-500 hover:text-green-500",
               className,
             )}
             aria-label={title}

@@ -68,7 +68,7 @@ const Nav = () => {
         </NavItemLink>
       </NavList>
 
-      <NavList className="mt-auto max-md:hidden">
+      <NavList className="mt-auto max-md:hidden md:mb-1">
         <NavItem title="Log out" className="text-navy-500">
           <NavItemIcon
             renderIcon={(iconProps) => <FiLogOut {...iconProps} />}

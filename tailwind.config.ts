@@ -60,6 +60,10 @@ export default {
     },
     ringColor: {
       DEFAULT: "#c9e9d1",
+      navy: {
+        300: "#a2a8c1",
+        500: "#595f7b",
+      },
     },
     ringOpacity: {
       DEFAULT: "1",
