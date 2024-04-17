@@ -36,7 +36,7 @@ export default {
       },
     },
     fontWeight: {
-      normal: "300",
+      normal: "400",
       semibold: "500",
       bold: "700",
     },

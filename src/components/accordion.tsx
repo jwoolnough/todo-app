@@ -2,7 +2,7 @@
 
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { forwardRef } from "react";
-import { FiChevronDown, FiChevronRight } from "react-icons/fi";
+import { FiChevronRight } from "react-icons/fi";
 
 import { cn } from "~/utils";
 
@@ -34,7 +34,6 @@ const AccordionTrigger = forwardRef<
       {...props}
     >
       {children}
-      {/* <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" /> */}
       <FiChevronRight
         size={18}
         className="transition-transform [[data-state=open]>&]:rotate-90"
@@ -50,7 +49,7 @@ const AccordionContent = forwardRef<
 >(({ className, children, ...props }, ref) => (
   <AccordionPrimitive.Content
     ref={ref}
-    className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden"
+    className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
     {...props}
   >
     <div className={cn("pb-4", className)}>{children}</div>

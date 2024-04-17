@@ -13,26 +13,29 @@ const Header = () => {
       <h1>March 2024</h1>
       <p>Week 11</p>
 
-      <form className="relative ml-2 max-w-[36rem] grow max-md:hidden">
-        <label className="sr-only">Search</label>
-        <Input
-          type="search"
-          id="search"
-          accessKey="s"
-          placeholder="Search for a task, event or date"
-          className="pr-9"
-        />
+      {/* TODO: Implement search */}
+      {false && (
+        <form className="relative ml-2 max-w-[36rem] grow max-md:hidden">
+          <label className="sr-only">Search</label>
+          <Input
+            type="search"
+            id="search"
+            accessKey="s"
+            placeholder="Search for a task, event or date"
+            className="pr-9"
+          />
 
-        <IconButton
-          label="Search"
-          type="submit"
-          withTooltip={false}
-          className="absolute right-0 top-0"
-          variant="link"
-        >
-          <FiSearch size={18} />
-        </IconButton>
-      </form>
+          <IconButton
+            label="Search"
+            type="submit"
+            withTooltip={false}
+            className="absolute right-0 top-0"
+            variant="link"
+          >
+            <FiSearch size={18} />
+          </IconButton>
+        </form>
+      )}
 
       <nav className="ml-auto">
         <ul className="flex">

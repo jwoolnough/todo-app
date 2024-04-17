@@ -9,13 +9,13 @@ export const metadata: Metadata = {
 
 export default function Index() {
   return (
-    <div className="grid md:grid-cols-[15rem,minmax(0,1fr)] md:bg-navy-900">
+    <div className="grid bg-navy-900 md:grid-cols-[15rem,minmax(0,1fr)]">
       <ScheduleSidebar />
 
       <div className="flex flex-col">
         <Header />
 
-        <div className="grow bg-navy-950 p-6 md:rounded-tl-xl">
+        <div className="grow rounded-tl-xl bg-navy-950 p-6">
           <p>The stuff</p>
         </div>
       </div>
