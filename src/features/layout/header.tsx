@@ -20,7 +20,7 @@ const Header = () => {
           id="search"
           accessKey="s"
           placeholder="Search for a task, event or date"
-          className="pr-[2.625rem]"
+          className="pr-9"
         />
 
         <IconButton
