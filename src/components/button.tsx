@@ -17,7 +17,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-green-500 text-navy-950 shadow-neon hover:bg-white hover:[--neon-color:#fff]",
+          "bg-green-500 text-navy-950 hover:bg-white hover:[--neon-color:#fff]",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
@@ -28,7 +28,7 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-10 px-4 py-2",
-        sm: "h-9 px-3",
+        sm: "h-7 px-3",
         lg: "h-11 px-8",
       },
     },
