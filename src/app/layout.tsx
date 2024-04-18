@@ -19,6 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="stylesheet" href="https://use.typekit.net/npu1ise.css" />
+      </head>
       <body className="bg-navy-950 text-navy-300">
         <TooltipProvider delayDuration={300}>
           <TRPCReactProvider>{children}</TRPCReactProvider>

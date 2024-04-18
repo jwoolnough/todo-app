@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Sofia Pro", "ui-system", "sans-serif"],
+        sans: ["sofia-pro", "ui-system", "sans-serif"],
       },
       fontSize: {
         xs: "0.625rem",
@@ -36,9 +36,9 @@ export default {
       },
     },
     fontWeight: {
-      normal: "400",
-      semibold: "500",
-      bold: "700",
+      regular: "400",
+      semibold: "700",
+      bold: "800",
     },
     colors: {
       white: "#fff",
