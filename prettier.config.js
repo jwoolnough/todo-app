@@ -19,7 +19,8 @@ const config = {
   ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
-  tailwindFunctions: ["clsx", "cn", "cva", "twmerge"],
+  tailwindFunctions: ["clsx", "cn", "cva", "twMerge"],
+  tailwindAttributes: ["className", "classNames"],
 };
 
 export default config;

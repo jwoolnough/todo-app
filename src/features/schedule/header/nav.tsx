@@ -4,7 +4,7 @@ import { addWeeks, isThisWeek, subWeeks } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiCalendar, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
-import { Button, IconButton } from "~/components";
+import { Button, DatePicker, IconButton } from "~/components";
 
 import { useDateQuery } from "../hooks/use-date-query";
 
@@ -26,7 +26,7 @@ const ScheduleNav = () => {
                 onClick={() => void setSelectedDate(new Date())}
                 size="sm"
               >
-                Go to today
+                Go to this week
               </Button>
             </motion.li>
           )}
@@ -44,9 +44,14 @@ const ScheduleNav = () => {
           </IconButton>
         </li>
         <li>
-          <IconButton label="Calendar" variant="link" size="sm">
-            <FiCalendar size={18} />
-          </IconButton>
+          <DatePicker
+            value={selectedDate}
+            onChange={(day) => setSelectedDate(day)}
+          >
+            <IconButton label="Calendar" variant="link" size="sm">
+              <FiCalendar size={18} />
+            </IconButton>
+          </DatePicker>
         </li>
         <li>
           <IconButton
