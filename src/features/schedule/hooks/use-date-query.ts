@@ -12,7 +12,7 @@ const useDateQuery = () => {
   const selectedDate = searchParams.get("d")
     ? new Date(String(searchParams.get("d")))
     : new Date();
-  const selectedWeek = startOfWeek(selectedDate);
+  const selectedWeekDate = startOfWeek(selectedDate);
 
   const setSelectedDate = async (date?: Date) => {
     router.push(`/?d=${format(date ?? new Date(), "yyyy-MM-dd")}`);
@@ -20,7 +20,7 @@ const useDateQuery = () => {
 
   return {
     selectedDate,
-    selectedWeek,
+    selectedWeekDate,
     setSelectedDate,
   };
 };

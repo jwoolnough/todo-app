@@ -5,12 +5,12 @@ import { format } from "date-fns";
 import { useDateQuery } from "../hooks/use-date-query";
 
 const ScheduleTitle = () => {
-  const { selectedWeek } = useDateQuery();
+  const { selectedWeekDate } = useDateQuery();
 
   return (
     <>
-      <h1>{format(selectedWeek, "MMMM y")}</h1>
-      <p>Week {format(selectedWeek, "w")}</p>
+      <h1>{format(selectedWeekDate, "MMMM y")}</h1>
+      <p>Week {format(selectedWeekDate, "w")}</p>
     </>
   );
 };

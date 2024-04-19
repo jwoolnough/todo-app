@@ -90,9 +90,9 @@ const ICON_BUTTON_SIZE_CLASSNAMES: Record<
   NonNullable<VariantProps<typeof buttonVariants>["size"]>,
   string
 > = {
-  default: "w-9 h-9",
-  sm: "w-7 h-7",
-  lg: "w-12 h-12",
+  default: "size-9",
+  sm: "size-7",
+  lg: "size-12",
 };
 
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(

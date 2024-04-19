@@ -1,6 +1,10 @@
+import { addDays } from "date-fns";
 import { type Metadata } from "next";
 
 import { ScheduleHeader, ScheduleSidebar } from "~/features/schedule";
+import { ScheduleDayPicker } from "~/features/schedule/day-picker";
+
+import { WEEKDAYS } from "~/constants";
 
 export const metadata: Metadata = {
   title: "Schedule",
@@ -14,7 +18,9 @@ export default function Schedule() {
       <div className="flex flex-col">
         <ScheduleHeader />
 
-        <div className="grow rounded-tl-xl bg-navy-950 p-6"></div>
+        <div className="grow rounded-tl-xl bg-navy-950 p-6">
+          <ScheduleDayPicker />
+        </div>
       </div>
     </div>
   );

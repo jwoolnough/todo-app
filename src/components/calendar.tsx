@@ -26,7 +26,7 @@ function Calendar({
         caption: "relative flex items-center justify-center pt-1",
         caption_label: "font-medium text-white",
         nav: "flex items-center space-x-1",
-        nav_button: cn(buttonVariants({ variant: "link" }), "h-7 w-7 p-0"),
+        nav_button: cn(buttonVariants({ variant: "link" }), "size-7 p-0"),
         nav_button_previous: "absolute left-1",
         nav_button_next: "absolute right-1",
         table: "w-full border-collapse space-y-1",
@@ -36,7 +36,7 @@ function Calendar({
         cell: "[&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md relative h-8 w-8 p-0 text-center text-sm focus-within:relative focus-within:z-20 last:[&:has([aria-selected])]:rounded-r-full [&:has([aria-selected].day-range-end)]:rounded-l-full",
         day: cn(
           buttonVariants({ variant: "link" }),
-          "h-8 w-8 rounded-full p-0 font-bold text-navy-100 hover:bg-green-500/10 aria-selected:opacity-100",
+          "size-8 rounded-full p-0 font-bold text-navy-100 hover:bg-green-500/10 aria-selected:opacity-100",
         ),
         day_range_end: "day-range-end",
         day_selected: "!bg-green-500 shadow-neon aria-selected:text-black",
