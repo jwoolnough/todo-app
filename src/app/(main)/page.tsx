@@ -1,10 +1,7 @@
-import { addDays } from "date-fns";
 import { type Metadata } from "next";
 
 import { ScheduleHeader, ScheduleSidebar } from "~/features/schedule";
 import { ScheduleDayPicker } from "~/features/schedule/day-picker";
-
-import { WEEKDAYS } from "~/constants";
 
 export const metadata: Metadata = {
   title: "Schedule",
