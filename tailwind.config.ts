@@ -11,7 +11,7 @@ export default {
       fontSize: {
         xs: "0.625rem",
         sm: "0.75rem",
-        base: "0.875rem",
+        base: ["0.875rem", { lineHeight: "1.428" }],
         md: "1.125rem",
       },
       transitionDuration: {
@@ -33,6 +33,9 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.3s ease-in-out",
         "accordion-up": "accordion-up 0.3s ease-in-out",
+      },
+      borderColor: {
+        DEFAULT: "color-mix(in srgb, #a2a8c1, transparent 75%)",
       },
     },
     fontWeight: {
@@ -81,9 +84,6 @@ export default {
         300: "#a2a8c1",
         500: "#595f7b",
       },
-    },
-    borderColor: {
-      DEFAULT: "color-mix(in srgb, #a2a8c1, transparent 75%)",
     },
     borderRadius: {
       full: "99rem",

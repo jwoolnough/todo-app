@@ -9,9 +9,9 @@ type TaskProps = {
 
 const Task = ({ title, description, note, className }: TaskProps) => {
   return (
-    <div className={cn("rounded-lg bg-navy-800 px-3 py-2", className)}>
+    <div className={cn("rounded-lg bg-navy-800 px-3 py-1.5", className)}>
       <div className="flex">
-        <h5 className="font-regular line-clamp-2 text-base">{title}</h5>
+        <h5 className="line-clamp-2 text-base font-regular">{title}</h5>
       </div>
       {description && <p className="text-xs">{description}</p>}
     </div>

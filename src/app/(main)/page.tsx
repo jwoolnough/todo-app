@@ -1,22 +1,25 @@
 import { type Metadata } from "next";
 
-import { ScheduleHeader, ScheduleSidebar } from "~/features/schedule";
+import { Schedule, ScheduleHeader, ScheduleSidebar } from "~/features/schedule";
 import { ScheduleDayPicker } from "~/features/schedule/day-picker";
 
 export const metadata: Metadata = {
   title: "Schedule",
 };
 
-export default function Schedule() {
+export default function SchedulePage() {
   return (
+    // TODO: Split out into Layout components for reusable styling
     <div className="grid bg-navy-900 md:grid-cols-[15rem,minmax(0,1fr)]">
       <ScheduleSidebar />
 
-      <div className="flex flex-col">
+      <div className="flex h-screen flex-col">
         <ScheduleHeader />
 
-        <div className="grow rounded-tl-xl bg-navy-950 p-6">
+        <div className="grow overflow-auto rounded-tl-xl bg-navy-950">
           <ScheduleDayPicker />
+
+          <Schedule />
         </div>
       </div>
     </div>

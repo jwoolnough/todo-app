@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Login",
 };
 
-export default function Login() {
+export default function LoginPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-navy-500/40 to-navy-900/50 p-6">
       <form action="" className="relative isolate my-auto max-w-[240px]">
@@ -21,7 +21,7 @@ export default function Login() {
           width={32}
           height={42}
           alt={APP_NAME}
-          className="drop-shadow-neon mx-auto mb-8 block"
+          className="mx-auto mb-8 block drop-shadow-neon"
         />
 
         <h1 className="text-center">Sign in to {APP_NAME}</h1>
