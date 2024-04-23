@@ -34,7 +34,7 @@ const Schedule = () => {
   ];
 
   return (
-    <div className="relative grid grid-cols-[min-content_repeat(7,minmax(0,1fr))_1rem] grid-rows-[min-content_repeat(32,32px)_1rem] gap-[var(--gap)] [--gap:0.3125rem]">
+    <div className="relative grid w-min min-w-full grid-cols-[min-content_repeat(7,minmax(9.375rem,1fr))_1rem] grid-rows-[min-content_repeat(32,2rem)_1rem] gap-[var(--gap)] [--gap:0.3125rem]">
       <DayHeader />
 
       <TimeSidebar />
@@ -50,7 +50,7 @@ const Schedule = () => {
       ))}
 
       <GridLayout
-        className="absolute bottom-4 left-[calc(var(--gap)*-1)] right-4 top-[calc(var(--gap)*-1)] col-start-2 row-start-2"
+        className="absolute inset-0 col-start-2 col-end-[span_7] row-start-2 row-end-[span_32]"
         cols={7}
         layout={layout}
         rowHeight={32}
@@ -58,7 +58,7 @@ const Schedule = () => {
         margin={[5, 5]}
         maxRows={32}
         // isBounded - awaiting bugfix, see GH issues
-        // containerPadding={[0, 0]} - see what this does?
+        containerPadding={[0, 0]}
       >
         {layout.map(({ i, title }) => (
           <GridItem key={i}>

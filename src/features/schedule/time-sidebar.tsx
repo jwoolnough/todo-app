@@ -21,7 +21,7 @@ const TIMES = [
 
 const TimeSidebar = () => {
   return (
-    <div className="sticky left-0 row-start-2 row-end-[-1] mt-[calc(var(--gap)*-1)] grid grid-rows-subgrid border-r bg-navy-950 pt-[var(--gap)] text-right text-sm">
+    <div className="sticky left-0 z-10 row-start-2 row-end-[-1] mt-[calc(var(--gap)*-1)] grid grid-rows-subgrid border-r bg-navy-950 pt-[var(--gap)] text-right text-sm">
       {TIMES.map((time) => (
         <div
           className={cn(

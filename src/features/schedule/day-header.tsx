@@ -9,7 +9,7 @@ const DayHeader = () => {
   const { selectedWeekDate } = useDateQuery();
 
   return (
-    <div className="sticky top-0 z-10 col-span-full grid grid-cols-subgrid border-b bg-navy-950">
+    <div className="sticky top-0 z-20 col-span-full grid grid-cols-subgrid border-b bg-navy-950">
       <div
         role="presentation"
         className="relative after:absolute after:left-0 after:right-0 after:top-full after:h-3 after:bg-gradient-to-b after:from-navy-950"
@@ -36,6 +36,7 @@ const DayHeader = () => {
 
         return (
           <div
+            id={day.toLowerCase()}
             key={day}
             className={cn(
               "flex items-baseline py-3 max-md:gap-3 md:flex-col md:items-center md:uppercase",

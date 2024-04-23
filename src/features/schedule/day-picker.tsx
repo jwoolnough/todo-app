@@ -11,8 +11,8 @@ const ScheduleDayPicker = () => {
   const { selectedWeekDate } = useDateQuery();
 
   return (
-    <nav>
-      <ol className="mt-6 flex justify-between px-6 md:hidden">
+    <nav className="sticky left-0 z-30 w-screen md:hidden">
+      <ol className="mt-6 flex justify-between px-6">
         {WEEKDAYS.map((weekday, i) => {
           const dayDate = addDays(selectedWeekDate, i);
 
@@ -26,7 +26,7 @@ const ScheduleDayPicker = () => {
                 {weekday.slice(0, 1)}
                 <div
                   className={cn(
-                    "relative z-20 flex size-6 items-center justify-center rounded-full font-semibold text-white transition",
+                    "flex size-6 items-center justify-center rounded-full font-semibold text-white transition",
                     isToday(dayDate) && "text-green-500",
                     // TODO: Plumb in active state properly
                     i === 1 && "bg-green-500 text-black shadow-neon",
