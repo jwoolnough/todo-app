@@ -7,6 +7,7 @@ import { cn } from "~/utils";
 
 import { Task } from "../task";
 import { DayHeader } from "./day-header";
+import { TimeBar } from "./time-indicator";
 import { TimeSidebar } from "./time-sidebar";
 
 const GridLayout = WidthProvider(ReactGridLayout);
@@ -34,7 +35,7 @@ const Schedule = () => {
   ];
 
   return (
-    <div className="relative grid w-min min-w-full grid-cols-[min-content_repeat(7,minmax(9.375rem,1fr))_1rem] grid-rows-[min-content_repeat(32,2rem)_1rem] gap-[var(--gap)] [--gap:0.3125rem]">
+    <div className="relative grid w-min min-w-full grid-cols-[3rem_repeat(7,minmax(9.375rem,1fr))_1rem] grid-rows-[min-content_repeat(32,2rem)_1rem] gap-[var(--gap)] [--gap:0.3125rem]">
       <DayHeader />
 
       <TimeSidebar />
@@ -48,6 +49,8 @@ const Schedule = () => {
           )}
         ></div>
       ))}
+
+      <TimeBar />
 
       <GridLayout
         className="absolute inset-0 col-start-2 col-end-[span_7] row-start-2 row-end-[span_32]"

@@ -1,5 +1,7 @@
 import { cn } from "~/utils";
 
+import { TimeIndicator } from "./time-indicator";
+
 const TIMES = [
   "8",
   "9",
@@ -35,6 +37,8 @@ const TimeSidebar = () => {
           </div>
         </div>
       ))}
+
+      <TimeIndicator />
     </div>
   );
 };

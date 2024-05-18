@@ -16,7 +16,7 @@ export default function SchedulePage() {
       <div className="flex h-screen flex-col">
         <ScheduleHeader />
 
-        <div className="grow overflow-auto rounded-tl-xl bg-navy-950 max-md:max-w-[100vw]">
+        <div className="grow snap-x snap-mandatory overflow-auto rounded-tl-xl bg-navy-950 max-md:max-w-[100vw]">
           <ScheduleDayPicker />
 
           <Schedule />

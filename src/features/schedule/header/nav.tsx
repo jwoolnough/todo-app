@@ -13,7 +13,7 @@ const ScheduleNav = () => {
 
   return (
     <nav className="ml-auto">
-      <ul className="flex items-center">
+      <ul className="-mr-2 flex items-center">
         <AnimatePresence>
           {!isThisWeek(selectedDate, { weekStartsOn: 1 }) && (
             <motion.li

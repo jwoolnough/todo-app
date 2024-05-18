@@ -12,7 +12,7 @@ const DayHeader = () => {
     <div className="sticky top-0 z-20 col-span-full grid grid-cols-subgrid border-b bg-navy-950">
       <div
         role="presentation"
-        className="relative after:absolute after:left-0 after:right-0 after:top-full after:h-3 after:bg-gradient-to-b after:from-navy-950"
+        className="sticky left-0 z-10 bg-navy-950 before:absolute before:bottom-0 before:left-full before:top-0 before:w-3 before:bg-gradient-to-r before:from-navy-950 after:absolute after:left-0 after:right-0 after:top-full after:h-3 after:bg-gradient-to-b after:from-navy-950"
       >
         <svg
           className="absolute left-full top-full z-10 ml-[-1px] h-[13px] w-[13px]"
@@ -39,7 +39,7 @@ const DayHeader = () => {
             id={day.toLowerCase()}
             key={day}
             className={cn(
-              "flex items-baseline py-3 max-md:gap-3 md:flex-col md:items-center md:uppercase",
+              "flex snap-start scroll-ml-[calc(var(--gap)+3rem)] items-baseline py-3 max-md:gap-3 md:flex-col md:items-center md:uppercase",
               isToday(date) && "text-green-500 drop-shadow-neon",
             )}
           >

@@ -10,7 +10,9 @@ const ScheduleTitle = () => {
   return (
     <>
       <h1>{format(selectedWeekDate, "MMMM y")}</h1>
-      <p>Week {format(selectedWeekDate, "w")}</p>
+      <p className="[@media(width<380px)]:hidden">
+        Week {format(selectedWeekDate, "w")}
+      </p>
     </>
   );
 };

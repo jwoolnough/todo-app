@@ -27,7 +27,7 @@ const NavList = ({
 
 const Nav = () => {
   return (
-    <nav className="left-3 right-3 z-50 bg-navy-800/50 max-md:fixed max-md:bottom-3 max-md:rounded-xl max-md:px-4 max-md:backdrop-blur-md md:flex md:flex-col md:items-center md:bg-navy-900">
+    <nav className="left-3 right-3 z-50 bg-navy-500/25 shadow-lg max-md:fixed max-md:bottom-3 max-md:rounded-xl max-md:px-4 max-md:backdrop-blur-md md:flex md:flex-col md:items-center md:bg-navy-900">
       <Link href="/" className="my-6 block max-md:hidden">
         <Image
           src="/logo.svg"

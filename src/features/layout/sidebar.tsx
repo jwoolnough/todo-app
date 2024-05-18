@@ -24,7 +24,7 @@ const Sidebar = ({ className, children }: SidebarProps) => {
       dragListener={false}
       dragElastic={false}
       className={cn(
-        "px-6 py-4 max-md:fixed max-md:bottom-0 max-md:right-full max-md:top-0 max-md:w-[15rem] max-md:bg-navy-900 max-sm:shadow-lg md:!transform-none md:border-l",
+        "px-6 py-4 max-md:fixed max-md:bottom-0 max-md:right-full max-md:top-0 max-md:w-[15rem] max-md:bg-navy-900 max-md:shadow-lg md:!transform-none md:border-l",
         className,
       )}
     >
