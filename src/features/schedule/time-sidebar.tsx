@@ -19,6 +19,7 @@ const TIMES = [
   "21",
   "22",
   "23",
+  "24",
 ] as const;
 
 const TimeSidebar = () => {
@@ -27,7 +28,7 @@ const TimeSidebar = () => {
       {TIMES.map((time) => (
         <div
           className={cn(
-            " row-span-2 px-3 md:pl-4",
+            "row-span-2 px-3 md:pl-4",
             ["PM", "EVE"].includes(time) && "text-white",
           )}
           key={time}

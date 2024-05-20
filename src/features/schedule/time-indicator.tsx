@@ -107,7 +107,7 @@ const TimeBar = () => {
   return (
     <TimeWrapper
       className={cn(
-        "col-end left-0 right-0 col-start-2 row-start-2 row-end-[-1]",
+        "left-0 right-0 col-start-2 row-start-2 row-end-[-1]",
         COLUMN_END[column],
       )}
     >

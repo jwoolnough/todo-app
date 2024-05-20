@@ -36,6 +36,8 @@ export default {
       },
       borderColor: {
         DEFAULT: "color-mix(in srgb, #a2a8c1, transparent 75%)",
+        opaque: "color-mix(in srgb, #a2a8c1, #06060b 75%)",
+        "light-opaque": "color-mix(in srgb, #a2a8c1, #06060b 90%)",
       },
     },
     fontWeight: {
@@ -79,7 +81,7 @@ export default {
       ],
     },
     ringColor: {
-      DEFAULT: "#c9e9d1",
+      DEFAULT: "#dcefe3",
       navy: {
         300: "#a2a8c1",
         500: "#595f7b",

@@ -7,6 +7,7 @@ import { cn } from "~/utils";
 
 import { Task } from "../task";
 import { DayHeader } from "./day-header";
+import { PastDays } from "./past-days";
 import { TimeBar } from "./time-indicator";
 import { TimeSidebar } from "./time-sidebar";
 
@@ -36,6 +37,8 @@ const Schedule = () => {
 
   return (
     <div className="relative grid w-min min-w-full grid-cols-[3rem_repeat(7,minmax(9.375rem,1fr))_1rem] grid-rows-[min-content_repeat(32,2rem)_1rem] gap-[var(--gap)] [--gap:0.3125rem]">
+      <PastDays />
+
       <DayHeader />
 
       <TimeSidebar />
@@ -44,8 +47,8 @@ const Schedule = () => {
         <div
           key={i}
           className={cn(
-            "relative col-start-2 col-end-[-1] row-span-2 ml-[calc(var(--gap)*-1)] after:absolute after:bottom-[-3px] after:left-0 after:right-0 after:border-b",
-            i !== 3 && i !== 9 && "after:border-navy-300/10",
+            "after:border-opaque relative col-start-2 col-end-[-1] row-span-2 ml-[calc(var(--gap)*-1)] after:absolute after:bottom-[-3px] after:left-0 after:right-0 after:border-b",
+            i !== 3 && i !== 9 && "after:border-light-opaque",
           )}
         ></div>
       ))}
