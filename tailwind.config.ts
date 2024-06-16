@@ -17,6 +17,9 @@ export default {
       transitionDuration: {
         DEFAULT: "200ms",
       },
+      animationDuration: {
+        DEFAULT: "300ms",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0", opacity: "0" },

@@ -24,7 +24,7 @@ const TooltipContent = forwardRef<
       sideOffset={sideOffset}
       collisionPadding={collisionPadding}
       className={cn(
-        "z-50 rounded-lg bg-navy-500 px-3 py-1 text-sm text-navy-100 drop-shadow-md duration-300 animate-in fade-in-0 data-[state=closed]:duration-300 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[side=bottom]:slide-in-from-top-3 data-[side=left]:slide-in-from-right-3 data-[side=right]:slide-in-from-left-3 data-[side=top]:slide-in-from-bottom-3",
+        "z-50 rounded-lg bg-navy-500 px-3 py-1 text-sm text-navy-100 drop-shadow-md animate-in fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[side=bottom]:slide-in-from-top-3 data-[side=left]:slide-in-from-right-3 data-[side=right]:slide-in-from-left-3 data-[side=top]:slide-in-from-bottom-3",
         className,
       )}
       {...props}

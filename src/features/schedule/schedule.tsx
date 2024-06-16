@@ -6,6 +6,7 @@ import ReactGridLayout, { WidthProvider } from "react-grid-layout";
 import { cn } from "~/utils";
 
 import { Task } from "../task";
+import { AddTask } from "./add-task";
 import { DayHeader } from "./day-header";
 import { PastDays } from "./past-days";
 import { TimeBar } from "./time-indicator";
@@ -171,6 +172,8 @@ const Schedule = () => {
           </GridItem>
         ))}
       </GridLayout>
+
+      <AddTask />
     </div>
   );
 };
