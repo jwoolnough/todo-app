@@ -46,6 +46,7 @@ export default {
       bold: "800",
     },
     colors: {
+      transparent: "transparent",
       white: "#fff",
       black: "#06060b",
       green: {
@@ -89,6 +90,7 @@ export default {
     },
     borderRadius: {
       full: "99rem",
+      md: "0.25rem",
       lg: "0.5rem",
       xl: "0.75rem",
     },

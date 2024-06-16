@@ -9,12 +9,12 @@ import { buttonVariants } from "./button";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
-function Calendar({
+const Calendar = ({
   className,
   classNames,
   showOutsideDays = true,
   ...props
-}: CalendarProps) {
+}: CalendarProps) => {
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -31,12 +31,12 @@ function Calendar({
         nav_button_next: "absolute right-0",
         table: "w-full border-collapse space-y-1",
         head_row: "flex",
-        head_cell: "rounded-md w-8 font-regular text-navy-300",
+        head_cell: "w-8 rounded-md font-regular text-navy-300",
         row: "mt-2 flex w-full",
-        cell: "[&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md relative h-8 w-8 p-0 text-center text-sm focus-within:relative focus-within:z-20 last:[&:has([aria-selected])]:rounded-r-full [&:has([aria-selected].day-range-end)]:rounded-l-full",
+        cell: "[&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent relative h-8 w-8 p-0 text-center text-sm focus-within:relative focus-within:z-20 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-full [&:has([aria-selected].day-range-end)]:rounded-l-full",
         day: cn(
           buttonVariants({ variant: "link" }),
-          "size-8 rounded-full p-0 font-bold text-navy-100 hover:bg-navy-100 hover:text-black aria-selected:opacity-100",
+          "size-8 rounded-full p-0 font-bold text-navy-100 hover:bg-white hover:text-black aria-selected:opacity-100",
         ),
         day_range_end: "day-range-end",
         day_selected: "!bg-green-500 shadow-neon aria-selected:text-black",
@@ -56,7 +56,7 @@ function Calendar({
       {...props}
     />
   );
-}
+};
 Calendar.displayName = "Calendar";
 
 export { Calendar };

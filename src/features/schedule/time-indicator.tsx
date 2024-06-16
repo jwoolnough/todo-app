@@ -61,6 +61,7 @@ const TimeWrapper = ({
       "pointer-events-none absolute bottom-[1.125rem] top-0",
       className,
     )}
+    role="presentation"
   >
     {children}
   </div>
@@ -112,13 +113,21 @@ const TimeBar = () => {
       )}
     >
       <div
-        className="absolute left-[calc(var(--gap)*-1)] right-0 mt-[-3px] border-t border-green-500 drop-shadow-neon after:absolute after:right-0 after:top-[-0.5px] after:h-[0.5625rem] after:-translate-y-1/2 after:border-r after:border-green-500"
+        className="absolute left-[calc(var(--gap)*-1)] right-0 mt-[-3px] border-t border-green-500 drop-shadow-neon"
         style={
           topPercentage > 0 && topPercentage < 100
             ? { top: `${topPercentage}%` }
             : { display: "none" }
         }
-        role="presentation"
+      ></div>
+      {/* Overlay dashed version of time line to sit overtop of tasks */}
+      <div
+        className="absolute left-[calc(var(--gap)*-1)] right-0 z-[5] mt-[-3px] border-t border-dashed border-green-500/50 after:absolute after:right-0 after:top-[-0.5px] after:h-[0.5625rem] after:-translate-y-1/2 after:border-r after:border-green-500"
+        style={
+          topPercentage > 0 && topPercentage < 100
+            ? { top: `${topPercentage}%` }
+            : { display: "none" }
+        }
       ></div>
     </TimeWrapper>
   );

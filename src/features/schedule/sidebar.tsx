@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
   Count,
 } from "~/components";
+import { cn } from "~/utils";
 
 import { Sidebar } from "../layout";
 import { Task } from "../task";
@@ -23,23 +24,24 @@ const ScheduleSidebar = () => {
         defaultValue={["list-0"]}
       >
         {["This week", "This month", "At some point"].map((period, i) => (
-          <AccordionItem value={`list-${i}`} key={i}>
+          <AccordionItem
+            value={`list-${i}`}
+            key={i}
+            className={cn(i === 2 && "border-b-0")}
+          >
             <AccordionTrigger className="group">
               <span className="flex flex-1 items-center gap-2">
                 {period} <Count count={2} />
-                {false && (
-                  <MdDragIndicator
-                    size={18}
-                    className="ml-auto cursor-grab text-navy-300 opacity-0 transition group-focus-within:opacity-100 group-hover:opacity-100"
-                  />
-                )}
+                <MdDragIndicator
+                  size={18}
+                  className="ml-auto cursor-grab text-navy-300 opacity-0 transition active:cursor-grabbing group-focus-within:opacity-100 group-hover:opacity-100"
+                />
               </span>
             </AccordionTrigger>
-            <AccordionContent>
-              <Task
-                title="Doctor's appointment"
-                description="Parking available on Rouen Road"
-              />
+            <AccordionContent className="grid gap-1">
+              <Task title="Doctor's appointment" />
+              <Task title="Tidy office" />
+              <Task title="Return package" />
             </AccordionContent>
           </AccordionItem>
         ))}
