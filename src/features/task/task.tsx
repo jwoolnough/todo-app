@@ -26,7 +26,8 @@ const Task = ({
     <div
       className={cn(
         "rounded-lg bg-navy-800 px-3 py-1.5 transition",
-        "[.react-draggable-dragging>&]:rotate-2 [.react-draggable-dragging>&]:bg-opacity-75 [.react-draggable-dragging>&]:shadow-lg [.react-draggable-dragging>&]:backdrop-blur-md  [.react-draggable-dragging>&]:backdrop-brightness-150",
+        "[.ui-draggable-dragging>&]:rotate-2 [.ui-draggable-dragging>&]:bg-opacity-75 [.ui-draggable-dragging>&]:shadow-lg [.ui-draggable-dragging>&]:backdrop-blur-md [.ui-draggable-dragging>&]:backdrop-brightness-150",
+        "[.ui-resizable-resizing>&]:shadow-lg",
         checked && "bg-green-900",
         className,
       )}
@@ -37,7 +38,7 @@ const Task = ({
         <label
           className={cn(
             "relative ml-auto mr-[-0.1875rem] mt-[0.1875rem] size-3.5 shrink-0 rounded-md border hover:border-navy-100 has-[:focus-visible]:ring-2",
-            checked && "!border- bg-green-500 shadow-neon hover:bg-green-300",
+            checked && "bg-green-500 shadow-neon hover:bg-green-300",
           )}
         >
           <FaCheck
@@ -56,7 +57,12 @@ const Task = ({
         </label>
       </div>
       {description && (
-        <p className={cn("mt-2 text-sm", checked && "text-green-300")}>
+        <p
+          className={cn(
+            "mt-2 text-sm transition-colors",
+            checked && "text-green-300",
+          )}
+        >
           {description}
         </p>
       )}
