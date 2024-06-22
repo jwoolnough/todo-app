@@ -1,6 +1,7 @@
 export * from "./accordion";
 export * from "./button";
 export * from "./calendar";
+export * from "./context-menu";
 export * from "./count";
 export * from "./date-picker";
 export * from "./dialog";
