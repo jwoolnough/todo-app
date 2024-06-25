@@ -18,6 +18,9 @@ const ContextMenuSub = ContextMenuPrimitive.Sub;
 
 const ContextMenuRadioGroup = ContextMenuPrimitive.RadioGroup;
 
+const ITEM_CLASSNAMES =
+  "relative rounded-sm flex cursor-default select-none items-center rounded-md px-2 py-1.5 outline-none transition duration-150 focus:bg-white focus:text-navy-950 data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
+
 const ContextMenuSubTrigger = forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.SubTrigger>,
   React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubTrigger> & {
@@ -27,7 +30,8 @@ const ContextMenuSubTrigger = forwardRef<
   <ContextMenuPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      "flex cursor-default select-none items-center rounded-md px-2 py-1.5 outline-none data-[state=open]:bg-white data-[state=open]:text-navy-950",
+      ITEM_CLASSNAMES,
+      "data-[state=open]:bg-white data-[state=open]:text-navy-950",
       inset && "pl-8",
       className,
     )}
@@ -39,17 +43,18 @@ const ContextMenuSubTrigger = forwardRef<
 ));
 ContextMenuSubTrigger.displayName = ContextMenuPrimitive.SubTrigger.displayName;
 
+const MENU_CLASSNAMES =
+  "min-w-[8rem] rounded-lg bg-navy-500/50 p-1.5 text-navy-300 shadow-lg backdrop-blur-md animate-in fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[side=bottom]:slide-in-from-top-3 data-[side=left]:slide-in-from-right-3 data-[side=right]:slide-in-from-left-3 data-[side=top]:slide-in-from-bottom-3";
+
 const ContextMenuSubContent = forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.SubContent>,
   React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubContent>
->(({ className, ...props }, ref) => (
+>(({ className, alignOffset = -6, ...props }, ref) => (
   <ContextMenuPrimitive.Portal>
     <ContextMenuPrimitive.SubContent
       ref={ref}
-      className={cn(
-        "z-50 min-w-[8rem] rounded-lg bg-navy-500/50 p-1.5 text-navy-300 shadow-lg backdrop-blur-md animate-in fade-in-0 before:rounded-lg data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[side=bottom]:slide-in-from-top-3 data-[side=left]:slide-in-from-right-3 data-[side=right]:slide-in-from-left-3 data-[side=top]:slide-in-from-bottom-3",
-        className,
-      )}
+      className={cn("z-50", MENU_CLASSNAMES, className)}
+      alignOffset={alignOffset}
       {...props}
     />
   </ContextMenuPrimitive.Portal>
@@ -63,10 +68,7 @@ const ContextMenuContent = forwardRef<
   <ContextMenuPrimitive.Portal>
     <ContextMenuPrimitive.Content
       ref={ref}
-      className={cn(
-        "z-40 min-w-[8rem] rounded-lg bg-navy-500/50 p-1.5 text-navy-300 shadow-lg backdrop-blur-md animate-in fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[side=bottom]:slide-in-from-top-3 data-[side=left]:slide-in-from-right-3 data-[side=right]:slide-in-from-left-3 data-[side=top]:slide-in-from-bottom-3",
-        className,
-      )}
+      className={cn("z-40", MENU_CLASSNAMES, className)}
       {...props}
     />
   </ContextMenuPrimitive.Portal>
@@ -81,11 +83,7 @@ const ContextMenuItem = forwardRef<
 >(({ className, inset, ...props }, ref) => (
   <ContextMenuPrimitive.Item
     ref={ref}
-    className={cn(
-      "rounded-sm relative flex cursor-default select-none items-center rounded-md px-2 py-1.5 outline-none transition duration-150 focus:bg-white focus:text-navy-950 data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      inset && "pl-8",
-      className,
-    )}
+    className={cn(ITEM_CLASSNAMES, inset && "pl-8", className)}
     {...props}
   />
 ));
@@ -97,10 +95,7 @@ const ContextMenuCheckboxItem = forwardRef<
 >(({ className, children, checked, ...props }, ref) => (
   <ContextMenuPrimitive.CheckboxItem
     ref={ref}
-    className={cn(
-      "rounded-sm relative flex cursor-default select-none items-center py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-white focus:text-navy-950 data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      className,
-    )}
+    className={cn(ITEM_CLASSNAMES, className)}
     checked={checked}
     {...props}
   >
@@ -121,10 +116,7 @@ const ContextMenuRadioItem = forwardRef<
 >(({ className, children, ...props }, ref) => (
   <ContextMenuPrimitive.RadioItem
     ref={ref}
-    className={cn(
-      "rounded-sm relative flex cursor-default select-none items-center py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-white focus:text-navy-950 data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      className,
-    )}
+    className={cn(ITEM_CLASSNAMES, className)}
     {...props}
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
