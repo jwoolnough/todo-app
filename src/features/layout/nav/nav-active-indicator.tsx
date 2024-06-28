@@ -7,7 +7,7 @@ const NavActiveIndicator = () => {
     <motion.span
       layoutId="indicator"
       role="presentation"
-      className="drop-shadow-neon absolute left-1.5 h-[3px] w-9 rounded-full bg-green-500 max-md:bottom-0 md:left-0 md:top-1.5 md:h-9 md:w-[3px]"
+      className="absolute left-1.5 h-[3px] w-9 rounded-full bg-green-500 drop-shadow-neon max-md:bottom-0 md:left-0 md:top-1.5 md:h-9 md:w-[3px]"
     ></motion.span>
   );
 };

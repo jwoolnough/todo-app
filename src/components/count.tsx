@@ -24,7 +24,7 @@ const BaseCount = ({
   return (
     <Component
       className={cn(
-        "font-bold text-black inline-block min-w-3.5 rounded-full bg-green-500 px-0.5 text-center text-sm leading-[0.875rem] shadow-neon ",
+        "inline-block min-w-3.5 rounded-full bg-green-500 px-0.5 text-center text-sm font-bold leading-[0.875rem] text-black shadow-neon",
         className,
       )}
       {...rest}
