@@ -1,6 +1,7 @@
 import { GridStack } from "gridstack";
 import "gridstack/dist/gridstack-extra.css";
 import { useLayoutEffect, useRef, useState } from "react";
+import { FiPlus } from "react-icons/fi";
 
 import { Task } from "~/features/task";
 
@@ -31,7 +32,7 @@ const ScheduleGrid = () => {
       },
     });
 
-    gridRef.current.on("change", (event, items) => {
+    gridRef.current.on("change", (_event, items) => {
       console.log(items);
     });
   }, []);
@@ -69,7 +70,7 @@ const ScheduleGrid = () => {
                 gridRow: `${cell.y + 1} / span 1`,
               }}
             >
-              +
+              <FiPlus size={22} className="text-border-opaque mx-auto" />
             </button>
           );
         }
