@@ -1,0 +1,11 @@
+@container header (width < 36rem) {
+  .monthSuffix {
+    display: none;
+  }
+}
+
+@container header (width < 28em) {
+  .weekNumber {
+    display: none;
+  }
+}

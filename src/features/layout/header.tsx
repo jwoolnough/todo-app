@@ -5,7 +5,7 @@ import { APP_NAME } from "~/constants";
 
 const Header = ({ children }: React.PropsWithChildren) => {
   return (
-    <header className="flex items-center gap-4 px-6 py-4">
+    <header className="flex items-center gap-4 px-6 py-4 [container-type:inline-size] [container-name:header]">
       <Link href="/" className="mr-2 block md:hidden">
         <Image
           src="/logo.svg"

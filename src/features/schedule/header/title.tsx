@@ -5,8 +5,9 @@ import { endOfWeek, format } from "date-fns";
 import { startOfWeek } from "~/utils";
 
 import { useDateQuery } from "../hooks/use-date-query";
+import styles from "./styles.module.css";
 
-const getWeekTitle = (selectedDate: Date) => {
+const renderWeekTitle = (selectedDate: Date): React.ReactNode => {
   const startOfWeekDate = startOfWeek(selectedDate);
   const endOfWeekDate = endOfWeek(selectedDate);
 
@@ -14,7 +15,19 @@ const getWeekTitle = (selectedDate: Date) => {
     return format(startOfWeekDate, "MMMM y");
   }
 
-  return `${format(startOfWeekDate, "MMMM")} - ${format(endOfWeekDate, "MMMM y")}`;
+  const startMonth = format(startOfWeekDate, "MMMM");
+  const endMonth = format(endOfWeekDate, "MMMM");
+
+  return (
+    <>
+      {startMonth.substring(0, 3)}
+      <span className={styles.monthSuffix}>
+        {startMonth.substring(3)}
+      </span> - {endMonth.substring(0, 3)}
+      <span className={styles.monthSuffix}>{endMonth.substring(3)}</span>{" "}
+      {format(endOfWeekDate, "y")}
+    </>
+  );
 };
 
 const ScheduleTitle = () => {
@@ -22,10 +35,8 @@ const ScheduleTitle = () => {
 
   return (
     <>
-      <h1>{getWeekTitle(selectedWeekDate)}</h1>
-      <p className="[@media(width<23.75em)]:hidden">
-        Week {format(selectedWeekDate, "w")}
-      </p>
+      <h1>{renderWeekTitle(selectedWeekDate)}</h1>
+      <p className={styles.weekNumber}>Week {format(selectedWeekDate, "w")}</p>
     </>
   );
 };
