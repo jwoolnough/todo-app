@@ -79,7 +79,6 @@ const TimeWrapper = ({
 
 const TimeIndicator = () => {
   const { time, topPercentage } = useTimePosition();
-  console.log("I render");
 
   return (
     <TimeWrapper className="w-full">
