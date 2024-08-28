@@ -7,10 +7,13 @@ import {
   getMilliseconds,
   getMinutes,
   getSeconds,
+  isSameWeek,
 } from "date-fns";
 import { useEffect, useState } from "react";
 
 import { cn, startOfWeek } from "~/utils";
+
+import { useDateQuery } from "./hooks/use-date-query";
 
 const getTopPercentage = () => {
   const now = new Date();
@@ -55,20 +58,28 @@ const useTimePosition = () => {
 const TimeWrapper = ({
   children,
   className,
-}: React.PropsWithChildren<{ className?: string }>) => (
-  <div
-    className={cn(
-      "pointer-events-none absolute bottom-[1.125rem] top-0",
-      className,
-    )}
-    role="presentation"
-  >
-    {children}
-  </div>
-);
+}: React.PropsWithChildren<{ className?: string }>) => {
+  const { selectedWeekDate } = useDateQuery();
+
+  // Don't render if not on the current week
+  if (!isSameWeek(selectedWeekDate, new Date())) return null;
+
+  return (
+    <div
+      className={cn(
+        "pointer-events-none absolute bottom-[1.125rem] top-0",
+        className,
+      )}
+      role="presentation"
+    >
+      {children}
+    </div>
+  );
+};
 
 const TimeIndicator = () => {
   const { time, topPercentage } = useTimePosition();
+  console.log("I render");
 
   return (
     <TimeWrapper className="w-full">
