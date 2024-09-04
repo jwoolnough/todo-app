@@ -21,7 +21,7 @@ const DialogOverlay = forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-navy-950/50 backdrop-blur-sm animate-in fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
+      "fixed inset-0 z-50 grid place-items-center overflow-auto bg-navy-950/50 p-4 backdrop-blur-sm animate-in fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
       className,
     )}
     {...props}
@@ -34,21 +34,22 @@ const DialogContent = forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <DialogPortal>
-    <DialogOverlay />
-    <DialogPrimitive.Content
-      ref={ref}
-      className={cn(
-        "fixed inset-0 z-50 m-auto grid h-min w-full max-w-lg gap-4 bg-navy-800 p-6 shadow-lg animate-in fade-in-0 slide-in-from-top-6 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 sm:rounded-lg",
-        className,
-      )}
-      {...props}
-    >
-      {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-md opacity-70 hover:opacity-100 disabled:pointer-events-none">
-        <FiX className="h-4 w-4" />
-        <span className="sr-only">Close</span>
-      </DialogPrimitive.Close>
-    </DialogPrimitive.Content>
+    <DialogOverlay>
+      <DialogPrimitive.Content
+        ref={ref}
+        className={cn(
+          "grid h-min w-full max-w-lg gap-4 bg-navy-800 p-6 shadow-lg animate-in fade-in-0 slide-in-from-top-6 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 sm:rounded-lg",
+          className,
+        )}
+        {...props}
+      >
+        {children}
+        <DialogPrimitive.Close className="absolute right-4 top-4 rounded-md opacity-70 hover:opacity-100 disabled:pointer-events-none">
+          <FiX className="h-4 w-4" />
+          <span className="sr-only">Close</span>
+        </DialogPrimitive.Close>
+      </DialogPrimitive.Content>
+    </DialogOverlay>
   </DialogPortal>
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
