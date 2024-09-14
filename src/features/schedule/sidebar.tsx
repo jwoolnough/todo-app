@@ -1,5 +1,7 @@
 import { MdDragIndicator } from "react-icons/md";
 
+import { GridStack, GridStackItem } from "~/components/gridstack";
+
 import {
   Accordion,
   AccordionContent,
@@ -38,10 +40,27 @@ const ScheduleSidebar = () => {
                 />
               </span>
             </AccordionTrigger>
-            <AccordionContent className="grid gap-1">
-              <Task title="Doctor's appointment" />
-              <Task title="Tidy office" />
-              <Task title="Return package" />
+            <AccordionContent>
+              <GridStack
+                options={{
+                  column: 1,
+                  margin: 0,
+                  marginTop: 4,
+                  cellHeight: 36,
+                  acceptWidgets: true,
+                  disableResize: true,
+                }}
+              >
+                <GridStackItem position={{ x: 0, y: 0 }}>
+                  <Task title="Doctor's appointment" />
+                </GridStackItem>
+                <GridStackItem position={{ x: 0, y: 1 }}>
+                  <Task title="Tidy office" />
+                </GridStackItem>
+                <GridStackItem position={{ x: 0, y: 2 }}>
+                  <Task title="Return package" />
+                </GridStackItem>
+              </GridStack>
             </AccordionContent>
           </AccordionItem>
         ))}

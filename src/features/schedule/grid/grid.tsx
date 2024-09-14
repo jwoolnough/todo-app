@@ -1,47 +1,47 @@
-import { GridStack } from "gridstack";
-import "gridstack/dist/gridstack-extra.css";
-import { useLayoutEffect, useRef, useState } from "react";
+import { type GridStackNode } from "gridstack";
+import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
+
+import { GridStack, GridStackItem } from "~/components/gridstack";
 
 import { Task } from "~/features/task";
 
 import { cn } from "~/utils";
 
 import { data as initialData } from "./data";
-import "./gridstack-custom.css";
 import {
-  GRID_COLS,
-  GRID_ROWS,
+  GRID_COL_COUNT,
+  GRID_ROW_COUNT,
   getAllCells,
   getEmptyCellsFromData,
 } from "./utils";
 
 const ScheduleGrid = () => {
-  const [data] = useState(initialData);
-  const gridRef = useRef<GridStack | null>(null);
-
-  useLayoutEffect(() => {
-    gridRef.current = GridStack.init({
-      column: GRID_COLS,
-      cellHeight: 37, // cell height + gap
-      maxRow: GRID_ROWS,
-      margin: 2.5, // gap width / 2
-      float: true,
-      resizable: {
-        handles: "s",
-      },
-    });
-
-    gridRef.current.on("change", (_event, items) => {
-      console.log(items);
-    });
-  }, []);
+  // Data comes in from fetch above, and cells are setup as state for control with grid
+  const [data, setData] = useState(initialData);
 
   const allCells = getAllCells();
   const emptyCells = getEmptyCellsFromData(data);
 
   return (
-    <div
+    <GridStack
+      options={{
+        column: GRID_COL_COUNT,
+        cellHeight: 37, // cell height + gap
+        maxRow: GRID_ROW_COUNT,
+        margin: 2.5, // gap width / 2
+        float: true,
+        acceptWidgets: true,
+        resizable: {
+          handles: "s",
+        },
+      }}
+      cells={data}
+      setCells={setData}
+      // onChange={(_event, nodes) => {
+      //   console.log(nodes);
+      //   // setData(nodes);
+      // }}
       className={cn(
         "grid-stack col-start-2 col-end-[span_7] row-start-2 row-end-[span_32] m-[calc(var(--gap)*-0.5)] !grid grid-cols-subgrid grid-rows-subgrid",
       )}
@@ -63,14 +63,14 @@ const ScheduleGrid = () => {
               className={cn(
                 "absolute inset-0 z-0 block rounded-lg border-2 border-dashed border-opaque border-opacity-10 bg-navy-800/15 opacity-0 duration-300 hover:opacity-100 hover:backdrop-blur-md focus:opacity-100 focus:backdrop-blur-md",
                 cell.x === 0 && "ml-[calc(var(--gap)*0.5)]",
-                cell.x === GRID_COLS - 1 && "mr-[calc(var(--gap)*0.5)]",
+                cell.x === GRID_COL_COUNT - 1 && "mr-[calc(var(--gap)*0.5)]",
               )}
               style={{
                 gridColumn: `${cell.x + 1} / span 1`,
                 gridRow: `${cell.y + 1} / span 1`,
               }}
             >
-              <FiPlus size={22} className="text-border-opaque mx-auto" />
+              <FiPlus size={22} className="mx-auto text-border-opaque" />
             </button>
           );
         }
@@ -81,25 +81,19 @@ const ScheduleGrid = () => {
           return null;
         }
 
+        const { x, y, w, h } = task;
+
         return (
-          <div
-            key={task.i}
-            className="grid-stack-item"
-            gs-x={task.x}
-            gs-y={task.y}
-            gs-w={task.w}
-            gs-h={task.h}
-          >
+          <GridStackItem key={task.id} id={task.id} position={{ x, y, w, h }}>
             <Task
               title={task.title}
               description={task.description}
               defaultChecked={task.completed}
-              className="grid-stack-item-content"
             />
-          </div>
+          </GridStackItem>
         );
       })}
-    </div>
+    </GridStack>
   );
 };
 

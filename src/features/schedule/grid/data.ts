@@ -1,10 +1,10 @@
 // Temporary data for testing purposes
 const data = [
-  // i: task.id, x: date mapped to weekDay index, y: time mapped to hour index, w: 1, h: task.size
-  { i: "a", x: 0, y: 0, w: 1, h: 1, title: "Take car to MOT" },
-  { i: "b", x: 0, y: 1, w: 1, h: 1, title: "Hoover" },
+  // id: task.id, x: date mapped to weekDay index, y: time mapped to hour index, w: 1, h: task.size
+  { id: "a", x: 0, y: 0, w: 1, h: 1, title: "Take car to MOT" },
+  { id: "b", x: 0, y: 1, w: 1, h: 1, title: "Hoover" },
   {
-    i: "c",
+    id: "c",
     x: 0,
     y: 8,
     w: 1,
@@ -13,7 +13,7 @@ const data = [
     description: "Lorem ipsum dolor sit amet consecteteur adipiscing elit",
   },
   {
-    i: "d",
+    id: "d",
     x: 0,
     y: 18,
     w: 1,
@@ -22,7 +22,7 @@ const data = [
     description: "2mi WU, 4mi tempo, 2mi CD",
   },
   {
-    i: "e",
+    id: "e",
     x: 1,
     y: 3,
     w: 1,
@@ -31,9 +31,9 @@ const data = [
     description: "Parking available on Rouen Road",
     completed: true,
   },
-  { i: "f", x: 1, y: 9, w: 1, h: 1, title: "Lunch with Pete" },
+  { id: "f", x: 1, y: 9, w: 1, h: 1, title: "Lunch with Pete" },
   {
-    i: "g",
+    id: "g",
     x: 1,
     y: 11,
     w: 1,
@@ -42,9 +42,9 @@ const data = [
     description: "Complete design V2",
     completed: true,
   },
-  { i: "h", x: 2, y: 1, w: 1, h: 1, title: "Take out bins" },
+  { id: "h", x: 2, y: 1, w: 1, h: 1, title: "Take out bins" },
   {
-    i: "i",
+    id: "i",
     x: 2,
     y: 12,
     w: 1,
@@ -53,7 +53,7 @@ const data = [
     description: "Ellough Crematorium",
   },
   {
-    i: "j",
+    id: "j",
     x: 2,
     y: 18,
     w: 1,
@@ -62,7 +62,7 @@ const data = [
     description: "Angel, Halesworth. Consider transport?",
   },
   {
-    i: "l",
+    id: "l",
     x: 4,
     y: 6,
     w: 1,
@@ -71,7 +71,7 @@ const data = [
     description: "5K easy",
   },
   {
-    i: "m",
+    id: "m",
     x: 4,
     y: 20,
     w: 1,
@@ -80,7 +80,7 @@ const data = [
     description: "Plug Studios, 6pm-9pm",
   },
   {
-    i: "n",
+    id: "n",
     x: 5,
     y: 6,
     w: 1,
@@ -89,7 +89,7 @@ const data = [
     description: "5K easy",
   },
   {
-    i: "o",
+    id: "o",
     x: 5,
     y: 8,
     w: 1,

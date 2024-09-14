@@ -28,6 +28,7 @@ const Task = ({
     <TaskContextMenu>
       <div
         className={cn(
+          "grid-stack-item-content",
           "rounded-lg bg-navy-800 px-3 py-1.5 transition",
           "[.ui-draggable-dragging_&]:rotate-2 [.ui-draggable-dragging_&]:bg-opacity-75 [.ui-draggable-dragging_&]:shadow-lg [.ui-draggable-dragging_&]:backdrop-blur-md [.ui-draggable-dragging_&]:backdrop-brightness-150",
           "[.ui-resizable-resizing_&]:shadow-lg",

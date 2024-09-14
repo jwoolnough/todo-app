@@ -8,18 +8,19 @@ type Item = Cell & {
   h: number;
 };
 
-const GRID_COLS = 7;
-const GRID_ROWS = 32;
+const GRID_COL_COUNT = 7;
+const GRID_ROW_COUNT = 32;
 
 const getAllCells = () => {
   const cells: Cell[] = [];
 
   // Iterate through all cells in the grid
-  for (let x = 0; x < GRID_COLS; x++) {
-    for (let y = 0; y < GRID_ROWS; y++) {
+  for (let x = 0; x < GRID_COL_COUNT; x++) {
+    for (let y = 0; y < GRID_ROW_COUNT; y++) {
       cells.push({ x, y });
     }
   }
+
   return cells;
 };
 
@@ -27,8 +28,8 @@ const getEmptyCellsFromData = (data: Item[]) => {
   const cells = new Set<string>();
 
   // Iterate through all cells in the grid
-  for (let x = 0; x < GRID_COLS; x++) {
-    for (let y = 0; y < GRID_ROWS; y++) {
+  for (let x = 0; x < GRID_COL_COUNT; x++) {
+    for (let y = 0; y < GRID_ROW_COUNT; y++) {
       cells.add(`${x},${y}`);
     }
   }
@@ -56,4 +57,4 @@ const getEmptyCellsFromData = (data: Item[]) => {
   });
 };
 
-export { getAllCells, getEmptyCellsFromData, GRID_COLS, GRID_ROWS };
+export { getAllCells, getEmptyCellsFromData, GRID_COL_COUNT, GRID_ROW_COUNT };

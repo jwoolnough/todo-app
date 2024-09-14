@@ -131,7 +131,7 @@
 
 .ui-draggable-dragging,
 .ui-resizable-resizing {
-  z-index: theme(zIndex.10);
+  z-index: theme(zIndex.50);
 }
 
 .grid-stack-animate,
