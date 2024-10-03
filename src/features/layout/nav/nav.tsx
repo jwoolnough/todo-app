@@ -4,7 +4,6 @@ import {
   FiBarChart,
   FiCalendar,
   FiCheckSquare,
-  FiLogOut,
   FiSettings,
   FiUser,
 } from "react-icons/fi";
@@ -13,7 +12,8 @@ import { Count } from "~/components";
 import { APP_NAME } from "~/constants";
 import { cn } from "~/utils";
 
-import { NavItem, NavItemIcon } from "./nav-item";
+import { LogoutButton } from "./logout-button";
+import { NavItemIcon } from "./nav-item";
 import { NavItemLink } from "./nav-link";
 
 const NavList = ({
@@ -69,11 +69,7 @@ const Nav = () => {
       </NavList>
 
       <NavList className="mt-auto max-md:hidden md:mb-1">
-        <NavItem title="Log out" className="text-navy-500">
-          <NavItemIcon
-            renderIcon={(iconProps) => <FiLogOut {...iconProps} />}
-          />
-        </NavItem>
+        <LogoutButton />
       </NavList>
     </nav>
   );

@@ -5,13 +5,13 @@ import { cn } from "~/utils";
 
 import { NavActiveIndicator } from "./nav-active-indicator";
 
-type NavItemProps = React.PropsWithChildren<{
+type NavItemProps = React.HTMLAttributes<HTMLButtonElement> & {
   title: string;
   className?: string;
   wrapperClassName?: string;
   isActive?: boolean;
   asChild?: boolean;
-}>;
+};
 
 const NavItem = ({
   title,

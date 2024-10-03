@@ -7,5 +7,6 @@ export * from "./date-picker";
 export * from "./dialog";
 export * from "./input";
 export * from "./popover";
+export * from "./toaster";
 export * from "./tooltip";
 export * from "./wrap";

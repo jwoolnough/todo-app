@@ -45,13 +45,14 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, type, size, asChild = false, ...props }, ref) => {
     const Component = asChild ? Slot : "button";
 
     return (
       <Component
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        type={!asChild && type === undefined ? "button" : type}
         {...props}
       />
     );
