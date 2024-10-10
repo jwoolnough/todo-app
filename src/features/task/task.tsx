@@ -24,6 +24,8 @@ const Task = ({
 }: TaskProps) => {
   const [checked, setChecked] = useState(defaultChecked);
 
+  const toggle = () => setChecked(!checked);
+
   return (
     <TaskContextMenu>
       <div
@@ -35,6 +37,7 @@ const Task = ({
           className,
           checked && "bg-green-900",
         )}
+        onDoubleClick={toggle}
       >
         <div className="flex items-start gap-2">
           <h5 className={cn("line-clamp-2 text-base font-regular")}>{title}</h5>
@@ -55,7 +58,7 @@ const Task = ({
               type="checkbox"
               className="absolute inset-0 size-full cursor-pointer opacity-0"
               aria-label="Mark task as complete"
-              onChange={() => setChecked(!checked)}
+              onChange={toggle}
               checked={checked}
             />
           </label>

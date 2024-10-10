@@ -32,7 +32,7 @@ const Calendar = ({
         table: "w-full border-collapse space-y-1",
         head_row: "flex",
         head_cell: "w-8 rounded-md font-regular text-navy-300",
-        row: "mt-2 flex w-full",
+        row: "mt-2 flex w-full rounded-full transition-colors hover:!bg-navy-800 [&:has([aria-selected])]:bg-navy-800/50",
         cell: "[&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent relative h-8 w-8 p-0 text-center text-sm focus-within:relative focus-within:z-20 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-full [&:has([aria-selected].day-range-end)]:rounded-l-full",
         day: cn(
           buttonVariants({ variant: "link" }),

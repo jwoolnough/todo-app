@@ -1,9 +1,11 @@
-import { DialogClose } from "@radix-ui/react-dialog";
+"use client";
+
 import { FiPlus } from "react-icons/fi";
 
 import {
   Button,
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -25,7 +27,7 @@ const AddTask = () => {
           <FiPlus size={28} />
         </IconButton>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>Add task</DialogTitle>
         </DialogHeader>

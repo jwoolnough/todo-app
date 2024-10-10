@@ -96,6 +96,7 @@ const ICON_BUTTON_SIZE_CLASSNAMES: Record<
   lg: "size-12",
 };
 
+// TODO: Move to own file, make client component
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     {

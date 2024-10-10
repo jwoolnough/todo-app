@@ -1,3 +1,5 @@
+"use client";
+
 import { addDays, format, isToday } from "date-fns";
 
 import { WEEKDAYS } from "~/constants";

@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "~/utils";
 
 import { AddTask } from "./add-task";

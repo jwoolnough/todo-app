@@ -1,9 +1,18 @@
-import { differenceInCalendarDays } from "date-fns";
+"use client";
+
+import { differenceInCalendarDays, isSameWeek } from "date-fns";
 
 import { cn, startOfWeek } from "~/utils";
 
+import { useDateQuery } from "./hooks/use-date-query";
+
 const PastDays = () => {
+  const { selectedWeekDate } = useDateQuery();
   const now = new Date();
+
+  // Don't render if not on the current week
+  if (!isSameWeek(selectedWeekDate, now)) return null;
+
   const column = differenceInCalendarDays(now, startOfWeek(now));
 
   const COLUMN_END = [

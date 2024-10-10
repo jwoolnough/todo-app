@@ -21,6 +21,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         classNames,
         closeButton: true,
       }}
+      // Annoyingly can't just do `icons={null}`
       icons={{
         info: <></>,
         warning: <></>,

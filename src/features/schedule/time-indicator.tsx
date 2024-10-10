@@ -91,10 +91,10 @@ const TimeIndicator = () => {
             ? { top: `${topPercentage}%` }
             : { display: "none" }
         }
-        // TODO: Client only component?
-        suppressHydrationWarning
       >
-        <span className="drop-shadow-neon">{time}</span>
+        <span className="drop-shadow-neon" suppressHydrationWarning>
+          {time}
+        </span>
       </span>
     </TimeWrapper>
   );
