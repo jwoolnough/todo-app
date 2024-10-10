@@ -19,11 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/* <head>
-        // TODO: Have temporarily overridden Typekit with a local font-face declaration, due
-        // to broken ascent rendering from their end. It's weird...
+      <head>
         <link rel="stylesheet" href="https://use.typekit.net/npu1ise.css" />
-      </head> */}
+      </head>
       <body className="bg-navy-950 text-navy-300">
         <TooltipProvider delayDuration={300}>
           <TRPCReactProvider>{children}</TRPCReactProvider>
