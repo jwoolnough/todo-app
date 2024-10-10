@@ -84,7 +84,7 @@ const TimeIndicator = () => {
     <TimeWrapper className="w-full">
       <span
         className={cn(
-          "absolute right-0 z-10 -translate-y-1/2 bg-gradient-to-b from-[transparent] via-navy-950 to-[transparent] py-3 pr-3 text-[0.6875rem] text-green-500",
+          "absolute right-0 z-10 -translate-y-1/2 pr-3 text-[0.6875rem] text-green-500",
         )}
         style={
           topPercentage > 0 && topPercentage < 100
