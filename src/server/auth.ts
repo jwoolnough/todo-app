@@ -32,6 +32,8 @@ declare module "next-auth" {
   // }
 }
 
+const DBAdapter = PrismaAdapter(db) as Adapter;
+
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *
@@ -47,7 +49,30 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
-  adapter: PrismaAdapter(db) as Adapter,
+  adapter: {
+    ...DBAdapter,
+    createUser: async (user) => {
+      if (!DBAdapter.createUser) {
+        throw new Error(
+          "createUser is not implemented - this shouldn't be possible",
+        );
+      }
+
+      const createdUser = await DBAdapter.createUser(user);
+
+      const DEFAULT_LISTS = ["This week", "This month", "At some point"];
+
+      await db.taskList.createMany({
+        data: DEFAULT_LISTS.map((name, order) => ({
+          name,
+          createdById: createdUser.id,
+          order,
+        })),
+      });
+
+      return createdUser;
+    },
+  },
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,

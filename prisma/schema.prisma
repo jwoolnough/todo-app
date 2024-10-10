@@ -14,17 +14,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Post {
-//   id        Int      @id @default(autoincrement())
-//   name      String
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
+model TaskList {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-//   createdBy   User   @relation(fields: [createdById], references: [id])
-//   createdById String
+  createdBy   User   @relation(fields: [createdById], references: [id])
+  createdById String
 
-//   @@index([name])
-// }
+  tasks Task[]
+
+  order Int @default(0)
+}
+
+model Task {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  note        String?
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  createdBy   User   @relation(fields: [createdById], references: [id])
+  createdById String
+
+  scheduledStartDate DateTime?
+  scheduledEndDate   DateTime?
+
+  taskList   TaskList? @relation(fields: [taskListId], references: [id])
+  taskListId String?
+
+  parentTaskId String?
+  parentTask   Task?   @relation("ParentTask", fields: [parentTaskId], references: [id])
+  subTasks     Task[]  @relation("ParentTask")
+
+  order Int @default(0)
+}
 
 // Necessary for Next auth
 model Account {
@@ -55,14 +83,15 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  // posts         Post[]
+  tasks         Task[]
+  taskLists     TaskList[]
 }
 
 model VerificationToken {
