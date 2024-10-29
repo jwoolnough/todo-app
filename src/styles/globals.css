@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply text-base font-regular;
+    @apply bg-navy-950 text-base font-regular text-navy-300;
   }
 
   ::selection {
@@ -45,5 +45,14 @@
   [type="search"]::-webkit-search-results-button,
   [type="search"]::-webkit-search-results-decoration {
     display: none;
+  }
+
+  ::placeholder {
+    @apply transition-colors;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: color-mix(in srgb, currentColor, transparent 50%);
   }
 }

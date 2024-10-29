@@ -42,6 +42,9 @@ export default {
         opaque: "color-mix(in srgb, #a2a8c1, #06060b 75%)",
         "light-opaque": "color-mix(in srgb, #a2a8c1, #06060b 90%)",
       },
+      minHeight: {
+        screen: "100svh",
+      },
     },
     fontWeight: {
       regular: "400",

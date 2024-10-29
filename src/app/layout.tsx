@@ -22,7 +22,7 @@ export default function RootLayout({
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/npu1ise.css" />
       </head>
-      <body className="bg-navy-950 text-navy-300">
+      <body>
         <TooltipProvider delayDuration={300}>
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </TooltipProvider>

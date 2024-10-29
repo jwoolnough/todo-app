@@ -60,9 +60,10 @@ const ScheduleSidebar = async () => {
               >
                 {taskList.tasks.map((task, y) => (
                   <GridStackItem position={{ x: 0, y }} key={task.id}>
-                    <Task title={task.title} />
+                    <Task title={task.title} hideDescription />
                   </GridStackItem>
                 ))}
+                <Task hideDescription isPlaceholder />
               </GridStack>
             </AccordionContent>
           </AccordionItem>

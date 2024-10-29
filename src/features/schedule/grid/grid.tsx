@@ -58,22 +58,23 @@ const ScheduleGrid = () => {
             (emptyCell) => emptyCell.x === cell.x && emptyCell.y === cell.y,
           )
         ) {
-          return (
-            <button
-              key={`${cell.x},${cell.y}`}
-              className={cn(
-                "absolute inset-0 z-0 block rounded-lg border-2 border-dashed border-opaque border-opacity-10 bg-navy-800/15 opacity-0 duration-300 hover:opacity-100 hover:backdrop-blur-md focus:opacity-100 focus:backdrop-blur-md",
-                cell.x === 0 && "ml-[calc(var(--gap)*0.5)]",
-                cell.x === GRID_COL_COUNT - 1 && "mr-[calc(var(--gap)*0.5)]",
-              )}
-              style={{
-                gridColumn: `${cell.x + 1} / span 1`,
-                gridRow: `${cell.y + 1} / span 1`,
-              }}
-            >
-              <FiPlus size={22} className="mx-auto text-border-opaque" />
-            </button>
-          );
+          return null;
+          // return (
+          //   <button
+          //     key={`${cell.x},${cell.y}`}
+          //     className={cn(
+          //       "absolute inset-0 z-0 block rounded-lg border-2 border-dashed border-opaque border-opacity-10 bg-navy-800/15 opacity-0 duration-300 hover:opacity-100 hover:backdrop-blur-md focus:opacity-100 focus:backdrop-blur-md",
+          //       cell.x === 0 && "ml-[calc(var(--gap)*0.5)]",
+          //       cell.x === GRID_COL_COUNT - 1 && "mr-[calc(var(--gap)*0.5)]",
+          //     )}
+          //     style={{
+          //       gridColumn: `${cell.x + 1} / span 1`,
+          //       gridRow: `${cell.y + 1} / span 1`,
+          //     }}
+          //   >
+          //     <FiPlus size={22} className="mx-auto text-border-opaque" />
+          //   </button>
+          // );
         }
 
         // If the current cell is neither empty nor has a task it means it is

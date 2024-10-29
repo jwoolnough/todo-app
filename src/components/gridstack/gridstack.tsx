@@ -66,7 +66,7 @@ const GridStackComponent = <T extends GridStackNodeWithID>({
 
     gridStack.on("change", (e, nodes) => {
       // get back full list of nodes?
-      console.log(gridStack.save(true, true).children);
+      // console.log(gridStack.save(true, true).children);
       onChange?.(e, nodes);
     });
 
