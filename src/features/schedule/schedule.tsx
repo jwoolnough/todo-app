@@ -1,6 +1,6 @@
 import { cn } from "~/utils";
 
-import { AddTask } from "./add-task";
+import { AddTaskDialog } from "./add-task-dialog";
 import { DayHeader } from "./day-header";
 import { ScheduleGrid } from "./grid";
 import { PastDays } from "./past-days";
@@ -31,7 +31,7 @@ const Schedule = () => {
 
       <ScheduleGrid />
 
-      <AddTask />
+      <AddTaskDialog />
     </div>
   );
 };

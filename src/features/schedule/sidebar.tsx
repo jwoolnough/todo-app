@@ -1,8 +1,10 @@
+"use client";
+
 import { MdDragIndicator } from "react-icons/md";
 
 import { GridStack, GridStackItem } from "~/components/gridstack";
 
-import { api } from "~/trpc/server";
+import { api } from "~/trpc/react";
 
 import {
   Accordion,
@@ -15,9 +17,10 @@ import { cn } from "~/utils";
 
 import { Sidebar } from "../layout";
 import { Task } from "../task";
+import { AddSidebarTask } from "./add-sidebar-task";
 
-const ScheduleSidebar = async () => {
-  const taskLists = await api.taskList.getAll();
+const ScheduleSidebar = () => {
+  const { data: taskLists } = api.taskList.getAll.useQuery();
 
   return (
     <Sidebar className="flex flex-col pb-3 pt-5">
@@ -27,9 +30,9 @@ const ScheduleSidebar = async () => {
       <Accordion
         type="multiple"
         className="mt-6 flex flex-1 flex-col"
-        defaultValue={taskLists[0] ? [`list-${taskLists[0].id}`] : undefined}
+        defaultValue={taskLists?.[0] ? [`list-${taskLists[0].id}`] : undefined}
       >
-        {taskLists.map((taskList, i) => (
+        {taskLists?.map((taskList, i) => (
           <AccordionItem
             value={`list-${taskList.id}`}
             key={taskList.id}
@@ -60,11 +63,11 @@ const ScheduleSidebar = async () => {
               >
                 {taskList.tasks.map((task, y) => (
                   <GridStackItem position={{ x: 0, y }} key={task.id}>
-                    <Task title={task.title} hideDescription />
+                    <Task task={task} hideDescription />
                   </GridStackItem>
                 ))}
-                <Task hideDescription isPlaceholder />
               </GridStack>
+              <AddSidebarTask taskListId={taskList.id} />
             </AccordionContent>
           </AccordionItem>
         ))}

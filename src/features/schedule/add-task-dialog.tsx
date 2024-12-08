@@ -15,7 +15,7 @@ import {
   Input,
 } from "~/components";
 
-const AddTask = () => {
+const AddTaskDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -45,4 +45,4 @@ const AddTask = () => {
   );
 };
 
-export { AddTask };
+export { AddTaskDialog };

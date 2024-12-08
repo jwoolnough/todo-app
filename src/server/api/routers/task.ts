@@ -8,7 +8,6 @@ export const taskRouter = createTRPCRouter({
       z.object({
         title: z.string(),
         taskListId: z.string(),
-        order: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -17,7 +16,17 @@ export const taskRouter = createTRPCRouter({
           title: input.title,
           taskList: { connect: { id: input.taskListId } },
           createdBy: { connect: { id: ctx.session.user.id } },
-          order: input.order,
+          order: await ctx.db.task
+            .aggregate({
+              where: {
+                createdById: ctx.session.user.id,
+                taskListId: input.taskListId,
+              },
+              _max: {
+                order: true,
+              },
+            })
+            .then((res) => (res._max.order ?? 0) + 1),
         },
       });
     }),
@@ -39,4 +48,8 @@ export const taskRouter = createTRPCRouter({
         },
       });
     }),
+
+  // upsert: protectedProcedure.input(z.object({
+  //   title: z.string().max(255),
+  // }))
 });
