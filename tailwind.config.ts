@@ -45,6 +45,9 @@ export default {
       minHeight: {
         screen: "100svh",
       },
+      maxHeight: {
+        screen: "100svh",
+      },
     },
     fontWeight: {
       regular: "400",
