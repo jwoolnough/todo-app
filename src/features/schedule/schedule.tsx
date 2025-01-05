@@ -29,7 +29,7 @@ const Schedule = () => {
 
       <TimeBar />
 
-      <ScheduleGrid />
+      {/* <ScheduleGrid /> */}
 
       <AddTaskDialog />
     </div>

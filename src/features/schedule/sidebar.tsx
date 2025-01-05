@@ -1,10 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import { MdDragIndicator } from "react-icons/md";
 
-import { GridStack, GridStackItem } from "~/components/gridstack";
+import {
+  GridStackProvider,
+  GridStackRender,
+  GridStackRenderProvider,
+} from "~/components/gridstack";
 
-import { api } from "~/trpc/react";
+import { type RouterOutputs, api } from "~/trpc/react";
 
 import {
   Accordion,
@@ -19,11 +24,44 @@ import { Sidebar } from "../layout";
 import { Task } from "../task";
 import { AddSidebarTask } from "./add-sidebar-task";
 
+type SidebarTaskListProps = {
+  taskList: RouterOutputs["taskList"]["getAll"][number];
+};
+
+const SidebarTaskList = ({ taskList }: SidebarTaskListProps) => {
+  const [initialOptions] = useState({
+    column: 1,
+    margin: 0,
+    marginTop: 4,
+    cellHeight: 36,
+    acceptWidgets: true,
+    disableResize: true,
+    children: taskList.tasks.map((task, y) => ({
+      x: 0,
+      y,
+      id: task.id,
+      content: JSON.stringify({
+        name: "Task",
+        props: { task, hideDescription: true },
+      }),
+    })),
+  });
+
+  return (
+    <GridStackProvider initialOptions={initialOptions}>
+      <GridStackRenderProvider>
+        <GridStackRender componentMap={{ Task }} />
+      </GridStackRenderProvider>
+      <AddSidebarTask taskListId={taskList.id} />
+    </GridStackProvider>
+  );
+};
+
 const ScheduleSidebar = () => {
   const { data: taskLists } = api.taskList.getAll.useQuery();
 
   return (
-    <Sidebar className="flex flex-col pb-3 pt-5">
+    <Sidebar className="flex max-h-screen flex-col overflow-auto pb-3 pt-5">
       <h2>Tasks</h2>
 
       {/* TODO: Record accordion state in localStorage for seamless state on refresh */}
@@ -51,23 +89,7 @@ const ScheduleSidebar = () => {
               </span>
             </AccordionTrigger>
             <AccordionContent>
-              <GridStack
-                options={{
-                  column: 1,
-                  margin: 0,
-                  marginTop: 4,
-                  cellHeight: 36,
-                  acceptWidgets: true,
-                  disableResize: true,
-                }}
-              >
-                {taskList.tasks.map((task, y) => (
-                  <GridStackItem position={{ x: 0, y }} key={task.id}>
-                    <Task task={task} hideDescription />
-                  </GridStackItem>
-                ))}
-              </GridStack>
-              <AddSidebarTask taskListId={taskList.id} />
+              <SidebarTaskList taskList={taskList} />
             </AccordionContent>
           </AccordionItem>
         ))}
