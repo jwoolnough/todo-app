@@ -2,6 +2,8 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
+import { endOfWeek, startOfWeek } from "~/utils";
+
 export const taskRouter = createTRPCRouter({
   createInList: protectedProcedure
     .input(
@@ -45,6 +47,34 @@ export const taskRouter = createTRPCRouter({
         data: {
           ...input,
           createdBy: { connect: { id: ctx.session.user.id } },
+        },
+      });
+    }),
+
+  getByWeek: protectedProcedure
+    .input(
+      z.object({
+        date: z
+          .date()
+          .optional()
+          .default(() => new Date()),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const start = startOfWeek(input.date);
+      const end = endOfWeek(input.date);
+
+      return ctx.db.task.findMany({
+        where: {
+          createdBy: { id: ctx.session.user.id },
+          scheduledStartDate: {
+            gte: start,
+            lte: end,
+          },
+        },
+        orderBy: {
+          scheduledStartDate: "asc",
+          scheduledEndDate: "asc",
         },
       });
     }),
