@@ -3,6 +3,7 @@
 import { type Task } from "@prisma/client";
 import { forwardRef, useRef, useState } from "react";
 import { FaCheck } from "react-icons/fa";
+import { MdDragIndicator } from "react-icons/md";
 import TextareaAutosize from "react-textarea-autosize";
 
 import { cn } from "~/utils";
@@ -60,8 +61,8 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
       <div
         ref={ref}
         className={cn(
-          "group rounded-lg bg-navy-800 px-3 py-1.5 transition",
-          "[.ui-draggable-dragging_&]:rotate-2 [.ui-draggable-dragging_&]:bg-opacity-75 [.ui-draggable-dragging_&]:shadow-lg [.ui-draggable-dragging_&]:backdrop-blur-md [.ui-draggable-dragging_&]:backdrop-brightness-150",
+          "group rounded-lg bg-navy-800 py-1.5 pl-5 pr-3 transition",
+          "[.ui-draggable-dragging_&]:rotate-2 [.ui-draggable-dragging_&]:cursor-grabbing [.ui-draggable-dragging_&]:bg-opacity-75 [.ui-draggable-dragging_&]:shadow-lg [.ui-draggable-dragging_&]:backdrop-blur-md [.ui-draggable-dragging_&]:backdrop-brightness-150",
           "[.ui-resizable-resizing_&]:shadow-lg",
           className,
           completed && "bg-green-900",
@@ -70,6 +71,15 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
         onDoubleClick={!isPlaceholder ? handleToggleCompletion : undefined}
         {...rest}
       >
+        <MdDragIndicator
+          size={14}
+          className={cn(
+            "grid-stack-handle absolute left-2.5 top-4 -translate-x-1/2 -translate-y-1/2 cursor-grab transition active:cursor-grabbing",
+            completed
+              ? "hover:text-green-200 text-green-300"
+              : "text-navy-500 hover:text-navy-300",
+          )}
+        />
         <div className="flex items-start gap-2">
           <TextareaAutosize
             ref={titleInputRef}

@@ -59,6 +59,7 @@ export default {
       white: "#fff",
       black: "#06060b",
       green: {
+        200: "#bcdeca",
         300: "#7dbd9d",
         500: "#00b37e", // "oklch(67.79% 0.1779 163.2)",
         900: "#163a34",
