@@ -1,6 +1,6 @@
 "use client";
 
-import { format } from "date-fns";
+import { format, isThisWeek } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { startOfWeek } from "~/utils";
@@ -14,8 +14,12 @@ const useDateQuery = () => {
     : new Date();
   const selectedWeekDate = startOfWeek(selectedDate);
 
-  const setSelectedDate = async (date?: Date) => {
-    router.push(`/?d=${format(date ?? new Date(), "yyyy-MM-dd")}`);
+  const setSelectedDate = async (date: Date = new Date()) => {
+    const url = isThisWeek(date, { weekStartsOn: 1 })
+      ? "/"
+      : `/?d=${format(date, "yyyy-MM-dd")}`;
+
+    router.push(url);
   };
 
   return {
