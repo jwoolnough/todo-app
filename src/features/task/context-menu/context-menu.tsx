@@ -9,32 +9,39 @@ import {
   ContextMenuTrigger,
 } from "~/components";
 
+import { useTaskContext } from "../context";
 import { DeleteMenuItem } from "./delete-menu-item";
 
 const TaskContextMenu = ({ children }: React.PropsWithChildren) => {
+  const task = useTaskContext();
+
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
       <ContextMenuContent>
         <ContextMenuItem>Edit...</ContextMenuItem>
         <DeleteMenuItem />
-        <ContextMenuSeparator />
-        <ContextMenuItem>Lock</ContextMenuItem>
-        <ContextMenuSeparator />
-        <ContextMenuSub>
-          <ContextMenuSubTrigger>Move</ContextMenuSubTrigger>
-          <ContextMenuSubContent>
-            <ContextMenuItem>To previous week</ContextMenuItem>
-            <ContextMenuItem>To next week</ContextMenuItem>
-          </ContextMenuSubContent>
-        </ContextMenuSub>
-        <ContextMenuSub>
-          <ContextMenuSubTrigger>Duplicate</ContextMenuSubTrigger>
-          <ContextMenuSubContent>
-            <ContextMenuItem>To previous week</ContextMenuItem>
-            <ContextMenuItem>To next week</ContextMenuItem>
-          </ContextMenuSubContent>
-        </ContextMenuSub>
+        {task.scheduledStartDate && (
+          <>
+            <ContextMenuSeparator />
+            <ContextMenuItem>Lock</ContextMenuItem>
+            <ContextMenuSeparator />
+            <ContextMenuSub>
+              <ContextMenuSubTrigger>Move</ContextMenuSubTrigger>
+              <ContextMenuSubContent>
+                <ContextMenuItem>To previous week</ContextMenuItem>
+                <ContextMenuItem>To next week</ContextMenuItem>
+              </ContextMenuSubContent>
+            </ContextMenuSub>
+            <ContextMenuSub>
+              <ContextMenuSubTrigger>Duplicate</ContextMenuSubTrigger>
+              <ContextMenuSubContent>
+                <ContextMenuItem>To previous week</ContextMenuItem>
+                <ContextMenuItem>To next week</ContextMenuItem>
+              </ContextMenuSubContent>
+            </ContextMenuSub>
+          </>
+        )}
       </ContextMenuContent>
     </ContextMenu>
   );

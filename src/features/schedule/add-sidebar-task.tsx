@@ -3,8 +3,6 @@
 import type { TaskList } from "@prisma/client";
 import { toast } from "sonner";
 
-import { useGridStackContext } from "~/components/gridstack";
-
 import { api } from "~/trpc/react";
 
 import { BaseTask, type TaskSubmitFunction } from "../task";
@@ -20,7 +18,6 @@ const AddSidebarTask = ({ taskListId }: AddSidebarTaskProps) => {
       await utils.taskList.getAll.invalidate();
     },
   });
-  const { addWidget } = useGridStackContext();
 
   const handleSubmit: TaskSubmitFunction = async ({ title }, _, setTitle) => {
     if (!title) {
@@ -29,20 +26,10 @@ const AddSidebarTask = ({ taskListId }: AddSidebarTaskProps) => {
     }
 
     try {
-      const task = await createInList.mutateAsync({
+      await createInList.mutateAsync({
         title,
         taskListId,
       });
-
-      addWidget(() => ({
-        x: 0,
-        y: task.order,
-        id: task.id,
-        content: JSON.stringify({
-          name: "Task",
-          props: { task, hideDescription: true },
-        }),
-      }));
     } catch {
       toast.error("Unable to create task");
     }
@@ -54,7 +41,8 @@ const AddSidebarTask = ({ taskListId }: AddSidebarTaskProps) => {
     <BaseTask
       onSubmit={handleSubmit}
       hideDescription
-      className="mt-1 bg-opacity-50"
+      isDraggable={false}
+      className="bg-opacity-50"
     />
   );
 };

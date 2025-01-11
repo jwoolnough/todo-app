@@ -21,13 +21,13 @@ type TaskSubmitFunction = (
   setTitle: React.Dispatch<React.SetStateAction<string>>,
 ) => Promise<void>;
 
-type BaseTaskProps = {
+type BaseTaskProps = Omit<React.ComponentPropsWithoutRef<"div">, "onSubmit"> & {
   task?: Task;
-  className?: string;
   onCompletionChange?: (completed: boolean) => Promise<void>;
   isPlaceholder?: boolean;
   hideDescription?: boolean;
   onSubmit: TaskSubmitFunction;
+  isDraggable?: boolean;
 };
 
 const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
@@ -39,6 +39,7 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
       isPlaceholder = false,
       hideDescription = false,
       onSubmit,
+      isDraggable = true,
       ...rest
     },
     ref,
@@ -61,7 +62,7 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
       <div
         ref={ref}
         className={cn(
-          "group rounded-lg bg-navy-800 py-1.5 pl-5 pr-3 transition",
+          "group relative rounded-lg bg-navy-800 py-1.5 pl-5 pr-3 transition",
           "[.ui-draggable-dragging_&]:rotate-2 [.ui-draggable-dragging_&]:cursor-grabbing [.ui-draggable-dragging_&]:bg-opacity-75 [.ui-draggable-dragging_&]:shadow-lg [.ui-draggable-dragging_&]:backdrop-blur-md [.ui-draggable-dragging_&]:backdrop-brightness-150",
           "[.ui-resizable-resizing_&]:shadow-lg",
           className,
@@ -71,15 +72,17 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
         onDoubleClick={!isPlaceholder ? handleToggleCompletion : undefined}
         {...rest}
       >
-        <MdDragIndicator
-          size={14}
-          className={cn(
-            "grid-stack-handle absolute left-2.5 top-4 -translate-x-1/2 -translate-y-1/2 cursor-grab transition active:cursor-grabbing",
-            completed
-              ? "hover:text-green-200 text-green-300"
-              : "text-navy-500 hover:text-navy-300",
-          )}
-        />
+        {isDraggable && (
+          <MdDragIndicator
+            size={14}
+            className={cn(
+              "grid-stack-handle absolute left-2.5 top-4 -translate-x-1/2 -translate-y-1/2 cursor-grab transition active:cursor-grabbing",
+              completed
+                ? "text-green-600 hover:text-green-300"
+                : "text-navy-500 hover:text-navy-300",
+            )}
+          />
+        )}
         <div className="flex items-start gap-2">
           <TextareaAutosize
             ref={titleInputRef}
