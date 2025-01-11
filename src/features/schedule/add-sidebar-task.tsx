@@ -28,19 +28,24 @@ const AddSidebarTask = ({ taskListId }: AddSidebarTaskProps) => {
       return;
     }
 
-    const task = await createInList.mutateAsync({
-      title,
-      taskListId,
-    });
-    addWidget(() => ({
-      x: 0,
-      y: task.order,
-      id: task.id,
-      content: JSON.stringify({
-        name: "Task",
-        props: { task, hideDescription: true },
-      }),
-    }));
+    try {
+      const task = await createInList.mutateAsync({
+        title,
+        taskListId,
+      });
+
+      addWidget(() => ({
+        x: 0,
+        y: task.order,
+        id: task.id,
+        content: JSON.stringify({
+          name: "Task",
+          props: { task, hideDescription: true },
+        }),
+      }));
+    } catch {
+      toast.error("Unable to create task");
+    }
 
     setTitle("");
   };

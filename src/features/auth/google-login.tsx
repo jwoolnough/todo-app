@@ -16,8 +16,7 @@ const GoogleLogin = ({ redirect }: GoogleLoginProps) => {
       await signIn("google", {
         callbackUrl: redirect ? decodeURIComponent(redirect) : "/",
       });
-    } catch (e) {
-      console.log(e);
+    } catch {
       toast.error("Unable to login", {
         description: "Please try again or contact support",
         duration: Infinity,

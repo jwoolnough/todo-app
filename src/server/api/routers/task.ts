@@ -51,18 +51,37 @@ export const taskRouter = createTRPCRouter({
       });
     }),
 
+  delete: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input: id }) => {
+      return ctx.db.$transaction(async (tx) => {
+        // Assert user owns task
+        await tx.task.findFirstOrThrow({
+          where: {
+            id,
+            createdById: ctx.session.user.id,
+          },
+        });
+
+        return tx.task.delete({
+          where: {
+            id,
+          },
+        });
+      });
+    }),
+
   getByWeek: protectedProcedure
     .input(
-      z.object({
-        date: z
-          .date()
-          .optional()
-          .default(() => new Date()),
-      }),
+      z
+        .date()
+        .optional()
+        .default(() => new Date()),
     )
-    .query(async ({ ctx, input }) => {
-      const start = startOfWeek(input.date);
-      const end = endOfWeek(input.date);
+
+    .query(async ({ ctx, input: date }) => {
+      const start = startOfWeek(date);
+      const end = endOfWeek(date);
 
       return ctx.db.task.findMany({
         where: {

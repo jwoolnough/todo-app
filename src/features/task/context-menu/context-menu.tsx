@@ -9,13 +9,15 @@ import {
   ContextMenuTrigger,
 } from "~/components";
 
+import { DeleteMenuItem } from "./delete-menu-item";
+
 const TaskContextMenu = ({ children }: React.PropsWithChildren) => {
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
       <ContextMenuContent>
         <ContextMenuItem>Edit...</ContextMenuItem>
-        <ContextMenuItem>Delete</ContextMenuItem>
+        <DeleteMenuItem />
         <ContextMenuSeparator />
         <ContextMenuItem>Lock</ContextMenuItem>
         <ContextMenuSeparator />

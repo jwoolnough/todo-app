@@ -1,12 +1,13 @@
 "use client";
 
 import { type Task } from "@prisma/client";
-import { useRef, useState } from "react";
+import { forwardRef, useRef, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import TextareaAutosize from "react-textarea-autosize";
 
 import { cn } from "~/utils";
 
+import { TaskContext } from "./context";
 import { TaskContextMenu } from "./context-menu";
 
 type TaskSubmitValues = Partial<
@@ -19,39 +20,46 @@ type TaskSubmitFunction = (
   setTitle: React.Dispatch<React.SetStateAction<string>>,
 ) => Promise<void>;
 
-type BaseTaskProps = Partial<Pick<Task, "description" | "note">> & {
-  title?: string;
+type BaseTaskProps = {
+  task?: Task;
   className?: string;
-  completed?: boolean;
   onCompletionChange?: (completed: boolean) => Promise<void>;
   isPlaceholder?: boolean;
   hideDescription?: boolean;
   onSubmit: TaskSubmitFunction;
 };
 
-const BaseTask = ({
-  title: defaultTitle = "",
-  description: defaultDescription = "",
-  className,
-  completed = false,
-  onCompletionChange,
-  isPlaceholder = false,
-  hideDescription = false,
-  onSubmit,
-}: BaseTaskProps) => {
-  const titleInputRef = useRef<HTMLTextAreaElement>(null);
-  const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
+const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
+  (
+    {
+      task,
+      className,
+      onCompletionChange,
+      isPlaceholder = false,
+      hideDescription = false,
+      onSubmit,
+      ...rest
+    },
+    ref,
+  ) => {
+    const {
+      title: defaultTitle = "",
+      description: defaultDescription = "",
+      completed = false,
+    } = task ?? {};
 
-  const [title, setTitle] = useState(defaultTitle);
-  const [description, setDescription] = useState(defaultDescription);
+    const titleInputRef = useRef<HTMLTextAreaElement>(null);
+    const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleToggleCompletion = () => onCompletionChange?.(!completed);
+    const [title, setTitle] = useState(defaultTitle);
+    const [description, setDescription] = useState(defaultDescription);
 
-  return (
-    <TaskContextMenu>
+    const handleToggleCompletion = () => onCompletionChange?.(!completed);
+
+    return (
       <div
+        ref={ref}
         className={cn(
-          "grid-stack-item-content",
           "group rounded-lg bg-navy-800 px-3 py-1.5 transition",
           "[.ui-draggable-dragging_&]:rotate-2 [.ui-draggable-dragging_&]:bg-opacity-75 [.ui-draggable-dragging_&]:shadow-lg [.ui-draggable-dragging_&]:backdrop-blur-md [.ui-draggable-dragging_&]:backdrop-brightness-150",
           "[.ui-resizable-resizing_&]:shadow-lg",
@@ -60,6 +68,7 @@ const BaseTask = ({
           isPlaceholder && "bg-navy-800/60",
         )}
         onDoubleClick={!isPlaceholder ? handleToggleCompletion : undefined}
+        {...rest}
       >
         <div className="flex items-start gap-2">
           <TextareaAutosize
@@ -126,9 +135,10 @@ const BaseTask = ({
           />
         )}
       </div>
-    </TaskContextMenu>
-  );
-};
+    );
+  },
+);
+BaseTask.displayName = "BaseTask";
 
 type TaskProps = Omit<BaseTaskProps, "onSubmit"> & {
   task: Task;
@@ -140,7 +150,13 @@ const Task = ({ task, ...rest }: TaskProps) => {
     // upsert
   };
 
-  return <BaseTask onSubmit={handleSubmit} {...task} {...rest} />;
+  return (
+    <TaskContext.Provider value={task}>
+      <TaskContextMenu>
+        <BaseTask onSubmit={handleSubmit} task={task} {...rest} />
+      </TaskContextMenu>
+    </TaskContext.Provider>
+  );
 };
 
 export { BaseTask, Task };
