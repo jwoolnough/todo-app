@@ -8,6 +8,7 @@ export * from "./dialog";
 export * from "./icon-button";
 export * from "./input";
 export * from "./popover";
+export * from "./providers";
 export * from "./toaster";
 export * from "./tooltip";
 export * from "./wrap";

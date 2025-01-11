@@ -55,7 +55,6 @@ const AccordionContent = forwardRef<
     <div className={cn("pb-4", className)}>{children}</div>
   </AccordionPrimitive.Content>
 ));
-
 AccordionContent.displayName = AccordionPrimitive.Content.displayName;
 
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent };

@@ -4,7 +4,7 @@ import "~/styles/globals.css";
 
 import { TRPCReactProvider } from "~/trpc/react";
 
-import { Toaster, TooltipProvider } from "~/components";
+import { Providers, Toaster, TooltipProvider } from "~/components";
 import { APP_NAME } from "~/constants";
 
 export const metadata: Metadata = {
@@ -25,9 +25,14 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://use.typekit.net/npu1ise.css" />
       </head> */}
       <body>
-        <TooltipProvider delayDuration={300}>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
-        </TooltipProvider>
+        <Providers
+          providers={[
+            [TooltipProvider, { delayDuration: 300 }],
+            [TRPCReactProvider],
+          ]}
+        >
+          {children}
+        </Providers>
         <Toaster />
       </body>
     </html>
