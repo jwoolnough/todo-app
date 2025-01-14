@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { endOfWeek, startOfWeek } from "~/utils/date";
 
-import { endOfWeek, startOfWeek } from "~/utils";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const taskRouter = createTRPCRouter({
   createInList: protectedProcedure
@@ -91,10 +91,14 @@ export const taskRouter = createTRPCRouter({
             lte: end,
           },
         },
-        orderBy: {
-          scheduledStartDate: "asc",
-          scheduledEndDate: "asc",
-        },
+        orderBy: [
+          {
+            scheduledStartDate: "asc",
+          },
+          {
+            scheduledEndDate: "asc",
+          },
+        ],
       });
     }),
 

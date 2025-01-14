@@ -3,7 +3,7 @@
 import { format, isThisWeek } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { startOfWeek } from "~/utils";
+import { startOfWeek } from "~/utils/date";
 
 const useDateQuery = () => {
   const searchParams = useSearchParams();

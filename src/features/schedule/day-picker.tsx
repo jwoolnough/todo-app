@@ -10,6 +10,17 @@ import { useDateQuery } from "./hooks/use-date-query";
 const ScheduleDayPicker = () => {
   const { selectedWeekDate } = useDateQuery();
 
+  const handleClick: React.MouseEventHandler = (e) => {
+    e.preventDefault();
+    const hash = (e.target as HTMLAnchorElement).hash;
+
+    if (!hash) return;
+
+    document
+      .querySelector(hash)
+      ?.scrollIntoView({ behavior: "smooth", inline: "start" });
+  };
+
   return (
     <nav className="sticky left-0 z-30 w-screen md:hidden">
       <ol className="mt-6 flex justify-between px-6">
@@ -22,6 +33,7 @@ const ScheduleDayPicker = () => {
                 href={`#${weekday.toLowerCase()}`}
                 className="block rounded-lg text-center text-sm"
                 aria-label={weekday}
+                onClick={handleClick}
               >
                 {weekday.slice(0, 1)}
                 <div

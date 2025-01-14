@@ -7,11 +7,12 @@ import {
   getMilliseconds,
   getMinutes,
   getSeconds,
-  isSameWeek,
 } from "date-fns";
 import { useEffect, useState } from "react";
 
-import { cn, startOfWeek } from "~/utils";
+import { isSameWeek, startOfWeek } from "~/utils/date";
+
+import { cn } from "~/utils";
 
 import { useDateQuery } from "./hooks/use-date-query";
 
@@ -62,7 +63,9 @@ const TimeWrapper = ({
   const { selectedWeekDate } = useDateQuery();
 
   // Don't render if not on the current week
-  if (!isSameWeek(selectedWeekDate, new Date())) return null;
+  if (!isSameWeek(selectedWeekDate, new Date())) {
+    return null;
+  }
 
   return (
     <div

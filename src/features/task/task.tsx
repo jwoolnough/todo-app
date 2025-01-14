@@ -76,7 +76,7 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
           <MdDragIndicator
             size={14}
             className={cn(
-              "grid-stack-handle absolute left-2.5 top-4 -translate-x-1/2 -translate-y-1/2 cursor-grab transition active:cursor-grabbing",
+              "absolute left-2.5 top-4 -translate-x-1/2 -translate-y-1/2 cursor-grab transition active:cursor-grabbing",
               completed
                 ? "text-green-600 hover:text-green-300"
                 : "text-navy-500 hover:text-navy-300",

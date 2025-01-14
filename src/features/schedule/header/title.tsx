@@ -1,8 +1,8 @@
 "use client";
 
-import { endOfWeek, format } from "date-fns";
+import { format } from "date-fns";
 
-import { startOfWeek } from "~/utils";
+import { endOfWeek, startOfWeek } from "~/utils/date";
 
 import { useDateQuery } from "../hooks/use-date-query";
 import styles from "./styles.module.css";

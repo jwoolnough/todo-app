@@ -1,8 +1,10 @@
 "use client";
 
-import { differenceInCalendarDays, isSameWeek } from "date-fns";
+import { differenceInCalendarDays } from "date-fns";
 
-import { cn, startOfWeek } from "~/utils";
+import { isSameWeek, startOfWeek } from "~/utils/date";
+
+import { cn } from "~/utils";
 
 import { useDateQuery } from "./hooks/use-date-query";
 

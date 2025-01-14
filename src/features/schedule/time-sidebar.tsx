@@ -5,9 +5,10 @@ import {
   getHours,
   getMilliseconds,
   getSeconds,
-  isSameWeek,
 } from "date-fns";
 import { useEffect, useState } from "react";
+
+import { isSameWeek } from "~/utils/date";
 
 import { cn } from "~/utils";
 

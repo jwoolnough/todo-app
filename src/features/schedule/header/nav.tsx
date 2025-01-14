@@ -1,8 +1,10 @@
 "use client";
 
-import { addWeeks, isThisWeek, subWeeks } from "date-fns";
+import { addWeeks, subWeeks } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiCalendar, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+
+import { isThisWeek } from "~/utils/date";
 
 import { Button, DatePicker, IconButton } from "~/components";
 
@@ -15,7 +17,7 @@ const ScheduleNav = () => {
     <nav className="ml-auto">
       <ul className="-mr-2 flex items-center">
         <AnimatePresence>
-          {!isThisWeek(selectedDate, { weekStartsOn: 1 }) && (
+          {!isThisWeek(selectedDate) && (
             <motion.li
               className="mr-2 max-sm:hidden"
               animate={{ opacity: 1 }}
