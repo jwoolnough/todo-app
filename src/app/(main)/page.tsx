@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
 
-import { HydrateClient, api } from "~/trpc/server";
+import { HydrateClient } from "~/trpc/server";
 
 import { Schedule, ScheduleHeader, ScheduleSidebar } from "~/features/schedule";
 
@@ -9,10 +9,11 @@ export const metadata: Metadata = {
 };
 
 export default async function SchedulePage() {
-  await Promise.all([
-    // api.taskList.getAll.prefetch,
-    api.task.getByWeek.prefetch,
-  ]);
+  // TODO: Fix
+  // await Promise.all([
+  //   api.taskList.getAll.prefetch,
+  //   api.task.getByWeek.prefetch,
+  // ]);
 
   return (
     // TODO: Split out into Layout components for reusable styling

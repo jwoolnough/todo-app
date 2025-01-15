@@ -2,7 +2,6 @@
 
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { forwardRef } from "react";
-import { FiX } from "react-icons/fi";
 
 import { cn } from "~/utils";
 
@@ -38,16 +37,12 @@ const DialogContent = forwardRef<
       <DialogPrimitive.Content
         ref={ref}
         className={cn(
-          "grid h-min w-full max-w-lg gap-4 bg-navy-800 p-6 shadow-lg animate-in fade-in-0 slide-in-from-top-6 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 sm:rounded-lg",
+          "h-min w-full max-w-lg rounded-lg bg-navy-900 p-6 shadow-lg animate-in fade-in-0 slide-in-from-top-6 data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
           className,
         )}
         {...props}
       >
         {children}
-        <DialogPrimitive.Close className="absolute right-4 top-4 rounded-md opacity-70 hover:opacity-100 disabled:pointer-events-none">
-          <FiX className="h-4 w-4" />
-          <span className="sr-only">Close</span>
-        </DialogPrimitive.Close>
       </DialogPrimitive.Content>
     </DialogOverlay>
   </DialogPortal>
@@ -58,7 +53,7 @@ const DialogHeader = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("flex flex-col", className)} {...props} />
+  <div className={cn("-mx-6 mb-6 border-b px-6 pb-6", className)} {...props} />
 );
 DialogHeader.displayName = "DialogHeader";
 
@@ -68,7 +63,7 @@ const DialogFooter = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+      "-mx-6 mt-6 flex flex-col-reverse gap-2 border-t px-6 pt-6 sm:flex-row sm:justify-end md:items-center",
       className,
     )}
     {...props}

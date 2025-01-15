@@ -18,7 +18,7 @@ import { Task } from "../task";
 import { AddSidebarTask } from "./add-sidebar-task";
 
 const ScheduleSidebar = () => {
-  const [taskLists] = api.taskList.getAll.useSuspenseQuery();
+  const { data: taskLists } = api.taskList.getAll.useQuery();
 
   return (
     <Sidebar className="flex max-h-screen flex-col overflow-auto pb-3 pt-5">

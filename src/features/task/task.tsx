@@ -159,7 +159,6 @@ type TaskProps = Omit<BaseTaskProps, "onSubmit"> & {
 
 const Task = ({ task, ...rest }: TaskProps) => {
   const handleSubmit: TaskSubmitFunction = async (values) => {
-    console.log(values);
     // upsert
   };
 

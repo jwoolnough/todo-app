@@ -12,7 +12,7 @@ import { data } from "./data";
 import { GRID_COL_COUNT, getAllCells, getEmptyCellsFromData } from "./utils";
 
 const ScheduleGrid = () => {
-  const [tasks] = api.task.getByWeek.useSuspenseQuery();
+  // const [tasks] = api.task.getByWeek.useSuspenseQuery();
 
   const allCells = getAllCells();
   const emptyCells = getEmptyCellsFromData(data);

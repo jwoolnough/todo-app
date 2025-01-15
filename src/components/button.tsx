@@ -18,6 +18,8 @@ const buttonVariants = cva(
         secondary: "bg-navy-500 text-white hover:bg-white hover:text-navy-950",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "rounded-lg text-navy-300 hover:text-white",
+        input:
+          "rounded-lg border bg-navy-950 bg-clip-padding px-3 py-2 text-left !font-regular text-white data-[placeholder]:text-navy-300",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -43,7 +45,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <Component
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(
+          buttonVariants({ variant, size }),
+          variant === "link" && "h-auto p-0",
+          className,
+        )}
         ref={ref}
         type={!asChild && type === undefined ? "button" : type}
         {...props}

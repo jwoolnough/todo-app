@@ -1,8 +1,6 @@
-import { createContext } from "react";
-
 import { cn } from "~/utils";
 
-import { AddTaskDialog } from "./add-task-dialog";
+import { CreateInScheduleDialog } from "../task-dialog";
 import { DayHeader } from "./day-header";
 import { ScheduleDayPicker } from "./day-picker";
 import { ScheduleGrid } from "./grid";
@@ -36,7 +34,7 @@ const Schedule = () => {
 
         <ScheduleGrid />
 
-        <AddTaskDialog />
+        <CreateInScheduleDialog />
       </div>
     </>
   );
