@@ -4,9 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiMinus, FiPlus, FiX } from "react-icons/fi";
+import { toast } from "sonner";
 import type { z } from "zod";
 
-import { Form } from "~/components/form";
+import { cn } from "~/utils";
+import { set } from "~/utils/date";
 
 import {
   Button,
@@ -19,7 +21,9 @@ import {
   DialogTrigger,
   IconButton,
 } from "~/components";
-import { cn } from "~/utils";
+import { Form } from "~/components/form";
+
+import { api } from "~/trpc/react";
 
 import { FormFields } from "./form-fields";
 import { CreateInScheduleSchema } from "./schema";
@@ -53,14 +57,22 @@ const OptionsToggleButton = ({
 );
 
 const CreateInScheduleDialog = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const createInSchedule = api.task.createInSchedule.useMutation();
 
   const form = useForm<z.infer<typeof CreateInScheduleSchema>>({
     resolver: zodResolver(CreateInScheduleSchema),
+    defaultValues: {
+      title: "",
+      scheduledDate: new Date(),
+      description: "",
+      note: "",
+    },
   });
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <IconButton
           label="Add task"
@@ -72,7 +84,44 @@ const CreateInScheduleDialog = () => {
       </DialogTrigger>
       <DialogContent aria-describedby={undefined}>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit((data) => console.log(data))}>
+          <form
+            onSubmit={form.handleSubmit(async (data) => {
+              const {
+                title,
+                scheduledDate,
+                startTime,
+                endTime,
+                description,
+                note,
+              } = data;
+
+              const [startHour, startMinute] = startTime.split(":");
+              const [endHour, endMinute] = endTime.split(":");
+
+              try {
+                await new Promise((resolve) => setTimeout(resolve, 4000));
+                await createInSchedule.mutateAsync({
+                  title,
+                  description: description ? description : null,
+                  note: note ? note : null,
+                  scheduledStartDate: set(scheduledDate, {
+                    hours: Number(startHour),
+                    minutes: Number(startMinute),
+                  }),
+                  scheduledEndDate: set(scheduledDate, {
+                    hours: Number(endHour),
+                    minutes: Number(endMinute),
+                  }),
+                });
+              } catch {
+                toast.error("Unable to add task, please try again");
+              }
+
+              toast.success("Task added successfully");
+              form.reset();
+              setIsOpen(false);
+            })}
+          >
             <DialogHeader className="flex items-center gap-2">
               <DialogTitle>Add task</DialogTitle>
               <DialogClose asChild>
@@ -105,7 +154,9 @@ const CreateInScheduleDialog = () => {
               <DialogClose asChild>
                 <Button variant="secondary">Cancel</Button>
               </DialogClose>
-              <Button type="submit">Add task</Button>
+              <Button type="submit" isLoading={form.formState.isSubmitting}>
+                Add task
+              </Button>
             </DialogFooter>
           </form>
         </Form>

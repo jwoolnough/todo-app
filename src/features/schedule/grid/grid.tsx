@@ -2,11 +2,11 @@
 
 import { FiPlus } from "react-icons/fi";
 
+import { cn } from "~/utils";
+
 import { api } from "~/trpc/react";
 
 import { Task } from "~/features/task";
-
-import { cn } from "~/utils";
 
 import { data } from "./data";
 import { GRID_COL_COUNT, getAllCells, getEmptyCellsFromData } from "./utils";

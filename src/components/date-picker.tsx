@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { type SelectSingleEventHandler } from "react-day-picker";
 
 import { Calendar } from "./calendar";
@@ -17,15 +18,21 @@ const DatePicker = ({
   onChange,
   calendarProps,
 }: DatePickerProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"
           selected={value}
           // @ts-expect-error For now we just need to handle single mode
-          onSelect={onChange}
+          onSelect={(...args) => {
+            onChange?.(...args);
+            setIsOpen(false);
+          }}
+          initialFocus
           {...calendarProps}
         />
       </PopoverContent>

@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-import { endOfWeek, startOfWeek } from "~/utils/date";
+import { DAY_TIMES } from "~/constants";
+
+import { addDays, endOfWeek, format, startOfWeek } from "~/utils/date";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
@@ -37,8 +39,10 @@ export const taskRouter = createTRPCRouter({
     .input(
       z.object({
         title: z.string(),
-        scheduledDateStart: z.date(),
-        scheduledEndDate: z.date().optional(),
+        scheduledStartDate: z.date(),
+        scheduledEndDate: z.date(),
+        description: z.string().nullable(),
+        note: z.string().nullable(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -102,7 +106,84 @@ export const taskRouter = createTRPCRouter({
       });
     }),
 
-  // upsert: protectedProcedure.input(z.object({
-  //   title: z.string().max(255),
-  // }))
+  getAvailableTimesByDate: protectedProcedure
+    .input(z.date())
+    .query(async ({ ctx, input: date }) => {
+      const dayTasks = await ctx.db.task.findMany({
+        where: {
+          createdBy: { id: ctx.session.user.id },
+          scheduledStartDate: {
+            gte: date,
+            lt: addDays(date, 1),
+          },
+        },
+        orderBy: {
+          scheduledStartDate: "asc",
+        },
+      });
+
+      // Remove last entry so we don't include midnight
+      return DAY_TIMES.slice(0, -1).map((time, i) => {
+        const startDateTime = new Date(`${format(date, "yyyy-MM-dd")}T${time}`);
+
+        // Find the first task that blocks out this start
+        const blockerTask = dayTasks.find(
+          ({ scheduledStartDate, scheduledEndDate }) => {
+            if (!scheduledStartDate || !scheduledEndDate) return false;
+
+            return (
+              // Cannot start at the same time as another task, but can start as another ends
+              startDateTime >= scheduledStartDate &&
+              startDateTime < scheduledEndDate
+            );
+          },
+        );
+
+        // Find the next task after the current time, so we can use its start time as the last possible end time
+        const nextTaskStartTime = dayTasks.find(
+          ({ scheduledStartDate }) =>
+            scheduledStartDate && scheduledStartDate > startDateTime,
+        )?.scheduledStartDate;
+
+        return {
+          startTime: time,
+          isAvailable: blockerTask === undefined,
+          blockedBy: blockerTask?.title,
+          endTimes: DAY_TIMES.slice(
+            i + 1,
+            nextTaskStartTime
+              ? DAY_TIMES.indexOf(format(nextTaskStartTime, "HH:mm")) + 1
+              : undefined,
+          ),
+        };
+      });
+
+      // return {
+      //   startTimes: DAY_TIMES.filter((time) => {
+      //     return (
+      //       dayTasks.find(({ scheduledStartDate, scheduledEndDate }) => {
+      //         if (!scheduledStartDate || !scheduledEndDate) return false;
+
+      //         return isWithinInterval(`${format(date, "yyyy-MM-dd")}T${time}`, {
+      //           start: scheduledStartDate,
+      //           end: subSeconds(scheduledEndDate, 1),
+      //         });
+      //       }) === undefined
+      //     );
+      //   }),
+      //   endTimes: DAY_TIMES.filter((time) => {
+      //     return (
+      //       dayTasks.find(({ scheduledStartDate, scheduledEndDate }) => {
+      //         if (!scheduledStartDate || !scheduledEndDate) return false;
+
+      //         return isWithinInterval(`${format(date, "yyyy-MM-dd")}T${time}`, {
+      //           start: addSeconds(scheduledStartDate, 1),
+      //           end: scheduledEndDate,
+      //         });
+      //       }) === undefined
+      //     );
+      //   }),
+      //   tasks: dayTasks,
+      // };
+    }),
 });

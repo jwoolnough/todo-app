@@ -24,7 +24,7 @@ const Schedule = () => {
             key={i}
             style={{ gridRow: `${i * 2 + 2} / span 2` }}
             className={cn(
-              "absolute inset-0 col-start-2 col-end-[-1] row-span-2 ml-[calc(var(--gap)*-1)] after:absolute after:bottom-[-3px] after:left-0 after:right-0 after:border-b after:border-opaque",
+              "absolute inset-0 col-start-2 col-end-[-1] row-span-2 ml-[calc(var(--gap)*-1)] after:absolute after:bottom-[-3px] after:left-0 after:right-0 after:border-b",
               i !== 3 && i !== 9 && "after:border-light-opaque",
             )}
           ></div>

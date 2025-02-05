@@ -42,6 +42,7 @@ const AddSidebarTask = ({ taskListId }: AddSidebarTaskProps) => {
       onSubmit={handleSubmit}
       hideDescription
       isDraggable={false}
+      isPlaceholder
       className="bg-opacity-50"
     />
   );

@@ -10,7 +10,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         className={cn(
-          "block w-full rounded-lg border bg-navy-950 bg-clip-padding px-3 py-2 text-white outline-none placeholder:text-navy-500 focus:ring-1 focus:ring-navy-300 disabled:cursor-not-allowed disabled:opacity-50",
+          "block w-full rounded-lg border bg-navy-950 px-3 py-2 text-white outline-none placeholder:text-navy-500 focus:ring-1 focus:ring-green-300 disabled:cursor-not-allowed disabled:opacity-50",
           className,
         )}
         ref={ref}
@@ -28,7 +28,7 @@ const Textarea = forwardRef<
   return (
     <textarea
       className={cn(
-        "block w-full rounded-lg border bg-navy-950 bg-clip-padding px-3 py-2 text-white outline-none placeholder:text-navy-500 focus:ring-1 focus:ring-navy-300 disabled:cursor-not-allowed disabled:opacity-50",
+        "block w-full rounded-lg border bg-navy-950 px-3 py-2 text-white outline-none placeholder:text-navy-500 focus:ring-1 focus:ring-green-300 disabled:cursor-not-allowed disabled:opacity-50",
         className,
       )}
       ref={ref}

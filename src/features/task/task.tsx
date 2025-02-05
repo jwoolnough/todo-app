@@ -108,7 +108,7 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
 
           <label
             className={cn(
-              "relative ml-auto mr-[-0.1875rem] mt-[0.1875rem] size-3.5 shrink-0 rounded-md border has-[:focus-visible]:ring-2",
+              "relative ml-auto mr-[-0.25rem] mt-[0.125rem] size-4 shrink-0 rounded-md border has-[:focus-visible]:ring-2",
               completed && "bg-green-500 shadow-neon hover:bg-green-300",
               !isPlaceholder && "hover:border-navy-100",
             )}

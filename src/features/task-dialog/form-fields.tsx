@@ -2,21 +2,21 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useFormContext } from "react-hook-form";
-import { FiArrowRight } from "react-icons/fi";
 import type { z } from "zod";
 
 import { format } from "~/utils/date";
 
+import { Button, DatePicker, Input, Textarea } from "~/components";
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "~/components/form";
 
-import { Button, DatePicker, Input, Textarea } from "~/components";
-
+import { TimeField } from "./form/time-field";
 import type { CreateInScheduleSchema } from "./schema";
 
 type FormFieldsProps = {
@@ -70,27 +70,9 @@ const FormFields = ({ isExpanded }: FormFieldsProps) => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="startTime"
-          render={({ field }) => (
-            <FormItem className="col-span-full grid grid-cols-subgrid items-center">
-              <FormLabel>Time</FormLabel>
-              <div>
-                <div className="flex items-center gap-1">
-                  <FormControl>
-                    <Input className="w-24" {...field} />
-                  </FormControl>
-                  <FiArrowRight />
-                  <Input className="w-24" disabled />
-                </div>
-                <FormMessage />
-              </div>
-            </FormItem>
-          )}
-        />
+        <TimeField />
       </div>
-      <AnimatePresence mode="wait">
+      <AnimatePresence initial={false} mode="wait">
         {isExpanded && (
           <motion.div
             animate={{ opacity: 1, height: "auto" }}
@@ -104,6 +86,7 @@ const FormFields = ({ isExpanded }: FormFieldsProps) => {
               render={({ field }) => (
                 <FormItem className="border-t pt-6">
                   <FormLabel>Description</FormLabel>
+                  <FormDescription />
                   <FormControl>
                     <Textarea {...field} />
                   </FormControl>

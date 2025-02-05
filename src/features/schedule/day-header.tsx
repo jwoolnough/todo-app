@@ -31,7 +31,7 @@ const DayHeader = () => {
             d="M13,1.05V0H0v13h1.05C1.54,6.62,6.62,1.54,13,1.05Z"
           />
           <path
-            className="fill-navy-300/25"
+            className="fill-[#3e4053]"
             d="M13,1.05V0H0v13h1.05C1.54,6.62,6.62,1.54,13,1.05Z"
           />
           <path className="fill-navy-950" d="M13,0H0v13C0,5.82,5.82,0,13,0Z" />
@@ -50,8 +50,9 @@ const DayHeader = () => {
               isToday(date) && "text-green-500 drop-shadow-neon",
             )}
             rootMargin="0% -50% 0% -50%"
-            onChange={(inView) => {
-              if (inView) console.log(`${day} is in view`);
+            onChange={(_inView) => {
+              // TODO: Make this work
+              // if (inView)
             }}
           >
             <span

@@ -38,7 +38,7 @@ export default {
         "accordion-up": "accordion-up 0.3s ease-in-out",
       },
       borderColor: {
-        DEFAULT: "color-mix(in srgb, #a2a8c1, transparent 75%)",
+        DEFAULT: "#3e4053",
         opaque: "color-mix(in srgb, #a2a8c1, #06060b 75%)",
         "light-opaque": "color-mix(in srgb, #a2a8c1, #06060b 90%)",
       },
@@ -69,8 +69,8 @@ export default {
         100: "#d2d3d9",
         300: "#a2a8c1",
         500: "#595f7b",
-        800: "#22233c",
-        900: "#151628",
+        800: "#242535",
+        900: "#15161f",
         950: "#06060b",
       },
       "border-opaque": "color-mix(in srgb, #a2a8c1, #06060b 75%)",
@@ -98,6 +98,9 @@ export default {
       navy: {
         300: "#a2a8c1",
         500: "#595f7b",
+      },
+      green: {
+        300: "#7dbd9d",
       },
     },
     borderRadius: {
