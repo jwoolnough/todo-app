@@ -2,7 +2,7 @@
 
 import { MdDragIndicator } from "react-icons/md";
 
-import { api } from "~/trpc/react";
+import { cn } from "~/utils";
 
 import {
   Accordion,
@@ -11,7 +11,8 @@ import {
   AccordionTrigger,
   Count,
 } from "~/components";
-import { cn } from "~/utils";
+
+import { api } from "~/trpc/react";
 
 import { Sidebar } from "../layout";
 import { Task } from "../task";

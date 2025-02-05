@@ -10,9 +10,8 @@ import {
 } from "date-fns";
 import { useEffect, useState } from "react";
 
-import { isSameWeek, startOfWeek } from "~/utils/date";
-
 import { cn } from "~/utils";
+import { isSameWeek, startOfWeek } from "~/utils/date";
 
 import { useDateQuery } from "./hooks/use-date-query";
 

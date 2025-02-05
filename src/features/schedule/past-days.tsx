@@ -2,9 +2,8 @@
 
 import { differenceInCalendarDays } from "date-fns";
 
-import { isSameWeek, startOfWeek } from "~/utils/date";
-
 import { cn } from "~/utils";
+import { isSameWeek, startOfWeek } from "~/utils/date";
 
 import { useDateQuery } from "./hooks/use-date-query";
 
