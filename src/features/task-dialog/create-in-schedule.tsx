@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import type { z } from "zod";
 
 import { cn } from "~/utils";
-import { set } from "~/utils/date";
+import { addDays, set } from "~/utils/date";
 
 import {
   Button,
@@ -99,7 +99,6 @@ const CreateInScheduleDialog = () => {
               const [endHour, endMinute] = endTime.split(":");
 
               try {
-                await new Promise((resolve) => setTimeout(resolve, 4000));
                 await createInSchedule.mutateAsync({
                   title,
                   description: description ? description : null,
@@ -108,10 +107,13 @@ const CreateInScheduleDialog = () => {
                     hours: Number(startHour),
                     minutes: Number(startMinute),
                   }),
-                  scheduledEndDate: set(scheduledDate, {
-                    hours: Number(endHour),
-                    minutes: Number(endMinute),
-                  }),
+                  scheduledEndDate:
+                    endTime === "24:00"
+                      ? addDays(scheduledDate, 1)
+                      : set(scheduledDate, {
+                          hours: Number(endHour),
+                          minutes: Number(endMinute),
+                        }),
                 });
               } catch {
                 toast.error("Unable to add task, please try again");

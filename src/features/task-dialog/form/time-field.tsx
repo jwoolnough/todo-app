@@ -53,8 +53,8 @@ const TimeField = () => {
       control={form.control}
       name="startTime"
       render={({ field }) => (
-        <FormItem className="col-span-full grid grid-cols-subgrid items-center">
-          <FormLabel>Time</FormLabel>
+        <FormItem className="col-span-full grid grid-cols-subgrid">
+          <FormLabel className="mt-2.5">Time</FormLabel>
           <div>
             <div className="flex items-center gap-1">
               <FormControl>
@@ -80,7 +80,7 @@ const TimeField = () => {
                           {startTime}
                           {blockedBy &&
                             prevBlockedBy !== blockedBy &&
-                            `- ${blockedBy}`}
+                            ` - ${blockedBy}`}
                         </SelectItem>
                       );
                     })}

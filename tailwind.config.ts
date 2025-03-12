@@ -73,6 +73,9 @@ export default {
         900: "#15161f",
         950: "#06060b",
       },
+      red: {
+        400: "#f47e8a",
+      },
       "border-opaque": "color-mix(in srgb, #a2a8c1, #06060b 75%)",
     },
     boxShadow: {

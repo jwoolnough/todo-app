@@ -33,8 +33,8 @@ const FormFields = ({ isExpanded }: FormFieldsProps) => {
           control={form.control}
           name="title"
           render={({ field }) => (
-            <FormItem className="col-span-full grid grid-cols-subgrid items-center">
-              <FormLabel>Title</FormLabel>
+            <FormItem className="col-span-full grid grid-cols-subgrid">
+              <FormLabel className="mt-2.5">Title</FormLabel>
               <div>
                 <FormControl>
                   <Input autoFocus {...field} />
@@ -48,8 +48,8 @@ const FormFields = ({ isExpanded }: FormFieldsProps) => {
           control={form.control}
           name="scheduledDate"
           render={({ field }) => (
-            <FormItem className="col-span-full grid grid-cols-subgrid items-center">
-              <FormLabel>Date</FormLabel>
+            <FormItem className="col-span-full grid grid-cols-subgrid">
+              <FormLabel className="mt-2.5">Date</FormLabel>
               <div>
                 <DatePicker value={field.value} onChange={field.onChange}>
                   <FormControl>

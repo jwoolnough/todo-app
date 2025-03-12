@@ -2,6 +2,7 @@
 
 import type * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
+import { AnimatePresence, motion } from "framer-motion";
 import { createContext, forwardRef, useContext, useId } from "react";
 import {
   Controller,
@@ -141,7 +142,7 @@ const FormDescription = forwardRef<
     <p
       ref={ref}
       id={formDescriptionId}
-      className={cn("text-muted-foreground text-[0.8rem]", className)}
+      className={cn("text-sm", className)}
       {...props}
     />
   );
@@ -150,24 +151,38 @@ FormDescription.displayName = "FormDescription";
 
 const FormMessage = forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
+  React.ComponentPropsWithoutRef<typeof motion.p>
 >(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField();
   const body = error ? String(error?.message) : children;
 
-  if (!body) {
-    return null;
-  }
-
   return (
-    <p
-      ref={ref}
-      id={formMessageId}
-      className={cn("font-medium text-destructive text-[0.8rem]", className)}
-      {...props}
-    >
-      {body}
-    </p>
+    <AnimatePresence>
+      {!!body && (
+        <motion.p
+          initial={{ opacity: 0, height: 0 }}
+          animate={{
+            opacity: 1,
+            height: "auto",
+            transition: { opacity: { delay: 0.2 } },
+          }}
+          exit={{
+            opacity: 0,
+            height: 0,
+            transition: { height: { delay: 0.2 } },
+          }}
+          ref={ref}
+          id={formMessageId}
+          className={cn(
+            "font-medium text-red-400 overflow-y-clip text-sm before:block before:h-2",
+            className,
+          )}
+          {...props}
+        >
+          {body}
+        </motion.p>
+      )}
+    </AnimatePresence>
   );
 });
 FormMessage.displayName = "FormMessage";
