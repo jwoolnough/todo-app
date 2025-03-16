@@ -1,8 +1,8 @@
 import { toast } from "sonner";
 
-import { api } from "~/trpc/react";
-
 import { ContextMenuItem } from "~/components";
+
+import { api } from "~/trpc/react";
 
 import { useTaskContext } from "../context";
 
@@ -11,7 +11,10 @@ const DeleteMenuItem = () => {
   const { id } = useTaskContext();
   const deleteTask = api.task.delete.useMutation({
     onSuccess: async () => {
-      await utils.taskList.getAll.invalidate();
+      await Promise.all([
+        utils.taskList.getAll.invalidate(),
+        utils.task.getByWeek.invalidate(),
+      ]);
     },
   });
 

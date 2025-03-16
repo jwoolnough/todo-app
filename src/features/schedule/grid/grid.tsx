@@ -3,19 +3,29 @@
 import { FiPlus } from "react-icons/fi";
 
 import { cn } from "~/utils";
+import { startOfWeek } from "~/utils/date";
 
 import { api } from "~/trpc/react";
 
 import { Task } from "~/features/task";
 
-import { data } from "./data";
-import { GRID_COL_COUNT, getAllCells, getEmptyCellsFromData } from "./utils";
+import { useDateQuery } from "../hooks/use-date-query";
+import { getAllCells, getEmptyCellsFromData, getTaskDimensions } from "./utils";
 
-const ScheduleGrid = () => {
-  // const [tasks] = api.task.getByWeek.useSuspenseQuery();
+type ScheduleGridProps = {
+  onPlaceholderClick: (time: Date) => void;
+};
 
-  const allCells = getAllCells();
-  const emptyCells = getEmptyCellsFromData(data);
+const ScheduleGrid = ({ onPlaceholderClick }: ScheduleGridProps) => {
+  const { selectedWeekDate } = useDateQuery();
+  const { data: tasks } = api.task.getByWeek.useQuery(selectedWeekDate);
+
+  if (!tasks) {
+    return null;
+  }
+
+  const allCells = getAllCells(startOfWeek(selectedWeekDate));
+  const emptyCells = getEmptyCellsFromData(tasks);
 
   return (
     <div
@@ -24,8 +34,8 @@ const ScheduleGrid = () => {
       )}
     >
       {allCells.map((cell) => {
-        const task = data.find(
-          (task) => task.x === cell.x && task.y === cell.y,
+        const task = tasks.find(
+          (task) => task.scheduledStartDate?.getTime() === cell.date.getTime(),
         );
 
         // If current cell is empty, show a placeholder
@@ -44,6 +54,7 @@ const ScheduleGrid = () => {
                 gridColumn: `${cell.x + 1} / span 1`,
                 gridRow: `${cell.y + 1} / span 1`,
               }}
+              onClick={() => onPlaceholderClick(cell.date)}
             >
               <FiPlus size={22} className="mx-auto text-border-opaque" />
             </button>
@@ -56,13 +67,15 @@ const ScheduleGrid = () => {
           return null;
         }
 
+        const { x, y, w, h } = getTaskDimensions(task);
+
         return (
           <Task
             key={task.id}
             task={task}
             style={{
-              gridColumn: `${task.x + 1} / span ${task.w}`,
-              gridRow: `${task.y + 1} / span ${task.h}`,
+              gridColumn: `${x + 1} / span ${w}`,
+              gridRow: `${y + 1} / span ${h}`,
             }}
             className="absolute inset-0"
           />

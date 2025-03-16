@@ -24,4 +24,4 @@ const DAY_TIMES = [
   "24:00",
 ];
 
-export { WEEKDAYS, DAY_TIMES };
+export { HOUR_SUBDIVISIONS, DAY_TIMES, WEEKDAYS };

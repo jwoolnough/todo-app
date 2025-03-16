@@ -1,14 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiMinus, FiPlus, FiX } from "react-icons/fi";
 import { toast } from "sonner";
 import type { z } from "zod";
 
 import { cn } from "~/utils";
-import { addDays, set } from "~/utils/date";
+import { addDays, format, set } from "~/utils/date";
 
 import {
   Button,
@@ -56,10 +56,24 @@ const OptionsToggleButton = ({
   </Button>
 );
 
-const CreateInScheduleDialog = () => {
-  const [isOpen, setIsOpen] = useState(false);
+type CreateInScheduleDialogProps = {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedTime: Date | null;
+};
+
+const CreateInScheduleDialog = ({
+  isOpen,
+  setIsOpen,
+  selectedTime,
+}: CreateInScheduleDialogProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const createInSchedule = api.task.createInSchedule.useMutation();
+  const utils = api.useUtils();
+  const createInSchedule = api.task.createInSchedule.useMutation({
+    onSuccess: async () => {
+      await utils.task.getByWeek.invalidate();
+    },
+  });
 
   const form = useForm<z.infer<typeof CreateInScheduleSchema>>({
     resolver: zodResolver(CreateInScheduleSchema),
@@ -68,8 +82,16 @@ const CreateInScheduleDialog = () => {
       scheduledDate: new Date(),
       description: "",
       note: "",
+      // startTime:
     },
   });
+
+  useEffect(() => {
+    if (selectedTime) {
+      form.setValue("scheduledDate", selectedTime);
+      form.setValue("startTime", format(selectedTime, "HH:mm"));
+    }
+  }, [form, selectedTime]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -95,8 +117,8 @@ const CreateInScheduleDialog = () => {
                 note,
               } = data;
 
-              const [startHour, startMinute] = startTime.split(":");
-              const [endHour, endMinute] = endTime.split(":");
+              const [startHour, startMinute] = startTime.split(":").map(Number);
+              const [endHour, endMinute] = endTime.split(":").map(Number);
 
               try {
                 await createInSchedule.mutateAsync({
@@ -104,15 +126,15 @@ const CreateInScheduleDialog = () => {
                   description: description ? description : null,
                   note: note ? note : null,
                   scheduledStartDate: set(scheduledDate, {
-                    hours: Number(startHour),
-                    minutes: Number(startMinute),
+                    hours: startHour,
+                    minutes: startMinute,
                   }),
                   scheduledEndDate:
                     endTime === "24:00"
                       ? addDays(scheduledDate, 1)
                       : set(scheduledDate, {
-                          hours: Number(endHour),
-                          minutes: Number(endMinute),
+                          hours: endHour,
+                          minutes: endMinute,
                         }),
                 });
               } catch {

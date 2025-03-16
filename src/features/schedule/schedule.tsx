@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 import { cn } from "~/utils";
 
 import { CreateInScheduleDialog } from "../task-dialog";
@@ -9,6 +13,9 @@ import { TimeBar } from "./time-indicator";
 import { TimeSidebar } from "./time-sidebar";
 
 const Schedule = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedTime, setSelectedTime] = useState<Date | null>(null);
+
   return (
     <>
       <ScheduleDayPicker />
@@ -32,9 +39,18 @@ const Schedule = () => {
 
         <TimeBar />
 
-        <ScheduleGrid />
+        <ScheduleGrid
+          onPlaceholderClick={(time) => {
+            setSelectedTime(time);
+            setIsOpen(true);
+          }}
+        />
 
-        <CreateInScheduleDialog />
+        <CreateInScheduleDialog
+          selectedTime={selectedTime}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        />
       </div>
     </>
   );

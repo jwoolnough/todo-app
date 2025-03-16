@@ -8,6 +8,7 @@ import TextareaAutosize from "react-textarea-autosize";
 
 import { cn } from "~/utils";
 
+import { getTaskDimensions } from "../schedule/grid/utils";
 import { TaskContext } from "./context";
 import { TaskContextMenu } from "./context-menu";
 
@@ -48,6 +49,8 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
       title: defaultTitle = "",
       description: defaultDescription = "",
       completed = false,
+      scheduledStartDate,
+      scheduledEndDate,
     } = task ?? {};
 
     const titleInputRef = useRef<HTMLTextAreaElement>(null);
@@ -57,6 +60,13 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
     const [description, setDescription] = useState(defaultDescription);
 
     const handleToggleCompletion = () => onCompletionChange?.(!completed);
+
+    const dimensions =
+      scheduledStartDate && scheduledEndDate
+        ? getTaskDimensions({ scheduledStartDate, scheduledEndDate })
+        : null;
+
+    const showDescription = !hideDescription && dimensions && dimensions?.h > 1;
 
     return (
       <div
@@ -132,8 +142,7 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
             />
           </label>
         </div>
-        {/* TODO: Description shouldn't be rendered if task 'height' is less than 2 */}
-        {!hideDescription && (
+        {showDescription && (
           <TextareaAutosize
             ref={descriptionInputRef}
             spellCheck={false}
