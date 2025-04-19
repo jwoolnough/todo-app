@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { DAY_TIMES } from "~/constants";
 
-import { addDays, endOfWeek, format, startOfWeek } from "~/utils/date";
+import { addDays, endOfWeek, format, set, startOfWeek } from "~/utils/date";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
@@ -109,12 +109,18 @@ export const taskRouter = createTRPCRouter({
   getAvailableTimesByDate: protectedProcedure
     .input(z.date())
     .query(async ({ ctx, input: date }) => {
+      const start = set(date, {
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        milliseconds: 0,
+      });
       const dayTasks = await ctx.db.task.findMany({
         where: {
           createdBy: { id: ctx.session.user.id },
           scheduledStartDate: {
-            gte: date,
-            lt: addDays(date, 1),
+            gte: start,
+            lt: addDays(start, 1),
           },
         },
         orderBy: {
@@ -157,33 +163,37 @@ export const taskRouter = createTRPCRouter({
           ),
         };
       });
+    }),
 
-      // return {
-      //   startTimes: DAY_TIMES.filter((time) => {
-      //     return (
-      //       dayTasks.find(({ scheduledStartDate, scheduledEndDate }) => {
-      //         if (!scheduledStartDate || !scheduledEndDate) return false;
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        title: z.string().max(255).optional(),
+        scheduledStartDate: z.date().optional().nullable(),
+        scheduledEndDate: z.date().optional().nullable(),
+        description: z.string().optional().nullable(),
+        note: z.string().optional().nullable(),
+        completed: z.boolean().optional(),
+        completedAt: z.date().optional().nullable(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.$transaction(async (tx) => {
+        // Assert user owns task
+        await tx.task.findFirstOrThrow({
+          where: {
+            id: input.id,
+            createdById: ctx.session.user.id,
+          },
+        });
 
-      //         return isWithinInterval(`${format(date, "yyyy-MM-dd")}T${time}`, {
-      //           start: scheduledStartDate,
-      //           end: subSeconds(scheduledEndDate, 1),
-      //         });
-      //       }) === undefined
-      //     );
-      //   }),
-      //   endTimes: DAY_TIMES.filter((time) => {
-      //     return (
-      //       dayTasks.find(({ scheduledStartDate, scheduledEndDate }) => {
-      //         if (!scheduledStartDate || !scheduledEndDate) return false;
-
-      //         return isWithinInterval(`${format(date, "yyyy-MM-dd")}T${time}`, {
-      //           start: addSeconds(scheduledStartDate, 1),
-      //           end: scheduledEndDate,
-      //         });
-      //       }) === undefined
-      //     );
-      //   }),
-      //   tasks: dayTasks,
-      // };
+        return tx.task.update({
+          data: input,
+          where: {
+            id: input.id,
+          },
+        });
+      });
     }),
 });
