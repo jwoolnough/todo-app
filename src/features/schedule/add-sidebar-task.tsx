@@ -14,6 +14,7 @@ type AddSidebarTaskProps = {
 const AddSidebarTask = ({ taskListId }: AddSidebarTaskProps) => {
   const utils = api.useUtils();
   const createInList = api.task.createInList.useMutation({
+    // TODO: Implement optimistic update
     onSuccess: async () => {
       await utils.taskList.getAll.invalidate();
     },

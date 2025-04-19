@@ -22,12 +22,15 @@ type TaskSubmitFunction = (
   setTitle: React.Dispatch<React.SetStateAction<string>>,
 ) => Promise<void>;
 
+// type TaskCancelFunction = (resetState: () => void) => void;
+
 type BaseTaskProps = Omit<React.ComponentPropsWithoutRef<"div">, "onSubmit"> & {
   task?: Task;
   onCompletionChange?: (completed: boolean) => Promise<void>;
   isPlaceholder?: boolean;
   hideDescription?: boolean;
   onSubmit: TaskSubmitFunction;
+  // onCancel?: () => void;
   isDraggable?: boolean;
 };
 
@@ -41,6 +44,7 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
       hideDescription = false,
       onSubmit,
       isDraggable = true,
+      style,
       ...rest
     },
     ref,
@@ -61,12 +65,12 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
 
     const handleToggleCompletion = () => onCompletionChange?.(!completed);
 
-    const dimensions =
+    const { h = 1 } =
       scheduledStartDate && scheduledEndDate
         ? getTaskDimensions({ scheduledStartDate, scheduledEndDate })
-        : null;
+        : {};
 
-    const showDescription = !hideDescription && dimensions && dimensions?.h > 1;
+    const showDescription = !hideDescription && h > 1;
 
     return (
       <div
@@ -80,6 +84,7 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
           isPlaceholder && "bg-navy-800/60",
         )}
         onDoubleClick={!isPlaceholder ? handleToggleCompletion : undefined}
+        style={{ "--task-height": h, ...style } as React.CSSProperties}
         {...rest}
       >
         {isDraggable && (
@@ -98,14 +103,16 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
             ref={titleInputRef}
             spellCheck={false}
             className={cn(
-              "resize-none bg-transparent text-white outline-none placeholder:text-navy-300/50 hover:placeholder:text-navy-300/75",
+              "line-clamp-[var(--task-height)] resize-none bg-transparent text-white outline-none placeholder:text-navy-300/50 hover:placeholder:text-navy-300/75 focus:line-clamp-none",
             )}
+            maxRows={h}
             rows={1}
             placeholder="Add task"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             onKeyDown={(e) => {
-              if (e.code === "Enter") {
+              // TODO: Pressing enter should focus NEXT slot
+              if (e.code === "Enter" && !e.shiftKey) {
                 e.preventDefault();
                 void onSubmit({ title, description }, titleInputRef, setTitle);
               }
@@ -139,9 +146,11 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
               onChange={handleToggleCompletion}
               checked={completed}
               disabled={isPlaceholder}
+              // onBlur={onCancel}
             />
           </label>
         </div>
+
         {showDescription && (
           <TextareaAutosize
             ref={descriptionInputRef}
@@ -154,6 +163,18 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
             value={description ?? ""}
             placeholder="Add description"
             onChange={(e) => setDescription(e.target.value)}
+            // Repeat of above textarea
+            onKeyDown={(e) => {
+              if (e.code === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                void onSubmit({ description }, descriptionInputRef, setTitle);
+              }
+
+              if (e.code === "Escape") {
+                descriptionInputRef.current?.blur();
+              }
+            }}
+            // onBlur={onCancel}
           />
         )}
       </div>
@@ -162,19 +183,15 @@ const BaseTask = forwardRef<HTMLDivElement, BaseTaskProps>(
 );
 BaseTask.displayName = "BaseTask";
 
-type TaskProps = Omit<BaseTaskProps, "onSubmit"> & {
+type TaskProps = BaseTaskProps & {
   task: Task;
 };
 
 const Task = ({ task, ...rest }: TaskProps) => {
-  const handleSubmit: TaskSubmitFunction = async (values) => {
-    // upsert
-  };
-
   return (
     <TaskContext.Provider value={task}>
       <TaskContextMenu>
-        <BaseTask onSubmit={handleSubmit} task={task} {...rest} />
+        <BaseTask task={task} {...rest} />
       </TaskContextMenu>
     </TaskContext.Provider>
   );

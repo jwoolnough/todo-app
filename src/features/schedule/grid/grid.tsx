@@ -7,10 +7,9 @@ import { startOfWeek } from "~/utils/date";
 
 import { api } from "~/trpc/react";
 
-import { Task } from "~/features/task";
-
 import { useDateQuery } from "../hooks/use-date-query";
-import { getAllCells, getEmptyCellsFromData, getTaskDimensions } from "./utils";
+import { ScheduleTask } from "./schedule-task";
+import { getAllCells, getEmptyCellsFromData } from "./utils";
 
 type ScheduleGridProps = {
   onPlaceholderClick: (time: Date) => void;
@@ -67,17 +66,11 @@ const ScheduleGrid = ({ onPlaceholderClick }: ScheduleGridProps) => {
           return null;
         }
 
-        const { x, y, w, h } = getTaskDimensions(task);
-
         return (
-          <Task
+          <ScheduleTask
             key={task.id}
             task={task}
-            style={{
-              gridColumn: `${x + 1} / span ${w}`,
-              gridRow: `${y + 1} / span ${h}`,
-            }}
-            className="absolute inset-0"
+            selectedWeekDate={selectedWeekDate}
           />
         );
       })}

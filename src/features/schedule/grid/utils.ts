@@ -13,7 +13,7 @@ type Cell = {
 };
 
 const GRID_COL_COUNT = WEEKDAYS.length;
-const GRID_ROW_COUNT = DAY_TIMES.length;
+const GRID_ROW_COUNT = DAY_TIMES.length - 1; // Don't include midnight
 
 const getAllCells = (weekDate: Date) => {
   const cells: Cell[] = [];
@@ -43,7 +43,7 @@ const getTaskDimensions = ({
   scheduledEndDate: end,
 }: Pick<Task, "scheduledEndDate" | "scheduledStartDate">) => {
   if (!start || !end) {
-    throw new Error("Task appears to be unscheduled - shouldn't be possiblew");
+    throw new Error("Task appears to be unscheduled - shouldn't be possible");
   }
 
   const x = WEEKDAYS.findIndex((day) => day === format(start, "EEEE"));

@@ -5,7 +5,7 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 const taskListRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return ctx.db.taskList.findMany({
-      include: { tasks: true },
+      include: { tasks: { orderBy: { order: "asc" } } },
       where: { createdById: ctx.session.user.id },
       orderBy: { order: "asc" },
     });

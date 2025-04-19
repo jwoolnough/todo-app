@@ -36,8 +36,8 @@ const TaskContextMenu = ({ children }: React.PropsWithChildren) => {
             <ContextMenuSub>
               <ContextMenuSubTrigger>Duplicate</ContextMenuSubTrigger>
               <ContextMenuSubContent>
-                <ContextMenuItem>To previous week</ContextMenuItem>
-                <ContextMenuItem>To next week</ContextMenuItem>
+                <ContextMenuItem>In previous week</ContextMenuItem>
+                <ContextMenuItem>In next week</ContextMenuItem>
               </ContextMenuSubContent>
             </ContextMenuSub>
           </>

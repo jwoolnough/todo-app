@@ -15,6 +15,7 @@ const classNames = {
 const Toaster = ({ ...props }: ToasterProps) => {
   return (
     <Sonner
+      position="bottom-center"
       className="toaster group font-sans text-navy-100"
       toastOptions={{
         unstyled: true,
